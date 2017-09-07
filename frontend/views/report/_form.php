@@ -1,7 +1,9 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
+use app\models\Vocabulary;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Report */
@@ -23,6 +25,13 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'user_id')->textInput() ?>
 
     <?= $form->field($model, 'authority_id')->textInput() ?>
+
+    <?php
+    echo $form->field($model, 'category_id')
+        ->dropDownList(
+            ArrayHelper::map(Vocabulary::find()->asArray()->all(), 'ordered_id', 'value')
+        );
+    ?>
 
     <?= $form->field($model, 'category_id')->textInput() ?>
 

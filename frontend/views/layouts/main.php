@@ -258,7 +258,7 @@ AppAsset::register($this);
                 </div>
             </div>
 
-            <?= $content ?>
+            <div class="central_block"><?= $content ?></div>
             <div class="right_bar">
                 <?= Html::a(Html::img(\yii\helpers\Url::base() . "/images/site/banner.jpg")); ?>
 

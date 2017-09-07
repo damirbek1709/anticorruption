@@ -9,7 +9,7 @@ use yii\helpers\Url;
 
 $this->title = Yii::t('app', 'Антикоррупционный портал Кыргызской Республики');
 ?>
-<div class="central_block">
+
     <div class="main_heading left_floater">
         <?= Yii::t('app', 'Главные новости'); ?>
     </div>
@@ -21,8 +21,6 @@ $this->title = Yii::t('app', 'Антикоррупционный портал К
     <div class="clear"></div>
 
     <div class="slider_wrap">
-
-
         <?php
         $news = app\models\News::find()->orderBy(['date' => SORT_DESC])->limit(3)->all();
         ?>
@@ -70,7 +68,6 @@ $this->title = Yii::t('app', 'Антикоррупционный портал К
         }
         ?>
     </div>
-</div>
 
 
 
