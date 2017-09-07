@@ -24,22 +24,29 @@ use app\models\Vocabulary;
 
     <?= $form->field($model, 'user_id')->textInput() ?>
 
-    <?= $form->field($model, 'authority_id')->textInput() ?>
+    <?php
+    echo $form->field($model, 'authority_id')
+        ->dropDownList(
+            ArrayHelper::map(Vocabulary::find()->asArray()->where(['key'=>'report_category'])->all(), 'id', 'value')
+        );
+    ?>
 
     <?php
     echo $form->field($model, 'category_id')
         ->dropDownList(
-            ArrayHelper::map(Vocabulary::find()->asArray()->all(), 'ordered_id', 'value')
+            ArrayHelper::map(Vocabulary::find()->asArray()->where(['key'=>'report_category'])->all(), 'id', 'value')
         );
     ?>
-
-    <?= $form->field($model, 'category_id')->textInput() ?>
-
     <?= $form->field($model, 'lon')->textInput() ?>
 
     <?= $form->field($model, 'lat')->textInput() ?>
 
-    <?= $form->field($model, 'city_id')->textInput() ?>
+    <?php
+    echo $form->field($model, 'city_id')
+        ->dropDownList(
+            ArrayHelper::map(Vocabulary::find()->asArray()->where(['key'=>'city'])->all(), 'id', 'value')
+        );
+    ?>
 
     <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
 
