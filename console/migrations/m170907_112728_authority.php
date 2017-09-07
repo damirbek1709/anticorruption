@@ -6,7 +6,7 @@ class m170907_112728_authority extends Migration
 {
     public function safeUp()
     {
-        /*$tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+        $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         $this->createTable('authority', [
             'id' => $this->primaryKey(),
             'title' =>$this->string('255')->notNull(),
@@ -14,7 +14,7 @@ class m170907_112728_authority extends Migration
             'img' =>$this->string('255')->notNull(),
             'votes' => $this->integer('11')->defaultValue(0),
             'rating' => $this->integer('11')->defaultValue(0),
-        ],$tableOptions);*/
+        ],$tableOptions);
     }
 
     public function safeDown()

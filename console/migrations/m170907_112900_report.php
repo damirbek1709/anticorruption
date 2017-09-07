@@ -6,7 +6,7 @@ class m170907_112900_report extends Migration
 {
     public function safeUp()
     {
-        /*$tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+        $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         $this->createTable('report', [
             'id' => $this->primaryKey(),
             'title' =>$this->string('255')->notNull(),
@@ -23,7 +23,7 @@ class m170907_112900_report extends Migration
             'anonymous'=>$this->boolean(),
             'email' =>$this->string('255')->notNull(),
             'contact' =>$this->string('255')->notNull(),
-        ],$tableOptions);*/
+        ],$tableOptions);
         $this->createIndex('idx_report_auth', 'report', 'authority_id');
         $this->createIndex('idx_report_ctg', 'report', 'category_id');
     }

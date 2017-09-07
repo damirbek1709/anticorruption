@@ -6,12 +6,12 @@ class m170907_112744_category extends Migration
 {
     public function safeUp()
     {
-        /*$tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+        $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         $this->createTable('category', [
             'id' => $this->primaryKey(),
             'title' =>$this->string('255')->notNull(),
             'priority' => $this->integer('11')->defaultValue(0),
-        ],$tableOptions);*/
+        ],$tableOptions);
     }
 
     public function safeDown()
