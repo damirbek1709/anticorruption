@@ -15,7 +15,10 @@ return [
         'fixture' => [
             'class' => 'yii\console\controllers\FixtureController',
             'namespace' => 'common\fixtures',
-          ],
+        ],
+    ],
+    'modules' => [
+        'rbac' => 'dektrium\rbac\RbacConsoleModule',
     ],
     'components' => [
         'log' => [

@@ -14,6 +14,7 @@ class m170907_112728_authority extends Migration
             'img' =>$this->string('255')->notNull(),
             'votes' => $this->integer('11')->defaultValue(0),
             'rating' => $this->integer('11')->defaultValue(0),
+            'category_id' => $this->integer('11')->defaultValue(0),
         ],$tableOptions);
     }
 

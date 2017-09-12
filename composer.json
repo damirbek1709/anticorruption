@@ -25,7 +25,9 @@
         "uitrick/yii2-widget-upload-crop": "dev-master",
         "kartik-v/yii2-widget-datepicker": "@dev",
         "kartik-v/yii2-widget-datetimepicker": "*",
-        "kartik-v/yii2-widget-rating": "*"
+        "kartik-v/yii2-widget-rating": "*",
+        "kartik-v/yii2-widget-select2": "@dev",
+        "dektrium/yii2-user": "^0.9.12"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

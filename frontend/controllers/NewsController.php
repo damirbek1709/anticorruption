@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use app\models\Comments;
 use Yii;
 use app\models\News;
 use app\models\NewsSearch;
@@ -66,8 +67,10 @@ class NewsController extends Controller
         $model = $this->findModel($id);
         $model->views++;
         $model->save();
+        $newcomment = new Comments();
         return $this->render('view', [
             'model' => $model,
+            'comment'=>$newcomment,
         ]);
     }
 
@@ -102,8 +105,6 @@ class NewsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            /*var_dump(Yii::$app->request->post());
-            die();*/
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {

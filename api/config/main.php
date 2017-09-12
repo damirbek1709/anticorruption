@@ -53,6 +53,7 @@ return [
                     ],
                 ],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'page'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'report'],
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'lookup',

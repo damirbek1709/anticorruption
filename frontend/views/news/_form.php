@@ -33,7 +33,7 @@ use kartik\datetime\DateTimePicker;
         ]
     ]); ?>
     <?= $form->field($model, 'category_id')->dropDownList(
-        ArrayHelper::map(Category::find()->asArray()->all(), 'id', 'title')
+        ArrayHelper::map(\app\models\Vocabulary::find()->where(['key'=>'news_category'])->all(), 'id', 'value')
     ); ?>
 
     <?

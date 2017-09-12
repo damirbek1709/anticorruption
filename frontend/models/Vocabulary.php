@@ -46,4 +46,10 @@ class Vocabulary extends \yii\db\ActiveRecord
             'ordered_id' => Yii::t('app', 'Ordered ID'),
         ];
     }
+
+
+    public function getChild()
+    {
+        return $this->hasMany(self::className(), ['parent' => 'id']);
+    }
 }
