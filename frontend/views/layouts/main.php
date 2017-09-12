@@ -349,7 +349,7 @@ AppAsset::register($this);
                         </div>
                     </div>
                     <div class="bottom_heading">
-                        <?= Html::a('Все органы', ['/authority/view', 'id' => $authority->id]); ?>
+                        <?= Html::a('Все органы', ['/authority/index']); ?>
                     </div>
                 </div>
                 <div class="bn-block-col">

@@ -22,7 +22,7 @@ class ReportSearch extends Report
             [['title', 'date', 'author', 'text', 'email', 'contact'], 'safe'],
             [['lon', 'lat'], 'number'],
         ];
-        
+
     }
 
     /**
