@@ -68,9 +68,7 @@ class ReportController extends Controller
     {
         $model = new Report();
 
-        if ($model->load(Yii::$app->request->post())) {
-            $model->date = date('Y-m-d H:i:s');
-            $model->save();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
