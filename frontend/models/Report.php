@@ -4,7 +4,7 @@ namespace frontend\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use app\models\Vocabulary;
+use frontend\models\Vocabulary;
 
 /**
  * This is the model class for table "report".
@@ -43,7 +43,8 @@ class Report extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'date', 'views', 'author', 'authority_id', 'category_id', 'lon', 'lat', 'city_id', 'text', 'anonymous', 'email', 'contact'], 'safe'],
+            [['title', 'views', 'author', 'authority_id', 'category_id', 'lon', 'lat','text', 'anonymous', 'email', 'contact'], 'safe'],
+            [['category_id', 'lon', 'lat', 'city_id', 'text', 'anonymous', 'email', 'contact'], 'safe'],
             [['date'], 'safe'],
             [['views','authority_id', 'category_id', 'city_id', 'anonymous'], 'integer'],
             [['lon', 'lat'], 'number'],
@@ -87,6 +88,7 @@ class Report extends \yii\db\ActiveRecord
 
     public function getAuthorities()
     {
+
         $items = ArrayHelper::map(Authority::find()->where(['category_id'=>0])->all(), 'id', 'title');
         $new_arr = [];
         foreach ($items as $key=>$val) {

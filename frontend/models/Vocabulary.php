@@ -11,6 +11,7 @@ use Yii;
  * @property string $key
  * @property string $value
  * @property integer $ordered_id
+ * @property integer $parent
  */
 class Vocabulary extends \yii\db\ActiveRecord
 {
@@ -28,8 +29,8 @@ class Vocabulary extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['key', 'value', 'ordered_id'], 'required'],
-            [['ordered_id'], 'integer'],
+            [['key', 'value', 'ordered_id', 'parent'], 'required'],
+            [['ordered_id', 'parent'], 'integer'],
             [['key', 'value'], 'string', 'max' => 255],
         ];
     }
@@ -44,12 +45,7 @@ class Vocabulary extends \yii\db\ActiveRecord
             'key' => Yii::t('app', 'Key'),
             'value' => Yii::t('app', 'Value'),
             'ordered_id' => Yii::t('app', 'Ordered ID'),
+            'parent' => Yii::t('app', 'Parent'),
         ];
-    }
-
-
-    public function getChild()
-    {
-        return $this->hasMany(self::className(), ['parent' => 'id']);
     }
 }

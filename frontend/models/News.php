@@ -13,7 +13,7 @@ use Imagine\Image\Point;
 use yii\web\UploadedFile;
 use yii\db\ActiveRecord;
 use yii\behaviors\AttributeBehavior;
-
+use frontend\models\Vocabulary;
 /**
  * This is the model class for table "news".
  *
