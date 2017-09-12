@@ -4,9 +4,9 @@ return [
     'modules' => [
         'user' => [
             'class' => 'dektrium\user\Module',
-           /*'modelMap' => [
+           'modelMap' => [
                 'User' => 'app\models\User',
-            ],*/
+            ],
             'admins' => ['damirbek@gmail.com']
             // you will configure your module inside this file
             // or if need different configuration for frontend and backend you may

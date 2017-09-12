@@ -12,6 +12,8 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use kartik\rating\StarRating;
+use frontend\models\News;
+use frontend\models\Authority;
 
 AppAsset::register($this);
 ?>
@@ -215,7 +217,7 @@ AppAsset::register($this);
                         <div class="bb-title">
                             <h3 class="h3"> <?= Yii::t('app', 'Сводка коррупционных преступлений'); ?></h3>
                         </div>
-                        <?php $victims = \app\models\News::find()->where(['category_id' => 3])->orderBy(['date' => SORT_DESC])->limit(3)->all();
+                        <?php $victims = News::find()->where(['category_id' => 3])->orderBy(['date' => SORT_DESC])->limit(3)->all();
                         foreach ($victims as $victim) {
                             echo Html::beginTag('div', ['class' => 'general-post-cover']);
                             echo Html::a($victim->getThumb(), ['/news/view', 'id' => $victim->id], ['class' => 'general-side-block']);
@@ -234,7 +236,7 @@ AppAsset::register($this);
                         <div class="bb-title">
                             <h3 class="h3"> <?= Yii::t('app', 'Пресс релизы госорганов'); ?></h3>
                         </div>
-                        <?php $victims = \app\models\News::find()->where(['category_id' => 3])->orderBy(['date' => SORT_DESC])->limit(3)->all();
+                        <?php $victims = News::find()->where(['category_id' => 3])->orderBy(['date' => SORT_DESC])->limit(3)->all();
                         foreach ($victims as $victim) {
                             echo Html::beginTag('div', ['class' => 'general-post-cover']);
                             echo Html::a($victim->getThumb(), ['/news/view', 'id' => $victim->id], ['class' => 'general-side-block']);
@@ -253,7 +255,7 @@ AppAsset::register($this);
                         <div class="bb-title">
                             <h3 class="h3"> <?= Yii::t('app', 'Антикоррупционное образование'); ?></h3>
                         </div>
-                        <?php $victims = \app\models\News::find()->where(['category_id' => 3])->orderBy(['date' => SORT_DESC])->limit(3)->all();
+                        <?php $victims = News::find()->where(['category_id' => 3])->orderBy(['date' => SORT_DESC])->limit(3)->all();
                         foreach ($victims as $victim) {
                             echo Html::beginTag('div', ['class' => 'general-post-cover']);
                             echo Html::a($victim->getThumb(), ['/news/view', 'id' => $victim->id], ['class' => 'general-side-block']);
@@ -277,7 +279,7 @@ AppAsset::register($this);
                         <div class="bb-title">
                             <h3 class="h3"> <?= Yii::t('app', 'Достижения'); ?></h3>
                         </div>
-                        <?php $victims = \app\models\News::find()->where(['category_id' => 3])->orderBy(['date' => SORT_DESC])->limit(3)->all();
+                        <?php $victims = News::find()->where(['category_id' => 3])->orderBy(['date' => SORT_DESC])->limit(3)->all();
                         foreach ($victims as $victim) {
                             echo Html::beginTag('div', ['class' => 'general-post-cover']);
                             echo Html::a($victim->getThumb(), ['/news/view', 'id' => $victim->id], ['class' => 'general-side-block']);
@@ -298,7 +300,7 @@ AppAsset::register($this);
                         <div class="item-1">
                             <ul id="authority-slider" class="authority-slider">
                                 <?php
-                                $authorities = \app\models\Authority::find()->where('category_id!=0')->all();
+                                $authorities = Authority::find()->where('category_id!=0')->all();
                                 foreach ($authorities as $authority) {
                                     echo Html::beginTag("li", ['class' => 'authority_li']);
                                     echo Html::beginTag("div", ['class' => 'sidebar_slider_cover']);
@@ -357,7 +359,7 @@ AppAsset::register($this);
                         <div class="bb-title">
                             <h3 class="h3"> <?= Yii::t('app', 'Аналитика'); ?></h3>
                         </div>
-                        <?php $victims = \app\models\News::find()->where(['category_id' => 3])->orderBy(['date' => SORT_DESC])->limit(3)->all();
+                        <?php $victims = News::find()->where(['category_id' => 3])->orderBy(['date' => SORT_DESC])->limit(3)->all();
                         foreach ($victims as $victim) {
                             echo Html::beginTag('div', ['class' => 'general-post-cover']);
                             echo Html::a($victim->getThumb(), ['/news/view', 'id' => $victim->id], ['class' => 'general-side-block']);

@@ -1,11 +1,11 @@
 <?php
 
-namespace app\models;
+namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\News;
+use frontend\models\News;
 
 /**
  * NewsSearch represents the model behind the search form about `app\models\News`.
@@ -47,6 +47,7 @@ class NewsSearch extends News
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> ['defaultOrder' => ['date'=>SORT_DESC]]
         ]);
 
         $this->load($params);

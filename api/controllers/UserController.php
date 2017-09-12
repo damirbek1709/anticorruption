@@ -9,7 +9,7 @@ use yii\filters\AccessControl;
 
 class UserController extends \yii\rest\ActiveController
 {
-    public $modelClass = 'common\models\User';
+    public $modelClass = 'frontend\models\User';
 
     public function actions()
     {

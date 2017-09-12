@@ -18,7 +18,7 @@ return [
             ],
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'frontend\models\User',
             'enableAutoLogin' => false,
             'enableSession'=>false,
             'loginUrl'=>null
@@ -54,6 +54,10 @@ return [
                 ],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'page'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'report'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'comments'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'news'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'authority'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'vocabulary'],
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'lookup',
