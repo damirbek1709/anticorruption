@@ -3,8 +3,8 @@
 namespace frontend\controllers;
 
 use Yii;
-use app\models\Authority;
-use app\models\AuthoritySearch;
+use frontend\models\Authority;
+use frontend\models\AuthoritySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

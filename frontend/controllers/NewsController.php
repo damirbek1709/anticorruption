@@ -2,13 +2,14 @@
 
 namespace frontend\controllers;
 
-use app\models\Comments;
+use frontend\models\Comments;
 use Yii;
-use app\models\News;
-use app\models\NewsSearch;
+use frontend\models\News;
+use frontend\models\NewsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
 
 /**
  * NewsController implements the CRUD actions for News model.

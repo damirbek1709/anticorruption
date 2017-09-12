@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
-use app\models\Vocabulary;
+use frontend\models\Vocabulary;
 use kartik\select2\Select2;
 use kartik\datetime\DateTimePicker;
 
@@ -136,11 +136,8 @@ use kartik\datetime\DateTimePicker;
     </script>
 
 
-
-
-
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Отправить'), ['class' => 'send-comment btn btn-danger']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

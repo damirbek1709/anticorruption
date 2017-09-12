@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use frontend\models\News;
 
 ?>
 <?php
@@ -22,7 +23,7 @@ $this->title = Yii::t('app', 'Антикоррупционный портал К
 
     <div class="slider_wrap">
         <?php
-        $news = app\models\News::find()->orderBy(['date' => SORT_DESC])->limit(3)->all();
+        $news = News::find()->orderBy(['date' => SORT_DESC])->limit(3)->all();
         ?>
 
         <div class="demo">
@@ -57,7 +58,7 @@ $this->title = Yii::t('app', 'Антикоррупционный портал К
         <?= Yii::t('app', 'Лента новостей'); ?>
     </div>
         <?php
-        $news = app\models\News::find()->orderBy(['date' => SORT_DESC])->limit(3)->all();
+        $news = News::find()->orderBy(['date' => SORT_DESC])->limit(3)->all();
         foreach ($news as $new) {
             echo Html::beginTag('div', ['class' => 'news_block']);
             echo Html::a($new->getThumb(), ['/news/view', 'id' => $new->id], ['class' => 'news_img']);

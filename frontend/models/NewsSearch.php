@@ -1,14 +1,14 @@
 <?php
 
-namespace app\models;
+namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\News;
+use frontend\models\News;
 
 /**
- * NewsSearch represents the model behind the search form about `app\models\News`.
+ * NewsSearch represents the model behind the search form about `frontend\models\News`.
  */
 class NewsSearch extends News
 {
@@ -18,8 +18,8 @@ class NewsSearch extends News
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['title', 'description', 'text'], 'safe'],
+            [['id', 'views', 'category_id', 'main_news'], 'integer'],
+            [['title', 'description', 'text', 'img', 'date'], 'safe'],
         ];
     }
 
@@ -60,11 +60,16 @@ class NewsSearch extends News
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'views' => $this->views,
+            'category_id' => $this->category_id,
+            'date' => $this->date,
+            'main_news' => $this->main_news,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'text', $this->text]);
+            ->andFilterWhere(['like', 'text', $this->text])
+            ->andFilterWhere(['like', 'img', $this->img]);
 
         return $dataProvider;
     }
