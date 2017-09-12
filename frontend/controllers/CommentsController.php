@@ -3,16 +3,17 @@
 namespace frontend\controllers;
 
 use Yii;
-use app\models\Report;
-use app\models\ReportSearch;
+use app\models\Comments;
+use app\models\CommentsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\web\Response;
+use Faker\Provider\DateTime;
 /**
- * ReportController implements the CRUD actions for Report model.
+ * CommentsController implements the CRUD actions for Comments model.
  */
-class ReportController extends Controller
+class CommentsController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +31,12 @@ class ReportController extends Controller
     }
 
     /**
-     * Lists all Report models.
+     * Lists all Comments models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ReportSearch();
+        $searchModel = new CommentsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,42 +46,50 @@ class ReportController extends Controller
     }
 
     /**
-     * Displays a single Report model.
+     * Displays a single Comments model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
-        $model->views++;
-        $model->save();
         return $this->render('view', [
-            'model' => $model,
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Report model.
+     * Creates a new Comments model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Report();
+        $model = new Comments();
+        $request = Yii::$app->getRequest();
+        if ($request->isPost && $model->load($request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $message = Yii::t('app','Пожалуйста, подтвердите, что вы человек, а не робот');
+            if (empty($_POST['g-recaptcha-response'])) {
+                //return Yii::t('app','Пожалуйста, подтвердите, что вы человек, а не робот');
+                return "No";
+            }
+            else {
+                date_default_timezone_set('Asia/Bishkek');
+                $model->date = date('Y-m-d H:i:s');
+                $model->save(false);
+                return "yes";
+            }
 
-        if ($model->load(Yii::$app->request->post())) {
-            $model->date = date('Y-m-d H:i:s');
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                 'model' => $model,
             ]);
         }
     }
 
     /**
-     * Updates an existing Report model.
+     * Updates an existing Comments model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -99,7 +108,7 @@ class ReportController extends Controller
     }
 
     /**
-     * Deletes an existing Report model.
+     * Deletes an existing Comments model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -112,15 +121,15 @@ class ReportController extends Controller
     }
 
     /**
-     * Finds the Report model based on its primary key value.
+     * Finds the Comments model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Report the loaded model
+     * @return Comments the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Report::findOne($id)) !== null) {
+        if (($model = Comments::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

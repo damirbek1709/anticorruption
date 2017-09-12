@@ -28,6 +28,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -45,6 +46,14 @@ AppAsset::register($this);
                 <?= Html::a(Yii::t('app', 'О проекте'), ['/site/about']) ?>
                 <?= Html::a(Yii::t('app', 'Контакты'), ['/site/contact']) ?>
                 <?= Html::a(Yii::t('app', 'Обратная связь'), ['/site/feedback']) ?>
+                <?php
+                if(Yii::$app->user->isGuest)
+                    echo Html::a(Yii::t('app', 'Вход на сайт'), ['/user/login']);
+                else{
+                    echo Html::a(Yii::t('app', 'Выход'), ['/user/logout'],['data-method'=>'post']);
+                }
+                ?>
+                <?= Html::a(Yii::t('app', 'Регистрация'), ['/user/register']) ?>
             </div>
 
 
@@ -150,9 +159,10 @@ AppAsset::register($this);
 
     <div class="container">
         <div class="width_limiter">
-            <?= Breadcrumbs::widget([
+            <?
+            /*echo  Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            ]) ?>
+            ])*/ ?>
             <?= Alert::widget() ?>
             <div class="left_block">
                 <div class="news_categories">

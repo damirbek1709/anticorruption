@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-
 use Yii;
 use yii\helpers\FileHelper;
 use yii\helpers\Url;
@@ -53,6 +52,17 @@ class News extends \yii\db\ActiveRecord
         ];
     }
 
+
+    public function getComments()
+    {
+        return $this->hasMany(Comments::className(), ['news_id' => 'id'])->orderBy(['date' => SORT_ASC]);
+    }
+
+    public function getCommentsCount()
+    {
+        return $this->hasMany(Comments::className(), ['news_id' => 'id'])->count();
+    }
+
     /**
      * @inheritdoc
      */
@@ -60,7 +70,7 @@ class News extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'description', 'text'], 'required'],
-            [['category', 'views', 'img','date','main_news'], 'safe'],
+            [['category_id', 'views', 'img','date','main_news'], 'safe'],
             [['text'], 'string'],
             [['title'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 600],
@@ -109,6 +119,15 @@ class News extends \yii\db\ActiveRecord
         if ($this->image)
             $this->img = $this->image->name;
         return parent::beforeSave($insert);
+    }
+
+    public function getCategory(){
+        return $this->hasOne(Vocabulary::className(), ['id' => 'category_id']);
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_favorited']);
     }
 
     public function afterSave($insert, $changedAttributes)

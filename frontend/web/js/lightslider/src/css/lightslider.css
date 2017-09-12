@@ -434,7 +434,8 @@
 }
 .demo{
     width: 100%;
-    margin:auto
+    position: relative;
+    margin:auto;
 }
 
 .authority-slider li{

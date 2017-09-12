@@ -39,16 +39,13 @@ AppAsset::register($this);
         ['label' => 'Home', 'url' => ['/site/index']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => 'Login', 'url' => ['/user/security/login']];
     } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
+        $menuItems[] = [
+            'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+            'url' => ['/user/security/logout'],
+            'linkOptions' => ['data-method' => 'post']
+        ];
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
@@ -58,9 +55,11 @@ AppAsset::register($this);
     ?>
 
     <div class="container">
-        <?= Breadcrumbs::widget([
+        <?php
+        /*echo Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
+        ]);*/
+        ?>
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>
