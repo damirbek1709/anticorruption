@@ -12,6 +12,7 @@ class m170907_112911_vocabulary extends Migration
             'key' =>$this->string('255')->notNull(),
             'value' =>$this->string('255')->notNull(),
             'ordered_id' => $this->integer('11')->notNull()->defaultValue(0),
+            'parent' => $this->integer('5')->defaultValue(0),
         ],$tableOptions);
     }
 
