@@ -68,14 +68,10 @@ class CommentsController extends Controller
         $request = Yii::$app->getRequest();
         if ($request->isPost && $model->load($request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            $message = Yii::t('app','Пожалуйста, подтвердите, что вы человек, а не робот');
             if (empty($_POST['g-recaptcha-response'])) {
-                //return Yii::t('app','Пожалуйста, подтвердите, что вы человек, а не робот');
                 return "No";
             }
             else {
-                date_default_timezone_set('Asia/Bishkek');
-                $model->date = date('Y-m-d H:i:s');
                 $model->save(false);
                 return "yes";
             }
