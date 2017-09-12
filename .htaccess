@@ -1,11 +1,39 @@
-# prevent directory listings
-Options -Indexes
+Options +FollowSymlinks
 IndexIgnore */*
+RewriteEngine On
 
-# follow symbolic links
-Options FollowSymlinks
-RewriteEngine on
+# deal with admin first
+ RewriteCond %{REQUEST_URI} ^/(admin)
+    RewriteRule ^admin/assets/(.*)$ backend/web/assets/$1 [L]
+    RewriteRule ^admin/css/(.*)$ backend/web/css/$1 [L]
+    RewriteRule ^admin/js/(.*)$ backend/web/js/$1 [L]
+    RewriteCond %{REQUEST_URI} !^/backend/web/(assets|js|css|js)/
+    RewriteCond %{REQUEST_URI} ^/(admin)
+    RewriteRule ^.*$ backend/web/index.php [L]
 
-RewriteRule ^admin(/.+)?$ /backend/web/$1 [L,PT]
-RewriteRule ^(admin)/$ /$1 [L,R=301]
-RewriteRule ^(.+)?$ /frontend/web/$1
+# api
+ RewriteCond %{REQUEST_URI} ^/(api)
+    RewriteRule ^api/assets/(.*)$ api/web/assets/$1 [L]
+    RewriteRule ^api/css/(.*)$ api/web/css/$1 [L]
+    RewriteRule ^api/js/(.*)$ api/web/js/$1 [L]
+    RewriteCond %{REQUEST_URI} !^/api/web/(assets|js|css|js)/
+    RewriteCond %{REQUEST_URI} ^/(api)
+    RewriteRule ^.*$ api/web/index.php [L]
+
+RewriteCond %{REQUEST_URI} ^/(assets|css|bxslider|fonts|photoswipe|swiper|images|files|upload|sitemap|yandex)
+RewriteRule ^assets/(.*)$ frontend/web/assets/$1 [L]
+RewriteRule ^css/(.*)$ frontend/web/css/$1 [L]
+RewriteRule ^bxslider/(.*)$ frontend/web/bxslider/$1 [L]
+RewriteRule ^fonts/(.*)$ frontend/web/fonts/$1 [L]
+RewriteRule ^photoswipe/(.*)$ frontend/web/photoswipe/$1 [L]
+RewriteRule ^swiper/(.*)$ frontend/web/swiper/$1 [L]
+RewriteRule ^images/(.*)$ frontend/web/images/$1 [L]
+RewriteRule ^upload/(.*)$ frontend/web/upload/$1 [L]
+RewriteRule ^files/(.*)$ frontend/web/files/$1 [L]
+RewriteRule ^js/(.*)$ frontend/web/js/$1 [L]
+RewriteRule ^sitemap.xml$ frontend/web/sitemap.xml [L]
+
+RewriteCond %{REQUEST_URI} !^/(frontend|backend|api)/web/(assets|css|bxslider|fonts|photoswipe|swiper|images|files|js|upload)/
+RewriteCond %{REQUEST_FILENAME} !-f [OR]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ frontend/web/index.php
