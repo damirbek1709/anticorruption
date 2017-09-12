@@ -32,7 +32,7 @@ use kartik\datetime\DateTimePicker;
 
     <?php
     echo $form->field($model, 'authority_id')->widget(Select2::classname(), [
-        'data' => $model->getDropdownItems('report_structure'),
+        'data' => $model->getAuthorities(),
         'hideSearch' => true,
         'options' => [
             'placeholder' => 'Выберите госорган или структуру',

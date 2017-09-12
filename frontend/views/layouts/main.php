@@ -298,7 +298,7 @@ AppAsset::register($this);
                         <div class="item-1">
                             <ul id="authority-slider" class="authority-slider">
                                 <?php
-                                $authorities = \app\models\Authority::find()->all();
+                                $authorities = \app\models\Authority::find()->where('category_id!=0')->all();
                                 foreach ($authorities as $authority) {
                                     echo Html::beginTag("li", ['class' => 'authority_li']);
                                     echo Html::beginTag("div", ['class' => 'sidebar_slider_cover']);

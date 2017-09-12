@@ -47,7 +47,7 @@ class Authority extends \yii\db\ActiveRecord
             [['title', 'text'], 'required'],
             [['text'], 'string'],
             [['rating'], 'number'],
-            [['votes'], 'integer'],
+            [['votes','category_id'], 'integer'],
             [['title', 'img'], 'string', 'max' => 255],
             [
                 'image',

@@ -85,4 +85,14 @@ class Report extends \yii\db\ActiveRecord
         return $new_arr;
     }
 
+    public function getAuthorities()
+    {
+        $items = ArrayHelper::map(Authority::find()->where(['category_id'=>0])->all(), 'id', 'title');
+        $new_arr = [];
+        foreach ($items as $key=>$val) {
+            $new_arr[$val]= ArrayHelper::map(Authority::find()->where(['category_id'=>$key])->all(),'id','title');
+        }
+        return $new_arr;
+    }
+
 }
