@@ -6,6 +6,8 @@ $params = array_merge(
 );
 return [
     'id' => 'app-api',
+    'language'=>'ru',
+    'sourceLanguage'=>'ru-RU',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'api\controllers',
     'bootstrap' => ['log'],
@@ -16,6 +18,7 @@ return [
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ],
+            'cookieValidationKey' => 'PMfgmv_7rsfw-RRLC5HnOwN9X-2apCiF',
         ],
         'user' => [
             'identityClass' => 'frontend\models\User',
@@ -67,9 +70,10 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'user',
+                    'controller' => 'account',
                     'extraPatterns' => [
                         'POST login' => 'login',
+                        'POST forgot' => 'forgot',
                     ],
                 ],
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
