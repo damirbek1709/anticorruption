@@ -6,6 +6,8 @@ $params = array_merge(
 );
 return [
     'id' => 'app-api',
+    'language'=>'ru',
+    'sourceLanguage'=>'ru-RU',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'api\controllers',
     'bootstrap' => ['log'],
@@ -16,9 +18,10 @@ return [
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ],
+            'cookieValidationKey' => 'PMfgmv_7rsfw-RRLC5HnOwN9X-2apCiF',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'frontend\models\User',
             'enableAutoLogin' => false,
             'enableSession'=>false,
             'loginUrl'=>null
@@ -54,6 +57,10 @@ return [
                 ],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'page'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'report'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'comments'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'news'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'authority'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'vocabulary'],
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'lookup',
@@ -63,9 +70,10 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'user',
+                    'controller' => 'account',
                     'extraPatterns' => [
                         'POST login' => 'login',
+                        'POST forgot' => 'forgot',
                     ],
                 ],
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',

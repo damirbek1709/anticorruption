@@ -5,7 +5,7 @@ return [
         'user' => [
             'class' => 'dektrium\user\Module',
            'modelMap' => [
-                'User' => 'app\models\User',
+                'User' => 'frontend\models\User',
             ],
             'admins' => ['damirbek@gmail.com']
             // you will configure your module inside this file
@@ -20,7 +20,7 @@ return [
         'view' => [
             'theme' => [
                 'pathMap' => [
-                    '@dektrium/user/views' => '@app/views/user'
+                    '@dektrium/user/views' => '@frontend/views/user'
                 ],
             ],
         ],

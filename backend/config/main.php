@@ -21,7 +21,7 @@ return [
             'cost' => 12,
             'admins' => ['admin'],
             'controllerMap' => [
-                'admin' => 'app\controllers\user\AdminController'
+                'admin' => 'frontend\controllers\user\AdminController'
             ],
         ],
         // following line will restrict access to profile, recovery, registration and settings controllers from backend

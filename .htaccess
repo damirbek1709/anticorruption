@@ -20,7 +20,7 @@ RewriteEngine On
     RewriteCond %{REQUEST_URI} ^/(api)
     RewriteRule ^.*$ api/web/index.php [L]
 
-RewriteCond %{REQUEST_URI} ^/(assets|css|bxslider|fonts|photoswipe|swiper|images|files|upload|sitemap|yandex)
+RewriteCond %{REQUEST_URI} ^/(assets|css|fonts|photoswipe|swiper|images|files|upload|sitemap|yandex)
 RewriteRule ^assets/(.*)$ frontend/web/assets/$1 [L]
 RewriteRule ^css/(.*)$ frontend/web/css/$1 [L]
 RewriteRule ^bxslider/(.*)$ frontend/web/bxslider/$1 [L]
@@ -33,7 +33,7 @@ RewriteRule ^files/(.*)$ frontend/web/files/$1 [L]
 RewriteRule ^js/(.*)$ frontend/web/js/$1 [L]
 RewriteRule ^sitemap.xml$ frontend/web/sitemap.xml [L]
 
-RewriteCond %{REQUEST_URI} !^/(frontend|backend|api)/web/(assets|css|bxslider|fonts|photoswipe|swiper|images|files|js|upload)/
+RewriteCond %{REQUEST_URI} !^/(frontend|backend|api)/web/(assets|css|fonts|photoswipe|swiper|images|files|js|upload)/
 RewriteCond %{REQUEST_FILENAME} !-f [OR]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^.*$ frontend/web/index.php
