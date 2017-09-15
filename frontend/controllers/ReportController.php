@@ -4,10 +4,12 @@ namespace frontend\controllers;
 
 use Yii;
 use frontend\models\Report;
+use frontend\models\Comments;
 use frontend\models\ReportSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * ReportController implements the CRUD actions for Report model.
@@ -44,6 +46,67 @@ class ReportController extends Controller
         ]);
     }
 
+    public function actionSector($id)
+    {
+        $searchModel = new ReportSearch();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => ReportSearch::find()->where(['category_id' => $id]),
+            'sort' => ['defaultOrder' => ['date' => SORT_DESC]],
+        ]);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionCity($id)
+    {
+        $searchModel = new ReportSearch();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => ReportSearch::find()->where(['city_id' => $id]),
+            'sort' => ['defaultOrder' => ['date' => SORT_DESC]],
+        ]);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionType($id)
+    {
+        $searchModel = new ReportSearch();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => ReportSearch::find()->where(['type_id' => $id]),
+            'sort' => ['defaultOrder' => ['date' => SORT_DESC]],
+        ]);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionAuthority($id)
+    {
+        $searchModel = new ReportSearch();
+        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => ReportSearch::find()->where(['authority_id' => $id]),
+            'sort' => ['defaultOrder' => ['date' => SORT_DESC]],
+        ]);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Displays a single Report model.
      * @param integer $id
@@ -54,8 +117,10 @@ class ReportController extends Controller
         $model = $this->findModel($id);
         $model->views++;
         $model->save();
+        $newcomment = new Comments();
         return $this->render('view', [
             'model' => $model,
+            'comment'=>$newcomment,
         ]);
     }
 

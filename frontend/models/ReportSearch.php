@@ -51,6 +51,17 @@ class ReportSearch extends Report
             'query' => $query,
         ]);
 
+        /*$dataProvider->setSort([
+            'attributes' => [
+                'type_id' => [
+                    'asc' => ['type_id' => SORT_ASC],
+                    'desc' => ['type_id' => SORT_DESC],
+                    'default' => SORT_ASC
+                ],
+                'city_id'
+            ]
+        ]);*/
+
         $this->load($params);
 
         if (!$this->validate()) {

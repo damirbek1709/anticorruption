@@ -69,7 +69,8 @@ $this->title = $model->title;;
         <div class="pluso" data-background="none;"
              data-options="medium,square,line,horizontal,counter,sepcounter=1,theme=14"
              data-services="facebook,vkontakte,odnoklassniki,twitter" data-url="http://anticorruption.kg"
-             data-title="Антикоррупционный портал Кыргызской Республики"></div>
+             data-title="Антикоррупционный портал Кыргызской Республики">
+        </div>
     </div>
     <?php Pjax::begin(['id' => 'pjax-comment']);?>
     <div class="comment-box">
@@ -103,6 +104,7 @@ $this->title = $model->title;;
             echo $form->field($comment, 'name')->hiddenInput(['value' => Yii::$app->user->identity->username])->label(false);
             echo $form->field($comment, 'email')->hiddenInput(['value' => Yii::$app->user->identity->email])->label(false);
         }
+        echo $form->field($comment, 'category_id')->hiddenInput(['value' => 2])->label(false);
         ?>
         <?= $form->field($comment, 'news_id')->hiddenInput(['value' => $model->id])->label(false); ?>
 

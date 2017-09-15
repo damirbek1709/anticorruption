@@ -1,6 +1,8 @@
 <?php
 
 namespace frontend\models;
+use yii\db\ActiveRecord;
+use yii\behaviors\AttributeBehavior;
 
 use Yii;
 
@@ -24,6 +26,22 @@ class Comments extends \yii\db\ActiveRecord
         return 'comments';
     }
 
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'date', // update 1 attribute 'created' OR multiple attribute ['created','updated']
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'date', // update 1 attribute 'created' OR multiple attribute ['created','updated']
+                ],
+                'value' => function ($event) {
+                    return date('Y-m-d H:i:s', strtotime($this->date));
+                },
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -31,7 +49,7 @@ class Comments extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'email', 'text'], 'required'],
-            [['date','news_id'], 'safe'],
+            [['date','news_id','category_id'], 'safe'],
             [['text'], 'string'],
             [['name', 'email'], 'string', 'max' => 255],
         ];

@@ -13,6 +13,7 @@ use Imagine\Image\Point;
 use yii\web\UploadedFile;
 use yii\db\ActiveRecord;
 use yii\behaviors\AttributeBehavior;
+use yii\db\Query;
 
 
 /**
@@ -102,6 +103,12 @@ class Authority extends \yii\db\ActiveRecord
         if ($this->image)
             $this->img = $this->image->name;
         return parent::beforeSave($insert);
+    }
+
+    public function getRating($id){
+        $query = (new Query())->from('rating')->where(['authority_id'=>$id]);
+        $rating = round($query->sum('rating') / $query->count());
+        return $rating;
     }
 
     public function afterSave($insert, $changedAttributes)

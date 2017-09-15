@@ -3,7 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\controllers\Comments;
+use frontend\models\Comments;
 use frontend\controllers\CommentsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -75,8 +75,6 @@ class CommentsController extends Controller
                 $model->save(false);
                 return "yes";
             }
-
-
         } else {
             return $this->renderAjax('create', [
                 'model' => $model,

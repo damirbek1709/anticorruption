@@ -1,7 +1,7 @@
 <?php
 namespace frontend\controllers;
 
-use app\models\Authority;
+use frontend\models\Rating;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -216,10 +216,10 @@ class SiteController extends Controller
         $request = Yii::$app->getRequest();
         $id =  $request->post('id');
         $value =  $request->post('value');
-        $model = Authority::findOne($id);
-        $oldRating = $model->rating;
-        $model->votes++;
-        $model->rating = ($model->rating + $value)/$model->votes;
-        $model->save();
+
+        $model = new Rating();
+        $model->rating = $value;
+        $model->authority_id = $id;
+        $model->save();  // equivalent to $model->insert();
     }
 }

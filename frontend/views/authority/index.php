@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AuthoritySearch */
@@ -12,25 +12,17 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="authority-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="main_heading"><?= Yii::t('app','Коррупционный рейтинг госорганов') ?></div>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Authority'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
+    <?
+    echo ListView::widget([
+        'summary' => false,
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'title',
-            'text:ntext',
-            'rating',
-            'votes',
-
-            ['class' => 'yii\grid\ActionColumn'],
+        'itemView' => '_item',
+        'itemOptions' => [
+            'class' => 'authority_block',
         ],
+        //'options' => ['class' => 'general-apart-list']
     ]); ?>
 </div>

@@ -36,17 +36,28 @@ use kartik\datetime\DateTimePicker;
         'hideSearch' => true,
         'options' => [
             'placeholder' => 'Выберите госорган или структуру',
-            'class'=>'form-control custom-drop'
+            'class' => 'form-control custom-drop'
         ],
         'pluginOptions' => [
             'allowClear' => true
         ],
     ])->label(false); ?>
 
+    <?php
+    echo $form->field($model, 'type_id')
+        ->dropDownList(ArrayHelper::map(Vocabulary::find()->asArray()->where(['key' => 'report_type'])->all(), 'id', 'value'),
+            [
+                'prompt' => 'Выберите тип обращения',
+                'class' => 'form-control custom-drop'
+            ]
+        )->label(false);
+    ?>
 
 
-   <!-- <div class="form-group">
-        <?/* echo '<label>Дата и время</label>';
+
+
+    <!-- <div class="form-group">
+        <? /* echo '<label>Дата и время</label>';
         echo DateTimePicker::widget([
             'model' => $model,
             'name' => 'date',
@@ -58,21 +69,34 @@ use kartik\datetime\DateTimePicker;
                 //'startDate' => '01-Mar-2017 12:00 AM',
                 'todayHighlight' => true
             ]
-        ]); */?>
+        ]); */ ?>
     </div>-->
 
-    <div class="row">
-        <div class="col-md-6">
-            <?= $form->field($model, 'author')->textInput(['placeholder' => 'Введите ваше имя','class' => 'form-control sharper'])->label(false); ?>
-            <?= $form->field($model, 'email')->textInput(['placeholder' => '@электронная почта','class' => 'form-control sharper'])->label(false); ?>
-            <?= $form->field($model, 'contact')->textInput(['placeholder' => 'Ваши контакты','class' => 'form-control sharper'])->label(false); ?>
+
+    <div class="form-group">
+        <div id="user-contact" class="col-md-6" style="padding-left: 0">
+            <?= $form->field($model, 'author')->textInput(['placeholder' => 'Введите ваше имя', 'class' => 'form-control sharper'])->label(false); ?>
+            <?= $form->field($model, 'email')->textInput(['placeholder' => '@электронная почта', 'class' => 'form-control sharper'])->label(false); ?>
+            <?= $form->field($model, 'contact')->textInput(['placeholder' => 'Ваши контакты', 'class' => 'form-control sharper'])->label(false); ?>
         </div>
 
-        <div class="col-md-6">
-            <?= $form->field($model, 'anonymous')->checkbox()->label(false) ?>
+        <div class="col-md-6" style="padding-right: 0">
+            <div class="border-maker">
+                <div class="radio-row">
+
+                    <?= $form->field($model, 'anonymous', [
+                        'template' => "<ul><li>{input}\n{label}\n</li></ul><div class=\"check\">
+                                        <div class=\"inside\"></div>
+                                    </div>",
+                        'labelOptions' => ['for' => 'report-anonymous','class'=>'anon-label'],
+                    ])->input('checkbox',['class'=>'input_checker'])->label('Я хочу подать анонимное объявление') ?>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 
+    <div class="clear"></div>
 
     <?php
     /* echo $form->field($model, 'authority_id')
@@ -91,8 +115,8 @@ use kartik\datetime\DateTimePicker;
         ],
     ])->label(false); ?>
 
-    <?= $form->field($model, 'lat')->hiddenInput(['value'=>41.2044,'class' => 'report_lat'])->label(false); ?>
-    <?= $form->field($model, 'lon')->hiddenInput(['value'=>74.7661,'class' => 'report_lot'])->label(false); ?>
+    <?= $form->field($model, 'lat')->hiddenInput(['value' => 41.2044, 'class' => 'report_lat'])->label(false); ?>
+    <?= $form->field($model, 'lon')->hiddenInput(['value' => 74.7661, 'class' => 'report_lot'])->label(false); ?>
 
     <div class="form-group" id="map"></div>
     <script>
@@ -116,6 +140,7 @@ use kartik\datetime\DateTimePicker;
                 $('.report_lat').val(a.latLng.lat().toFixed(4));
                 $('.report_lon').val(a.latLng.lng().toFixed(4));
             });
+
             function placeMarker(location) {
                 if (marker == undefined) {
                     marker = new google.maps.Marker({
@@ -143,3 +168,18 @@ use kartik\datetime\DateTimePicker;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<script type="text/javascript">
+    $('.input_checker').change(function() {
+        if($(this).is(":checked")) {
+            $("#user-contact input").val('');
+            $("#user-contact input").prop('disabled', true);
+            $(this).val(1);
+        }
+        else
+        {
+            $("#user-contact input").prop('disabled', false);
+            $(this).val(0);
+        }
+    });
+</script>

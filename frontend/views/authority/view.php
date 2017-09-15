@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     echo StarRating::widget([
         'name' => 'rating_2',
-        'value' => $model->rating - 5,
+        'value' => $model->getRating($model->id),
         'pluginOptions' => [
             'size'=>'xs',
             'stars' => 10,
@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
             "rating.change" => "function(event, value, caption) {
              alert(value); 
              $.ajax({
-            url: \"/frontend/web/site/rating\",
+            url: \"/site/rating\",
             type: \"post\",
             data: {value:value,id:$model->id}            
             });             

@@ -8,6 +8,7 @@ use frontend\models\AuthoritySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * AuthorityController implements the CRUD actions for Authority model.
@@ -36,7 +37,10 @@ class AuthorityController extends Controller
     public function actionIndex()
     {
         $searchModel = new AuthoritySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => AuthoritySearch::find()->where('category_id!=0'),
+            //'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
