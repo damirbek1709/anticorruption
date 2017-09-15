@@ -20,12 +20,18 @@ class VocabularyController extends \yii\rest\ActiveController
         unset($actions['delete']);
 
         // customize the data provider preparation with the "prepareDataProvider()" method
-        //$actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
+        $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
         //unset($actions['view']); //use my own below
 
         return $actions;
     }
 
+    public function prepareDataProvider()
+    {
+        $query =Vocabulary::find()->orderBy(['ordered_id'=>"ASC"])->asArray()->all();
+
+        return $query;
+    }
 
     //compare maxId on depend table
     /*public function actionDepend()
