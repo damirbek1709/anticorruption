@@ -25,15 +25,7 @@ class LookupController extends \yii\rest\ActiveController
     //compare maxId on depend table
     public function actionDepend()
     {
-        //$row=Yii::$app->db->createCommand("SELECT * FROM depend WHERE `table_name`='lookup'")->queryOne();
-        //return $row['last_update'];
-
-        $dir=Yii::getAlias('@frontend').'/web/images/report/';
-        $num=rand(23,300);
-        $tosave=$dir.$num;
-        if (!file_exists($tosave)) {
-            mkdir($tosave);
-        }
-        return 1;
+        $row=Yii::$app->db->createCommand("SELECT * FROM depend WHERE `table_name`='lookup'")->queryOne();
+        return $row['last_update'];
     }
 }

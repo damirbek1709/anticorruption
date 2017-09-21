@@ -183,7 +183,7 @@ class Report extends \yii\db\ActiveRecord
                 $rand=$this->id."_".$k."_".$ts;
                 $imgname = $rand.".jpg";
                 $decoded=base64_decode($image);
-                imagejpeg(imagecreatefromstring($decoded),$tosave . $imgname,80);
+                imagejpeg(imagecreatefromstring($decoded),$tosave .'/'. $imgname,80);
                 $this->resizeImage($tosave,$rand);
             }
         }
@@ -194,9 +194,9 @@ class Report extends \yii\db\ActiveRecord
         if (Yii::$app->request->serverName=='anticor.loc') {
             Image::$driver = [Image::DRIVER_GD2];
         }
-        $imagine=Image::getImagine()->open($dir.$imageName.'.jpg');
-        $imagine->thumbnail(new Box(400, 400))->save($dir.$imageName.'_m.jpg');
-        $imagine->thumbnail(new Box(80, 80))->save($dir.$imageName.'_t.jpg');
+        $imagine=Image::getImagine()->open($dir.'/'.$imageName.'.jpg');
+        $imagine->thumbnail(new Box(400, 400))->save($dir.'/'.$imageName.'_m.jpg');
+        $imagine->thumbnail(new Box(80, 80))->save($dir.'/'.$imageName.'_t.jpg');
     }
 
 }
