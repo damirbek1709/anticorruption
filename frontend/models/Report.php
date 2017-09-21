@@ -173,7 +173,7 @@ class Report extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes){
         parent::afterSave($insert, $changedAttributes);
         if($this->images){
-            $dir=Yii::getAlias('@webroot').'/images/report/';
+            $dir=Yii::getAlias('@frontend').'/web/images/report/';
             $tosave=$dir.$this->id;
             if (!file_exists($tosave)) {
                 mkdir($tosave);
