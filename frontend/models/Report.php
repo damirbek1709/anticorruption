@@ -52,7 +52,7 @@ class Report extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'authority_id', 'category_id', 'text', 'city_id'], 'required'],
-            [['category_id', 'lon', 'author', 'lat', 'city_id', 'text', 'anonymous', 'email', 'contact', 'type_id'], 'safe'],
+            [['category_id', 'lon', 'author', 'lat', 'city_id', 'text', 'anonymous', 'email', 'contact', 'type_id','images'], 'safe'],
             //[['email'], 'email'],
             [['date'], 'safe'],
             [['views', 'authority_id', 'category_id', 'city_id', 'anonymous', 'type_id'], 'integer'],
