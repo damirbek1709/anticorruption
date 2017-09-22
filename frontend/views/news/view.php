@@ -112,7 +112,7 @@ $this->title = $model->title;;
         <?= $form->field($comment, 'text')->textarea(['maxlength' => true, 'rows' => 9, 'placeholder' => 'Введите текст комментария', 'class' => 'form-control comment-input-text'])->label(false); ?>
 
         <div class="form-group">
-            <div class="g-recaptcha" data-sitekey="6LfuDjAUAAAAAMoT6P4SAA7HOu1hVa2ibjIAx8Vn"></div>
+            <div class="g-recaptcha" data-sitekey="6LegmzEUAAAAAGucd6quo8hn50mfC6xt_WF9u43P"></div>
         </div>
         <div class="form-group">
             <?= Html::submitButton(Yii::t('app', 'Отправить комментарий'), ['class' => 'send-comment btn btn-danger']) ?>
