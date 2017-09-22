@@ -5,7 +5,8 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use frontend\models\Vocabulary;
 use kartik\select2\Select2;
-use kartik\datetime\DateTimePicker;
+use yii\helpers\Url;
+use kartik\file\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Report */
@@ -14,7 +15,7 @@ use kartik\datetime\DateTimePicker;
 
 <div class="report-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data']]); ?>
 
     <?php echo $form->errorSummary($model)?>
 

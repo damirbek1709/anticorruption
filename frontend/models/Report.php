@@ -36,6 +36,8 @@ class Report extends \yii\db\ActiveRecord
 {
     public $data = [];
     public $images = []; //android, ios uploaded images
+    public $imageFile;
+    public $imageFiles=array();
 
     /**
      * @inheritdoc
@@ -59,6 +61,8 @@ class Report extends \yii\db\ActiveRecord
             [['lon', 'lat'], 'number'],
             [['text'], 'string'],
             [['title', 'author', 'email', 'contact'], 'string', 'max' => 255],
+            [['imageFile'], 'file', 'extensions' => 'jpg,jpeg,gif,png'],
+            [['imageFiles'], 'file', 'extensions' => 'jpg,jpeg,gif,png', 'maxSize'=>20*1024*1024, 'maxFiles'=>10],
         ];
     }
 
@@ -98,6 +102,8 @@ class Report extends \yii\db\ActiveRecord
             'anonymous' => Yii::t('app', 'Анонимное сообщение'),
             'email' => Yii::t('app', 'Электронная почта'),
             'contact' => Yii::t('app', 'Контакты'),
+            'imageFile' => Yii::t('app', 'Image File'),
+            'imageFiles' => Yii::t('app', 'Фотографии'),
         ];
     }
 
@@ -172,6 +178,8 @@ class Report extends \yii\db\ActiveRecord
      */
     public function afterSave($insert, $changedAttributes){
         parent::afterSave($insert, $changedAttributes);
+
+        //images from apps
         if($this->images){
             $dir=Yii::getAlias('@frontend').'/web/images/report/';
             $tosave=$dir.$this->id;
@@ -187,6 +195,9 @@ class Report extends \yii\db\ActiveRecord
                 $this->resizeImage($tosave,$rand);
             }
         }
+
+        //save image from website
+        //$this->saveImage();
     }
 
     protected function resizeImage($dir,$imageName){
@@ -195,8 +206,76 @@ class Report extends \yii\db\ActiveRecord
             Image::$driver = [Image::DRIVER_GD2];
         }
         $imagine=Image::getImagine()->open($dir.'/'.$imageName.'.jpg');
-        $imagine->thumbnail(new Box(400, 400))->save($dir.'/'.$imageName.'_m.jpg');
-        $imagine->thumbnail(new Box(80, 80))->save($dir.'/'.$imageName.'_t.jpg');
+        $imagine->thumbnail(new Box(400, 250))->save($dir.'/s_'.$imageName.'.jpg');
+        //$imagine->thumbnail(new Box(80, 80))->save($dir.'/'.$imageName.'_t.jpg');
+    }
+
+
+    protected function saveImage(){
+        $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
+        $this->imageFiles = UploadedFile::getInstances($this, 'imageFiles');
+
+        if (Yii::$app->request->serverName=='anticor.loc') {
+            Image::$driver = [Image::DRIVER_GD2];
+        }
+
+        $model_name=Yii::$app->controller->id;
+        if($this->imageFile || $this->imageFiles){
+            $dir=Yii::getAlias('@webroot')."/images/{$model_name}/";
+            if (!file_exists($dir)) {mkdir($dir);}
+
+            $tosave=$dir.$this->id;
+            if (!file_exists($tosave)) {
+                mkdir($tosave);
+            }
+
+            if($this->imageFile){
+                $time=time();
+                $extension=$this->imageFile->extension;
+                $imageName=$time.'.'.$extension;
+                $this->imageFile->saveAs($tosave.'/' . $imageName);
+
+                $imagine=Image::getImagine()->open($tosave.'/'.$imageName);
+                if($model_name=='banner'){
+                    $imagine->thumbnail(new Box(1000, 600))->save($tosave.'/'.$imageName);
+                    Image::thumbnail($tosave.'/'.$imageName,800, 360)->save($tosave.'/'.$imageName);
+                }
+                else{
+                    $imagine->thumbnail(new Box(600, 600))->save($tosave.'/'.$imageName);
+                }
+                $imagine->thumbnail(new Box(300, 300))->save($tosave.'/s_'.$imageName);
+                Image::thumbnail($tosave.'/s_'.$imageName,270, 270)->save($tosave.'/s_'.$imageName);
+
+                Yii::$app->db->createCommand("UPDATE {$model_name} SET image='{$imageName}' WHERE id='{$this->id}'")->execute();
+            }
+            if($this->imageFiles){
+                foreach($this->imageFiles as $k=>$image)
+                {
+                    $time=time();
+                    $extension=$image->extension;
+                    $imageName=$this->id.'_'.$k.'_'.$time.'.'.$extension;
+
+                    $image->saveAs($tosave.'/' . $imageName);
+                    $imagine=Image::getImagine()->open($tosave.'/'.$imageName);
+                    $imagine->thumbnail(new Box(1500, 1000))->save($tosave.'/' .$imageName);
+                    $imagine->thumbnail(new Box(400, 250))->save($tosave.'/s_'.$imageName);
+                    //Image::thumbnail($tosave.'/'.$imageName,250, 250)->save($tosave.'/s_'.$imageName);
+                }
+            }
+        }
+    }
+    public function afterDelete(){
+        parent::afterDelete();
+        $webroot=Yii::getAlias('@webroot');
+        $model_name=Yii::$app->controller->id;
+        if(is_dir($dir=$webroot."/images/{$model_name}/".$this->id)){
+            $scaned_images = scandir($dir, 1);
+            foreach($scaned_images as $file )
+            {
+                if(is_file($dir.'/'.$file)) @unlink($dir.'/'.$file);
+            }
+            @rmdir($dir);
+        }
     }
 
 }

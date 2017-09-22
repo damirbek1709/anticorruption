@@ -222,4 +222,38 @@ class SiteController extends Controller
         $model->authority_id = $id;
         $model->save();  // equivalent to $model->insert();
     }
+    
+    //kartik fileupload
+
+    public function actionImgDelete($id,$model_name)
+    {
+        $key=Yii::$app->request->post('key');
+        $webroot=Yii::getAlias('@webroot');
+        if(is_dir($dir=$webroot."/images/{$model_name}/".$id))
+        {
+            if(is_file($dir.'/'.$key)){
+                $expl=explode('s_',$key);
+                $full=$expl[1];
+                @unlink($dir.'/'.$key);
+                @unlink($dir.'/'.$full);
+                Yii::$app->db->createCommand("UPDATE {$model_name} SET text='{$key}' WHERE id='{$id}'")->execute();
+            }
+        }
+        Yii::$app->response->format=\yii\web\Response::FORMAT_JSON;
+        return true;
+    }
+
+    public function actionFileDelete($id,$model_name)
+    {
+        $key=Yii::$app->request->post('key');
+        $webroot=Yii::getAlias('@webroot');
+        if(is_dir($dir=$webroot."/files/{$model_name}/".$id))
+        {
+            if(is_file($dir.'/'.$key)){
+                unlink($dir.'/'.$key);
+            }
+        }
+        Yii::$app->response->format=\yii\web\Response::FORMAT_JSON;
+        return true;
+    }
 }
