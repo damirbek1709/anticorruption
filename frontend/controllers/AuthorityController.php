@@ -40,6 +40,9 @@ class AuthorityController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => AuthoritySearch::find()->where('category_id!=0'),
             //'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
+            'pagination' => [
+                'pageSize' => 12,
+            ],
         ]);
 
         return $this->render('index', [

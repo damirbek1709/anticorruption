@@ -54,6 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
 </div>
+
 <script type="text/javascript">
     $('body').on('change', '.sort-select', function () {
         //alert($(this).val());

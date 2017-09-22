@@ -97,6 +97,8 @@ class News extends \yii\db\ActiveRecord
             'img' => Yii::t('app', 'Рисунок'),
             'category_id' => Yii::t('app', 'Категория'),
             'views' => Yii::t('app', 'Просмотры'),
+            'date' => Yii::t('app', 'Дата'),
+            'main_news' => Yii::t('app', 'Главная новость'),
         ];
     }
 

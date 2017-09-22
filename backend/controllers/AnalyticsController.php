@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use Yii;
 use frontend\models\Analytics;
@@ -38,7 +38,7 @@ class AnalyticsController extends Controller
         $searchModel = new AnalyticsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        return $this->render('@frontend/views/analytics/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -68,7 +68,7 @@ class AnalyticsController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
+            return $this->render('@frontend/views/analytics/create', [
                 'model' => $model,
             ]);
         }
@@ -87,7 +87,7 @@ class AnalyticsController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
+            return $this->render('@frontend/views/analytics/update', [
                 'model' => $model,
             ]);
         }

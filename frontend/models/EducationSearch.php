@@ -5,12 +5,12 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\News;
+use frontend\models\Education;
 
 /**
- * NewsSearch represents the model behind the search form about `frontend\models\News`.
+ * EducationSearch represents the model behind the search form about `frontend\models\Education`.
  */
-class NewsSearch extends News
+class EducationSearch extends Education
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class NewsSearch extends News
     public function rules()
     {
         return [
-            [['id', 'views', 'category_id', 'main_news'], 'integer'],
-            [['title', 'description', 'text', 'img', 'date'], 'safe'],
+            [['id'], 'integer'],
+            [['title', 'date', 'text', 'img'], 'safe'],
         ];
     }
 
@@ -41,13 +41,12 @@ class NewsSearch extends News
      */
     public function search($params)
     {
-        $query = News::find();
+        $query = Education::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['date'=>SORT_DESC]]
         ]);
 
         $this->load($params);
@@ -61,14 +60,10 @@ class NewsSearch extends News
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'views' => $this->views,
-            'category_id' => $this->category_id,
             'date' => $this->date,
-            'main_news' => $this->main_news,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'text', $this->text])
             ->andFilterWhere(['like', 'img', $this->img]);
 

@@ -1,5 +1,5 @@
 <?php
-namespace app\controllers\user;
+namespace frontend\controllers\user;
 
 use dektrium\user\controllers\AdminController as BaseAdminController;
 use yii\filters\AccessControl;

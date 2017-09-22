@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel frontend\models\EducationSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Educations');
+$this->title = Yii::t('app', 'Новости');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="education-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Education'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Добавить новость'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -27,8 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'title',
             'date',
-            'text:ntext',
-            'img',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
