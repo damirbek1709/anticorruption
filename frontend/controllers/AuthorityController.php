@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
+use frontend\models\Comments;
 
 /**
  * AuthorityController implements the CRUD actions for Authority model.
@@ -58,8 +59,11 @@ class AuthorityController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $newcomment = new Comments();
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'comment'=>$newcomment,
         ]);
     }
 

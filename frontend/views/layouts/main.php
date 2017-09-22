@@ -84,7 +84,7 @@ AppAsset::register($this);
                 <?= Html::tag('div', $formated_num . ' ' . Yii::t('app', 'обращений о коррупции'), ['class' => 'report_number']); ?>
                 <?
                 echo Html::beginTag('button', ['class' => 'button_transparent']);
-                echo Html::tag('span', Yii::t('app', 'Сообщить о коррупции'), ['class' => 'report_label']);
+                echo Html::a( Yii::t('app', 'Сообщить о коррупции'),['/report/create'], ['class' => 'report_label']);
                 echo Html::tag('span', Yii::t('app', ''), ['class' => 'report_arrow']);
                 echo Html::endTag('button');
                 ?>
@@ -106,10 +106,10 @@ AppAsset::register($this);
             [
                 'label' => Yii::t('app', 'Новости'),
                 'items' => [
-                    ['label' => Yii::t('app', 'Новостная лента'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Сводка коррупционных преступлений'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Достижения'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Пресс-релизы гос.органов'), 'url' => '#'],
+                    ['label' => Yii::t('app', 'Новостная лента'), 'url' => ['/news/category/133']],
+                    ['label' => Yii::t('app', 'Сводка коррупционных преступлений'),  'url' => ['/news/category/132']],
+                    ['label' => Yii::t('app', 'Достижения'), 'url' => ['/news/category/130']],
+                    ['label' => Yii::t('app', 'Пресс-релизы гос.органов'),  'url' => ['/news/category/131']],
                 ],
             ],
             [
@@ -124,28 +124,29 @@ AppAsset::register($this);
             [
                 'label' => Yii::t('app', 'Отчеты'),
                 'items' => [
-                    ['label' => Yii::t('app', 'Новостная лента'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Сводка коррупционных преступлений'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Достижения'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Пресс-релизы гос.органов'), 'url' => '#'],
+                    ['label' => Yii::t('app', 'Исследования'), 'url' => '#'],
+                    ['label' => Yii::t('app', 'Отчеты гос.органов'), 'url' => '#'],
+                    ['label' => Yii::t('app', 'Международное сотрудничество'), 'url' => '#'],
+                    ['label' => Yii::t('app', 'Декларация о доходах'), 'url' => '#'],
                 ],
             ],
             [
                 'label' => Yii::t('app', 'Борьба с коррупцией'),
                 'items' => [
-                    ['label' => Yii::t('app', 'Новостная лента'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Сводка коррупционных преступлений'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Достижения'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Пресс-релизы гос.органов'), 'url' => '#'],
+                    ['label' => Yii::t('app', 'Профилактика коррупции в госорганах'), 'url' => '#'],
+                    ['label' => Yii::t('app', 'Общественные советы'), 'url' => '#'],
+                    ['label' => Yii::t('app', 'Комплайенс-офицеры'), 'url' => '#'],
                 ],
             ],
             [
                 'label' => Yii::t('app', 'Карта коррупции'),
+                'url' => ['/site/map'],
                 'items' => [
-                    ['label' => Yii::t('app', 'Новостная лента'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Сводка коррупционных преступлений'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Достижения'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Пресс-релизы гос.органов'), 'url' => '#'],
+                    ['label' => Yii::t('app', 'Сообщить о коррупции'), 'url' => ['report/create']],
+                    ['label' => Yii::t('app', 'Рассказать о коррупционной схеме'), 'url' => '#'],
+                    ['label' => Yii::t('app', 'Все обращения'), 'url' => '#'],
+                    ['label' => Yii::t('app', 'Мне интересно знать, Откуда?'), 'url' => '#'],
+                    ['label' => Yii::t('app', 'Коррупционный рейтинг?'), 'url' => '#'],
                 ],
             ],
 
