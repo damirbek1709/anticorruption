@@ -83,8 +83,6 @@ return [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
-
-
         'assetManager' => [
             'appendTimestamp' => true,
             'bundles' => [

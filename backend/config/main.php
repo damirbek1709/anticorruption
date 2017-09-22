@@ -21,7 +21,8 @@ return [
             'cost' => 12,
             'admins' => ['admin'],
             'controllerMap' => [
-                'admin' => 'frontend\controllers\user\AdminController'
+                'admin' => 'backend\controllers\user\AdminController',
+                'security' => 'frontend\controllers\user\SecurityController'
             ],
         ],
         // following line will restrict access to profile, recovery, registration and settings controllers from backend
@@ -84,6 +85,10 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'contact'=>'site/contact',
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
 

@@ -584,7 +584,7 @@ a.desc:after {
 /*---------------------------------------*/
 
 .bn-block.type-2 {
-    padding: 20px 16px;
+    padding: 20px 16px 0;
     border-width: 1px;
     border-style: solid;
     border-color: #d3bbb9;
@@ -689,7 +689,7 @@ a.desc:after {
 
 .side-bar-title {
     margin-top: -3px;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 21px;
 }
 
@@ -832,7 +832,7 @@ a.desc:after {
 
 .sharper {
     border-radius: 0 !important;
-    padding: 25px 10px !important;
+    height: 40px;
 }
 
 .comment-input-text {
@@ -846,6 +846,10 @@ a.desc:after {
     padding: 10px 35px;
     font-size: 17px;
     text-transform: uppercase;
+}
+
+.field-report-city_id{
+    margin-top: 20px;
 }
 
 .custom-drop {
@@ -1068,6 +1072,7 @@ a.desc:after {
 .authority-index .pagination{
     clear: both;
     display: table;
+    margin: 20px auto;
 }
 .title_width_limiter{
     width: 95%;
@@ -1075,4 +1080,51 @@ a.desc:after {
     border-bottom: 1px solid #ccc;
     padding-bottom: 10px;
     height: 95px;
+}
+.rating-container .filled-stars{
+    text-shadow: none;
+    -webkit-text-stroke:unset;
+}
+.authority-index .pagination > .active > a {
+    background-color: #b90302;
+    border-color: #b90302;
+    color: #fff;
+}
+.authority-index .pagination > li > a{
+    color: #b90302;
+}
+.authority-index  .pagination > li:first-child > span, .authority-index .pagination > li:last-child > a{
+    border-radius: 0!important;
+}
+.more{
+    margin-top: 10px;
+}
+.more sup{
+    font-size: 34px;
+    letter-spacing: 7px;
+}
+.more a{
+    color: #ccc;
+    text-decoration: none;
+}
+.more a:hover{
+    color: #b90302;
+}
+.analytics-title{
+    font-size: 15px;
+}
+.add_opinion a{
+    color:#79add6;
+    font-size: 15px;
+    display: block;
+    margin-bottom: 10px;
+    text-decoration: dotted;
+}
+.btn-main-img {
+    background-color: #5cb85c!important;
+    color: #fff !important;
+}
+.kv-preview-thumb:nth-of-type(1) .kv-cust-btn{
+    background-color: #5cb85c;
+    color: #fff;
 }

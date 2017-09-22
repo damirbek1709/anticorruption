@@ -14,6 +14,7 @@ use common\widgets\Alert;
 use kartik\rating\StarRating;
 use frontend\models\News;
 use frontend\models\Authority;
+use frontend\models\Analytics;
 
 AppAsset::register($this);
 ?>
@@ -173,13 +174,13 @@ AppAsset::register($this);
                             <?= Yii::t('app', 'Новости'); ?>
                         </div>
                         <?= Html::tag("span", "", ["class" => "l-list l-news-list"]); ?>
-                        <?= Html::tag("div", Html::a(Yii::t('app', 'Новостная лента'), ['/news/index']), ["class" => "left_category_list"]); ?>
+                        <?= Html::tag("div", Html::a(Yii::t('app', 'Новостная лента'), ['/news/category','id'=>133]), ["class" => "left_category_list"]); ?>
                         <?= Html::tag("span", "", ["class" => "l-list l-victim-list"]); ?>
-                        <?= Html::tag("div", Html::a(Yii::t('app', 'Сводка коррупционных преступлений'), ['/news/index']), ["class" => "left_category_list"]); ?>
+                        <?= Html::tag("div", Html::a(Yii::t('app', 'Сводка коррупционных преступлений'), ['/news/category','id'=>132]), ["class" => "left_category_list"]); ?>
                         <?= Html::tag("span", "", ["class" => "l-list l-achiev-list"]); ?>
-                        <?= Html::tag("div", Html::a(Yii::t('app', 'Достижения'), ['/news/index']), ["class" => "left_category_list"]); ?>
+                        <?= Html::tag("div", Html::a(Yii::t('app', 'Достижения'), ['/news/category','id'=>130]), ["class" => "left_category_list"]); ?>
                         <?= Html::tag("span", "", ["class" => "l-list l-press-list"]); ?>
-                        <?= Html::tag("div", Html::a(Yii::t('app', 'Пресс-релизы гос.органов'), ['/news/index'], ['class' => 'rmb']), ["class" => "left_category_list"]); ?>
+                        <?= Html::tag("div", Html::a(Yii::t('app', 'Пресс-релизы гос.органов'), ['/news/category','id'=>131], ['class' => 'rmb']), ["class" => "left_category_list"]); ?>
                     </div>
                 </div>
                 <div class="l_report_block">
@@ -217,7 +218,7 @@ AppAsset::register($this);
                         <div class="bb-title">
                             <h3 class="h3"> <?= Yii::t('app', 'Сводка коррупционных преступлений'); ?></h3>
                         </div>
-                        <?php $victims = News::find()->where(['category_id' => 3])->orderBy(['date' => SORT_DESC])->limit(3)->all();
+                        <?php $victims = News::find()->where(['category_id' => 132])->orderBy(['date' => SORT_DESC])->limit(3)->all();
                         foreach ($victims as $victim) {
                             echo Html::beginTag('div', ['class' => 'general-post-cover']);
                             echo Html::a($victim->getThumb(), ['/news/view', 'id' => $victim->id], ['class' => 'general-side-block']);
@@ -227,8 +228,8 @@ AppAsset::register($this);
                             echo Html::tag('div', '', ['class' => 'clear']);
                         }
                         ?>
+                        <div class="more"><sup><?=Html::a('...',['/news/category','id'=>132])?></sup></div>
                     </div>
-
                 </div>
 
                 <div class="bn-block-col">
@@ -236,7 +237,7 @@ AppAsset::register($this);
                         <div class="bb-title">
                             <h3 class="h3"> <?= Yii::t('app', 'Пресс релизы госорганов'); ?></h3>
                         </div>
-                        <?php $victims = News::find()->where(['category_id' => 3])->orderBy(['date' => SORT_DESC])->limit(3)->all();
+                        <?php $victims = News::find()->where(['category_id' => 131])->orderBy(['date' => SORT_DESC])->limit(3)->all();
                         foreach ($victims as $victim) {
                             echo Html::beginTag('div', ['class' => 'general-post-cover']);
                             echo Html::a($victim->getThumb(), ['/news/view', 'id' => $victim->id], ['class' => 'general-side-block']);
@@ -246,8 +247,8 @@ AppAsset::register($this);
                             echo Html::tag('div', '', ['class' => 'clear']);
                         }
                         ?>
+                        <div class="more"><sup><?=Html::a('...',['/news/category','id'=>131])?></sup></div>
                     </div>
-
                 </div>
 
                 <div class="bn-block-col">
@@ -255,18 +256,17 @@ AppAsset::register($this);
                         <div class="bb-title">
                             <h3 class="h3"> <?= Yii::t('app', 'Антикоррупционное образование'); ?></h3>
                         </div>
-                        <?php $victims = News::find()->where(['category_id' => 3])->orderBy(['date' => SORT_DESC])->limit(3)->all();
-                        foreach ($victims as $victim) {
+                        <?php $education = \frontend\models\Education::find()->orderBy(['date' => SORT_DESC])->limit(3)->all();
+                        foreach ($education as $item) {
                             echo Html::beginTag('div', ['class' => 'general-post-cover']);
-                            echo Html::a($victim->getThumb(), ['/news/view', 'id' => $victim->id], ['class' => 'general-side-block']);
-                            echo Html::a($victim->title, ['/news/view', 'id' => $victim->id], ['class' => 'side-bar-title']);
-
+                            echo Html::a($item->getMainThumb(), ['/news/view', 'id' => $victim->id], ['class' => 'general-side-block']);
+                            echo Html::a($item->title, ['/education/view', 'id' => $item->id], ['class' => 'side-bar-title']);
                             echo Html::endTag('div');
                             echo Html::tag('div', '', ['class' => 'clear']);
                         }
                         ?>
+                        <div class="more"><sup><?=Html::a('...',['/education/index'])?></sup></div>
                     </div>
-
                 </div>
             </div>
 
@@ -279,7 +279,7 @@ AppAsset::register($this);
                         <div class="bb-title">
                             <h3 class="h3"> <?= Yii::t('app', 'Достижения'); ?></h3>
                         </div>
-                        <?php $victims = News::find()->where(['category_id' => 3])->orderBy(['date' => SORT_DESC])->limit(3)->all();
+                        <?php $victims = News::find()->where(['category_id' => 130])->orderBy(['date' => SORT_DESC])->limit(3)->all();
                         foreach ($victims as $victim) {
                             echo Html::beginTag('div', ['class' => 'general-post-cover']);
                             echo Html::a($victim->getThumb(), ['/news/view', 'id' => $victim->id], ['class' => 'general-side-block']);
@@ -289,8 +289,8 @@ AppAsset::register($this);
                             echo Html::tag('div', '', ['class' => 'clear']);
                         }
                         ?>
+                        <div class="more"><sup><?=Html::a('...',['/news/category','id'=>130])?></sup></div>
                     </div>
-
                 </div>
                 <div class="sidebar_authority">
                     <div class="authority_heading">
@@ -316,7 +316,7 @@ AppAsset::register($this);
                                     echo Html::a($authority->title, ['/authority/view', 'id' => $authority->id], ['class' => 'sidebar_slider_title']);
                                     echo StarRating::widget([
                                         'name' => 'rating_2',
-                                        'value' => $authority->rating,
+                                        'value' => $authority->getRating($authority->id),
                                         'pluginOptions' => [
                                             'showClear' => false,
                                             'showCaption' => false,
@@ -341,9 +341,8 @@ AppAsset::register($this);
 
                                         'pluginEvents' => [
                                             "rating.change" => "function(event, value, caption) {
-                                             alert(value); 
                                              $.ajax({
-                                            url: \"/frontend/web/site/rating\",
+                                            url: \"/site/rating\",
                                             type: \"post\",
                                             data: {value:value,id:$authority->id}            
                                             });             
@@ -364,20 +363,19 @@ AppAsset::register($this);
                         <div class="bb-title">
                             <h3 class="h3"> <?= Yii::t('app', 'Аналитика'); ?></h3>
                         </div>
-                        <?php $victims = News::find()->where(['category_id' => 3])->orderBy(['date' => SORT_DESC])->limit(3)->all();
-                        foreach ($victims as $victim) {
+                        <?php $analytics = Analytics::find()->where(['status' => 1])->orderBy(['date' => SORT_DESC])->limit(3)->all();
+                        foreach ($analytics as $item) {
                             echo Html::beginTag('div', ['class' => 'general-post-cover']);
-                            echo Html::a($victim->getThumb(), ['/news/view', 'id' => $victim->id], ['class' => 'general-side-block']);
-                            echo Html::a($victim->title, ['/news/view', 'id' => $victim->id], ['class' => 'side-bar-title']);
+                            echo Html::a($item->title, ['/analytics/view', 'id' => $item->id], ['class' => 'side-bar-title analytics-title']);
 
                             echo Html::endTag('div');
                             echo Html::tag('div', '', ['class' => 'clear']);
                         }
                         ?>
+                        <div class="more"><sup><?=Html::a('...',['/analytics/index'])?></sup></div>
+                        <div class="add_opinion"><?=Html::a('Добавить мнение',['/analytics/create'])?></div>
                     </div>
-
                 </div>
-
 
                 <?php
                 $script = <<<SCRIPT

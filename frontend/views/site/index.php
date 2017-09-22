@@ -23,7 +23,7 @@ $this->title = Yii::t('app', 'Антикоррупционный портал К
 
 <div class="slider_wrap">
     <?php
-    $news = News::find()->orderBy(['date' => SORT_DESC])->limit(3)->all();
+    $news = News::find()->where(['main_news'=>1])->orderBy(['date' => SORT_DESC])->limit(3)->all();
     ?>
 
     <div class="demo">
@@ -80,6 +80,9 @@ $this->title = Yii::t('app', 'Антикоррупционный портал К
     ?>
 </div>
 
+<div class="main_heading">
+    <?= Yii::t('app', 'Карта коррупции'); ?>
+</div>
 <div id="map"></div>
 <script>
 
