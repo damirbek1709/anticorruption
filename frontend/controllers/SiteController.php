@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use frontend\models\Rating;
+use frontend\models\Vocabulary;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -255,5 +256,12 @@ class SiteController extends Controller
         }
         Yii::$app->response->format=\yii\web\Response::FORMAT_JSON;
         return true;
+    }
+    
+    public function actionCity(){
+        $key=Yii::$app->request->post('city_id');
+        $coords=Vocabulary::getCityCoord($key);
+        Yii::$app->response->format=\yii\web\Response::FORMAT_JSON;
+        return $coords;
     }
 }

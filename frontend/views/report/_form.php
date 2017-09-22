@@ -7,10 +7,14 @@ use frontend\models\Vocabulary;
 use kartik\select2\Select2;
 use yii\helpers\Url;
 use kartik\file\FileInput;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Report */
 /* @var $form yii\widgets\ActiveForm */
+
+$lookups=Yii::$app->db->createCommand("SELECT * FROM vocabulary WHERE `key` LIKE 'lookup_%'")->queryAll();
+$lkup=ArrayHelper::map($lookups,'key','value');
 ?>
 
 <div class="report-form">
@@ -19,7 +23,11 @@ use kartik\file\FileInput;
 
     <?php echo $form->errorSummary($model)?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'placeholder' => 'Введите заголовок вашего сообщения', 'class' => 'form-control sharper'])->label(false); ?>
+    <?= $form->field($model, 'title')->textInput(['maxlength' => true,
+        'placeholder' => 'Введите заголовок вашего сообщения',
+        'data-toggle'=>'modal',
+        'data-target'=>'#warning-modal',
+        'class' => 'form-control sharper'])->label(false); ?>
 
     <?= $form->field($model, 'text')->textarea(['rows' => 6, 'placeholder' => 'Расскажите подробнее о факте коррупции с которым вы столкнулись', 'class' => 'form-control comment-input-text'])->label(false); ?>
 
@@ -78,13 +86,19 @@ use kartik\file\FileInput;
 
     <div class="form-group">
         <div id="user-contact" class="col-md-6" style="padding-left: 0">
-            <?= $form->field($model, 'author')->textInput(['placeholder' => 'Введите ваше имя', 'class' => 'form-control sharper'])->label(false); ?>
-            <?= $form->field($model, 'email')->textInput(['placeholder' => '@электронная почта', 'class' => 'form-control sharper'])->label(false); ?>
-            <?= $form->field($model, 'contact')->textInput(['placeholder' => 'Ваши контакты', 'class' => 'form-control sharper'])->label(false); ?>
+            <?= $form->field($model, 'author',[
+                'template' =>
+                    '<div class="form-group rel">{input}<span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="'.$lkup['lookup_name'].'"></span>{error}</div>'])->textInput(['placeholder' => 'Введите ваше имя', 'class' => 'form-control sharper'])->label(false); ?>
+            <?= $form->field($model, 'email',[
+                'template' =>
+                    '<div class="form-group rel">{input}<span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="'.$lkup['lookup_email'].'"></span>{error}</div>'])->textInput(['placeholder' => '@электронная почта', 'class' => 'form-control sharper'])->label(false); ?>
+            <?= $form->field($model, 'contact',[
+                'template' =>
+                    '<div class="form-group rel">{input}<span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="'.$lkup['lookup_contact'].'"></span>{error}</div>'])->textInput(['placeholder' => 'Ваши контакты', 'class' => 'form-control sharper'])->label(false); ?>
         </div>
 
         <div class="col-md-6" style="padding-right: 0">
-            <div class="border-maker">
+            <div class="border-maker anonym_height">
                 <div class="radio-row">
 
                     <?= $form->field($model, 'anonymous', [
@@ -92,8 +106,8 @@ use kartik\file\FileInput;
                                         <div class=\"inside\"></div>
                                     </div>",
                         'labelOptions' => ['for' => 'report-anonymous','class'=>'anon-label'],
-                    ])->input('checkbox',['class'=>'input_checker'])->label('Я хочу подать анонимное объявление') ?>
-                    </ul>
+                    ])->input('checkbox',['class'=>'input_checker','value'=>0])->label('Я хочу подать анонимное объявление') ?>
+                    <span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="<?=$lkup['lookup_anonym']?>" data-placement="bottom"></span>
                 </div>
             </div>
         </div>
@@ -118,50 +132,10 @@ use kartik\file\FileInput;
         ],
     ])->label(false); ?>
 
-    <?= $form->field($model, 'lat')->hiddenInput(['value' => 41.2044, 'class' => 'report_lat'])->label(false); ?>
-    <?= $form->field($model, 'lon')->hiddenInput(['value' => 74.7661, 'class' => 'report_lot'])->label(false); ?>
+    <?= $form->field($model, 'lat')->hiddenInput(['value' => 0, 'class' => 'report_lat'])->label(false); ?>
+    <?= $form->field($model, 'lon')->hiddenInput(['value' => 0, 'class' => 'report_lot'])->label(false); ?>
 
-    <div class="form-group" id="map"></div>
-    <script>
-        function initMap() {
-            var uluru = {lat: 41.2044, lng: 74.7661};
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 6,
-                center: uluru
-            });
-            var marker = new google.maps.Marker({
-                position: uluru,
-                map: map,
-                draggable: true
-            });
-            google.maps.event.addListener(marker, 'dragend', function (a) {
-                $('.report_lat').val(a.latLng.lat().toFixed(4));
-                $('.report_lon').val(a.latLng.lng().toFixed(4));
-            });
-            google.maps.event.addListener(map, 'click', function (event) {
-                placeMarker(event.latLng);
-                $('.report_lat').val(a.latLng.lat().toFixed(4));
-                $('.report_lon').val(a.latLng.lng().toFixed(4));
-            });
-
-            function placeMarker(location) {
-                if (marker == undefined) {
-                    marker = new google.maps.Marker({
-                        position: location,
-                        map: map,
-                        animation: google.maps.Animation.DROP,
-                    });
-                }
-                else {
-                    marker.setPosition(location);
-                }
-                //map.setCenter(location);
-            }
-        }
-    </script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDyJXbc-D_sxlQgbxS6fa-ImOsz1dyyQs&callback=initMap">
-    </script>
+    <div class="form-group map" id="map"></div>
 
 
     <div class="form-group">
@@ -169,20 +143,12 @@ use kartik\file\FileInput;
     </div>
 
     <?php ActiveForm::end(); ?>
-
+    <?php
+    $modal = Modal::begin([
+        'id' => 'warning-modal',
+        'header' => Html::tag('h4', $lkup['lookup_warning_title'], ['class' => 'modal-title']),
+    ]);
+    echo $lkup['lookup_warning_text'];
+    $modal::end();
+    ?>
 </div>
-
-<script type="text/javascript">
-    $('.input_checker').change(function() {
-        if($(this).is(":checked")) {
-            $("#user-contact input").val('');
-            $("#user-contact input").prop('disabled', true);
-            $(this).val(1);
-        }
-        else
-        {
-            $("#user-contact input").prop('disabled', false);
-            $(this).val(0);
-        }
-    });
-</script>

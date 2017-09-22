@@ -63,6 +63,8 @@ class Report extends \yii\db\ActiveRecord
             [['title', 'author', 'email', 'contact'], 'string', 'max' => 255],
             [['imageFile'], 'file', 'extensions' => 'jpg,jpeg,gif,png'],
             [['imageFiles'], 'file', 'extensions' => 'jpg,jpeg,gif,png', 'maxSize'=>20*1024*1024, 'maxFiles'=>10],
+            [['author'], 'required', 'when' => function ($model) { return $model->anonymous == '0';},
+                'whenClient' => "function (attribute, value) {return $('#report-anonymous').val() === '0';}"],
         ];
     }
 
