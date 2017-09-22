@@ -331,8 +331,8 @@ a.desc:after {
 }
 
 .top-menu .navbar-nav > li > a {
-    padding-bottom: 0;
-    padding-top: 0;
+    padding-bottom: 13px;
+    padding-top: 13px;
     color: #fff;
     font-size: 17px;
     font-weight: 400;
@@ -361,8 +361,6 @@ a.desc:after {
 }
 
 .top-menu .navbar-nav {
-
-    margin-top: 13px;
 }
 
 .top-menu .navbar-nav > li {
