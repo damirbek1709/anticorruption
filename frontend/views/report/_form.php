@@ -147,6 +147,7 @@ $lkup=ArrayHelper::map($lookups,'key','value');
     $modal = Modal::begin([
         'id' => 'warning-modal',
         'header' => Html::tag('h4', $lkup['lookup_warning_title'], ['class' => 'modal-title']),
+        'footer'=>'<button type="button" class="btn btn-default" data-dismiss="modal">'.Yii::t('app', 'Закрыть').'</button>'
     ]);
     echo $lkup['lookup_warning_text'];
     $modal::end();
