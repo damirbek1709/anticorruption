@@ -17,8 +17,8 @@ use yii\helpers\Html;
             echo Html::tag('div', '', ['class' => 'comment-avatar']);
             echo Html::tag('div', $item->name, ['class' => 'comment-author']);
             echo Html::tag('div', $item->text, ['class' => 'comment-text']);
-            echo Html::tag('span', Yii::$app->formatter->asTime($comment->date), ['class' => 'comment-date']);
-            echo Html::tag('span', Yii::$app->formatter->asDate($comment->date), ['class' => 'comment-date']);
+            echo Html::tag('span', Yii::$app->formatter->asTime($item->date), ['class' => 'comment-date']);
+            echo Html::tag('span', Yii::$app->formatter->asDate($item->date), ['class' => 'comment-date']);
             echo Html::endTag('div');
         }
         ?>

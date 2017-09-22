@@ -72,7 +72,7 @@ $this->title = $model->title;;
                 ],
                 [
                     'label' => 'Обращения',
-                    'content' => 'Sed non urna. Phasellus eu ligula. Vestibulum sit amet purus...',
+                    'content' => $this->render('reports',['model'=>$model]),
                     'options' => ['tag' => 'div'],
                 ],
                 [

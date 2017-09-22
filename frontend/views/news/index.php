@@ -12,7 +12,7 @@ $this->title = Yii::t('app', 'News');
 ?>
 <div class="news-index">
     <div class="main_heading">
-        <?= Yii::t('app', 'Лента новостей'); ?>
+        <?=$title;?>
     </div>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 

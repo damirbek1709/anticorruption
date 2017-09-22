@@ -1,0 +1,38 @@
+<?php
+
+use frontend\models\Report;
+use yii\helpers\Html;
+use yii\helpers\BaseStringHelper;
+
+/**
+ * Created by PhpStorm.
+ * User: damir
+ * Date: 14.09.2017
+ * Time: 22:53
+ */
+?>
+
+
+<?php $reports = $model->reports;
+foreach ($reports as $report) {
+    echo Html::beginTag('div', ['class' => 'report_block']);
+    echo Html::tag('span', "Имя: <span class='inner'>{$report->author}</span>", ['class' => 'news_date right-marginer']);
+    echo Html::tag('span', Yii::$app->formatter->asDate($report->date), ['class' => 'news_date right-marginer']);
+    echo Html::tag('span', "Просмотров: <span class='inner'>{$report->views}</span>", ['class' => 'news_date right-marginer']);
+    echo Html::tag('span', "Комментарии: <span class='inner'>{$report->commentsCount}</span>", ['class' => 'news_date right-marginer']);
+    echo Html::tag('div', '', ['clear' => 'both']);
+    echo Html::a($report->title, ['/report/view', 'id' => $report->id], ['class' => 'italic_header', 'style' => 'color:#000;margin-top:10px;display:block;']);
+    echo Html::beginTag('div', ['class' => 'report-text', 'style' => 'margin-top:-10px']);
+    echo Html::tag('span', BaseStringHelper::truncateWords($report->text, 25), ['class' => 'report-padder']);
+    echo Html::endTag('div');
+    echo Html::endTag('div');
+
+    echo Html::beginTag('div', ['class' => 'clear new-row']);
+    echo Html::tag('span', "Госорган: <span class='inner_red'>{$report->authority->title}</span>", ['class' => 'news_date']);
+    echo Html::tag('div', '', ['class' => 'clear']);
+    echo Html::tag('span', "Сектор корупции: <span class='inner_red'>{$report->department->value}</span>", ['class' => 'news_date']);
+    echo Html::tag('div', '', ['class' => 'clear']);
+    echo Html::tag('span', "Тип обращения: <span class='inner_red'>{$report->type->value}</span>", ['class' => 'news_date']);
+    echo Html::endTag('div');
+}
+?>

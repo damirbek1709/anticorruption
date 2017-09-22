@@ -66,6 +66,11 @@ class Authority extends \yii\db\ActiveRecord
         return $this->hasMany(Comments::className(), ['category_id' => 'id'])->orderBy(['date' => SORT_ASC]);
     }
 
+    public function getReports()
+    {
+        return $this->hasMany(Report::className(), ['authority_id' => 'id'])->orderBy(['date' => SORT_ASC]);
+    }
+
     public function getCommentsCount()
     {
         return $this->hasMany(Comments::className(), ['category_id' => 'id'])->count();

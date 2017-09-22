@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use frontend\models\Comments;
+use frontend\models\Vocabulary;
 use Yii;
 use frontend\models\News;
 use frontend\models\NewsSearch;
@@ -70,9 +71,12 @@ class NewsController extends Controller
             ],
         ]);
 
+        $title = Vocabulary::find()->select(['value'])->where(['id'=>$id])->scalar();
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'title'=>$title
         ]);
     }
 
