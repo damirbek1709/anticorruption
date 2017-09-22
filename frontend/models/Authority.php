@@ -14,6 +14,7 @@ use yii\web\UploadedFile;
 use yii\db\ActiveRecord;
 use yii\behaviors\AttributeBehavior;
 use yii\db\Query;
+use frontend\models\Comments;
 
 
 /**
@@ -58,6 +59,16 @@ class Authority extends \yii\db\ActiveRecord
             ],
             ['crop_info', 'safe'],
         ];
+    }
+
+    public function getComments()
+    {
+        return $this->hasMany(Comments::className(), ['category_id' => 'id'])->orderBy(['date' => SORT_ASC]);
+    }
+
+    public function getCommentsCount()
+    {
+        return $this->hasMany(Comments::className(), ['category_id' => 'id'])->count();
     }
 
 

@@ -1128,3 +1128,22 @@ a.desc:after {
     background-color: #5cb85c;
     color: #fff;
 }
+.authority-logo img{
+    height: 220px;
+    margin-bottom: 15px;
+}
+.authority-logo{
+    width: 100%;
+    background-color: #ece9d8;
+    text-align: center;
+    padding: 2px 0;
+}
+.rating-authority-bg{
+    background-color: #fff;
+    margin: auto;
+    display: table;
+    padding: 15px 0 10px;
+}
+.tabs-authority{
+    margin-top: 20px;
+}

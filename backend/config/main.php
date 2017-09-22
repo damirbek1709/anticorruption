@@ -22,7 +22,7 @@ return [
             'admins' => ['admin'],
             'controllerMap' => [
                 'admin' => 'backend\controllers\user\AdminController',
-                'security' => 'frontend\controllers\user\SecurityController'
+                //'security' => 'frontend\controllers\user\SecurityController'
             ],
         ],
         // following line will restrict access to profile, recovery, registration and settings controllers from backend
