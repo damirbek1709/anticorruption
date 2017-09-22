@@ -5,16 +5,19 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use frontend\models\Vocabulary;
 use kartik\select2\Select2;
-use kartik\datetime\DateTimePicker;
+use yii\helpers\Url;
+use kartik\file\FileInput;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Report */
+/* @var $model frontend\models\Report */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="report-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data']]); ?>
+
+    <?php echo $form->errorSummary($model)?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'placeholder' => 'Введите заголовок вашего сообщения', 'class' => 'form-control sharper'])->label(false); ?>
 
