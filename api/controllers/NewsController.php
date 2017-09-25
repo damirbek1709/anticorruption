@@ -41,7 +41,7 @@ class NewsController extends \yii\rest\ActiveController
 
     public function actionView($id)
     {
-        $model = News::find()->where(['id'=>$id])->with('user', 'category', 'comments')->asArray()->one();
+        $model = News::find()->where(['id'=>$id])->with('category', 'comments')->asArray()->one();
         /*unset($model['form_id'],$model['location_id']);*/
         return $model;
     }
