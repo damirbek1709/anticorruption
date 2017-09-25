@@ -134,6 +134,8 @@ class ReportController extends Controller
         $model = new Report();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $msg=Yii::$app->db->createCommand("SELECT `value` FROM vocabulary WHERE `key`='lookup_submitted'")->queryOne();
+            Yii::$app->getSession()->setFlash('success', $msg['value']);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -188,5 +190,11 @@ class ReportController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionGetLocations(){
+        $rows=Yii::$app->db->createCommand("SELECT id, title, lat, lon FROM report WHERE lat<>0 AND lon<>0")->queryAll();
+        Yii::$app->response->format=\yii\web\Response::FORMAT_JSON;
+        return $rows;
     }
 }
