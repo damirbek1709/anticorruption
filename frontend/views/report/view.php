@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
             })();</script>
         <div class="pluso" data-background="none;"
              data-options="medium,square,line,horizontal,counter,sepcounter=1,theme=14"
-             data-services="facebook,vkontakte,odnoklassniki,twitter" data-url="http://anticorruption.kg"
+             data-services="facebook,vkontakte,odnoklassniki,twitter" data-url="http://anticorruption.kg/report/<?=$model->id?>"
              data-title="Антикоррупционный портал Кыргызской Республики">
         </div>
     </div>

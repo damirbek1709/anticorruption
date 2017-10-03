@@ -38,7 +38,7 @@ class EducationController extends Controller
         $searchModel = new EducationSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('@frontend/views/education/index', [
+        return $this->render('@frontend/views/education/list', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

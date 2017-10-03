@@ -1,7 +1,6 @@
 <?php
-
 use yii\helpers\Html;
-use yii\grid\GridView;
+use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\EducationSearch */
@@ -11,24 +10,15 @@ $this->title = Yii::t('app', 'Антикоррупционное образов�
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="education-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Добавить запись'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
+    <div class="main_heading"><?= Html::encode($this->title) ?></div>
+    <?php
+    echo ListView::widget([
+        'summary' => false,
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'title',
-            'date',
-
-            ['class' => 'yii\grid\ActionColumn'],
+        'itemView' => '_item',
+        'itemOptions' => [
+            'class' => 'news_block',
         ],
-    ]); ?>
+        //'options' => ['class' => 'general-apart-list']
+    ]);?>
 </div>

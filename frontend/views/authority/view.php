@@ -6,17 +6,37 @@ use yii\helpers\Url;
 use yii\widgets\DetailView;
 use kartik\rating\StarRating;
 use yii\bootstrap\Tabs;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Authority */
 
-$this->title = $model->title;;
+$this->title = $model->title;
 ?>
 <div class="news-view">
     <div class="minor_heading"><?= Html::encode($this->title) ?></div>
     <div class="authority-logo">
         <div class="rating-authority-bg">
             <?php
+            Modal::begin([
+                'header' => '<h2>Пожалуйста, авторизуйтесь</h2>',
+                'headerOptions' => ['id' => 'modalHeader'],
+                'id' => 'modal',
+                'size' => 'modal-md',
+                //keeps from closing modal with esc key or by clicking out of the modal.
+                // user must click cancel or X to close
+                'clientOptions' => ['backdrop' => 'static', 'keyboard' => FALSE]
+            ]);?>
+            <div id="modalContent">
+                <div class="main-heading">
+                    <div style="font-size: 15px">
+                        Для того чтобы проголосовать вам необходимо <?php echo Html::a('авторизоваться',['/user/login'],['style'=>'color:#d80403']);?>
+                    </div>
+                </div>
+
+            </div>
+            <?php
+            Modal::end();
             if ($model->img)
                 echo Html::img(Url::base() . '/images/authority/' . $model->img);
             else
@@ -53,7 +73,13 @@ $this->title = $model->title;;
                                              $.ajax({
                                             url: \"/site/rating\",
                                             type: \"post\",
-                                            data: {value:value,id:$model->id}            
+                                            data: {value:value,id:$model->id},
+                                            success: function(response){
+                                                if(response==false)
+                                                {                                                
+                                                    $('#modal').modal('show')
+                                                }
+                                            }           
                                             });             
                                              }"],
             ]);
@@ -68,11 +94,11 @@ $this->title = $model->title;;
             'items' => [
                 [
                     'label' => 'Комментарии',
-                    'content' => $this->render('comments',['model'=>$model,'comment'=>$comment]),
+                    'content' => $this->render('comments', ['model' => $model, 'comment' => $comment]),
                 ],
                 [
                     'label' => 'Обращения',
-                    'content' => $this->render('reports',['model'=>$model]),
+                    'content' => $this->render('reports', ['model' => $model]),
                     'options' => ['tag' => 'div'],
                 ],
                 [

@@ -44,6 +44,17 @@ class AnalyticsController extends Controller
         ]);
     }
 
+    public function actionList()
+    {
+        $searchModel = new AnalyticsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('list', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Displays a single Analytics model.
      * @param integer $id

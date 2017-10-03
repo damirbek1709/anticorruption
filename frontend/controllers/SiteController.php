@@ -13,6 +13,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\helpers\FileHelper;
 
 /**
  * Site controller
@@ -36,6 +37,11 @@ class SiteController extends Controller
                     ],
                     [
                         'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['remove-image'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -153,6 +159,17 @@ class SiteController extends Controller
      *
      * @return mixed
      */
+
+    public function actionRemoveImage()
+    {
+        $controller = $_POST['controller'];
+        $id = $_POST['id'];
+        $name = $_POST['key'];
+        unlink(Yii::getAlias("@webroot/images/{$controller}/{$id}/thumbs/{$name}"));
+        unlink(Yii::getAlias("@webroot/images/$controller/{$id}/{$name}"));
+        return '{}';
+    }
+
     public function actionSignup()
     {
         $model = new SignupForm();
@@ -219,14 +236,20 @@ class SiteController extends Controller
     }
 
     public function actionRating(){
-        $request = Yii::$app->getRequest();
-        $id =  $request->post('id');
-        $value =  $request->post('value');
+        if(Yii::$app->user->isGuest){
+            return false;
+        }
+        else {
+            $request = Yii::$app->getRequest();
+            $id = $request->post('id');
+            $value = $request->post('value');
 
-        $model = new Rating();
-        $model->rating = $value;
-        $model->authority_id = $id;
-        $model->save();  // equivalent to $model->insert();
+            $model = new Rating();
+            $model->rating = $value;
+            $model->authority_id = $id;
+            $model->save();  // equivalent to $model->insert();
+            return true;
+        }
     }
     
     //kartik fileupload
@@ -262,4 +285,6 @@ class SiteController extends Controller
         Yii::$app->response->format=\yii\web\Response::FORMAT_JSON;
         return true;
     }
+
+
 }

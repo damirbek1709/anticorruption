@@ -114,12 +114,7 @@ AppAsset::register($this);
             ],
             [
                 'label' => Yii::t('app', 'Антикоррупционное образование'),
-                'items' => [
-                    ['label' => Yii::t('app', 'Новостная лента'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Сводка коррупционных преступлений'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Достижения'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Пресс-релизы гос.органов'), 'url' => '#'],
-                ],
+                'url'=>['/education']
             ],
             [
                 'label' => Yii::t('app', 'Отчеты'),
@@ -149,9 +144,7 @@ AppAsset::register($this);
                     ['label' => Yii::t('app', 'Коррупционный рейтинг?'), 'url' => '#'],
                 ],
             ],
-
         ];
-
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-left'],
             'items' => $menuItems,
@@ -224,7 +217,6 @@ AppAsset::register($this);
                             echo Html::beginTag('div', ['class' => 'general-post-cover']);
                             echo Html::a($victim->getThumb(), ['/news/view', 'id' => $victim->id], ['class' => 'general-side-block']);
                             echo Html::a($victim->title, ['/news/view', 'id' => $victim->id], ['class' => 'side-bar-title']);
-
                             echo Html::endTag('div');
                             echo Html::tag('div', '', ['class' => 'clear']);
                         }

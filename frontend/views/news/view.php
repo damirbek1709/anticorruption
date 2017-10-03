@@ -24,31 +24,30 @@ $this->title = $model->title;;
     echo Html::tag('span', "Просмотров: {$model->views}", ['style' => 'margin-left:5px']);
     echo Html::endTag('span');
     ?>
+
+    <?php
+    $images = $model->getImages();
+    if (!empty($images)):
+    ?>
     <div class="demo" style="margin-top:10px;">
         <div class="item" style="margin-bottom:20px;">
             <ul id="content-slider" class="content-slider">
                 <?php
-                echo Html::beginTag("li", []);
-                echo Html::beginTag("div", ['class' => 'slider_cover']);
-                echo Html::beginTag("div", ['class' => 'slider_bg']);
-                echo Html::a(Html::img(Url::base() . "/images/news/{$model->img}"), ['/news/view', 'id' => $model->id]);
-                echo Html::endTag("div");
-                echo Html::endTag("div");
-                echo Html::endTag("li");
-                ?>
-
-                <?php
-                echo Html::beginTag("li", []);
-                echo Html::beginTag("div", ['class' => 'slider_cover']);
-                echo Html::beginTag("div", ['class' => 'slider_bg']);
-                echo Html::a(Html::img(Url::base() . "/images/news/{$model->img}"), ['/news/view', 'id' => $model->id]);
-                echo Html::endTag("div");
-                echo Html::endTag("div");
-                echo Html::endTag("li");
+                foreach ($images as $image) {
+                    echo Html::beginTag("li", []);
+                    echo Html::beginTag("div", ['class' => 'slider_cover']);
+                    echo Html::beginTag("div", ['class' => 'slider_bg']);
+                    echo $image;
+                    echo Html::endTag("div");
+                    echo Html::endTag("div");
+                    echo Html::endTag("li");
+                }
                 ?>
             </ul>
         </div>
     </div>
+    <?php endif;?>
+
     <div class="news_category_italic"><?= $model->category->value; ?></div>
     <div class="news_text"><?= $model->text; ?></div>
     <div class="share_buttons">
@@ -68,11 +67,12 @@ $this->title = $model->title;;
             })();</script>
         <div class="pluso" data-background="none;"
              data-options="medium,square,line,horizontal,counter,sepcounter=1,theme=14"
-             data-services="facebook,vkontakte,odnoklassniki,twitter" data-url="http://anticorruption.kg"
+             data-services="facebook,vkontakte,odnoklassniki,twitter"
+             data-url="http://anticorruption.kg/news/<?= $model->id ?>"
              data-title="Антикоррупционный портал Кыргызской Республики">
         </div>
     </div>
-    <?php Pjax::begin(['id' => 'pjax-comment']);?>
+    <?php Pjax::begin(['id' => 'pjax-comment']); ?>
     <div class="comment-box">
         <div class="top_marginer"></div>
         <div class="comments">Комментарии(<?= $model->commentsCount; ?>)</div>
@@ -119,7 +119,7 @@ $this->title = $model->title;;
         </div>
         <?php ActiveForm::end(); ?>
     </div>
-    <?php Pjax::end();?>
+    <?php Pjax::end(); ?>
 </div>
 
 <?php
@@ -139,10 +139,10 @@ $this->title = $model->title;;
             type: 'post',
             data: form.serialize(),
             success: function (response) {
-                if(response == "No") {
+                if (response == "No") {
                     alert(response);
                 }
-                else{
+                else {
                     $.pjax.reload({container: "#pjax-comment"});
                 }
             }
