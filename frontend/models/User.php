@@ -11,6 +11,12 @@ use dektrium\user\models\User as BaseUser;
 
 class User extends BaseUser
 {
-
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return static::findOne(['auth_key' => $token]);
+    }
 }
 ?>

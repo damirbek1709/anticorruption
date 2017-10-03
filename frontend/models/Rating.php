@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property integer $authority_id
+ * @property integer $user_id
  * @property integer $rating
  */
 class Rating extends \yii\db\ActiveRecord
@@ -28,7 +29,7 @@ class Rating extends \yii\db\ActiveRecord
     {
         return [
             [['authority_id', 'rating'], 'required'],
-            [['authority_id', 'rating'], 'integer'],
+            [['authority_id', 'rating','user_id'], 'integer'],
         ];
     }
 
@@ -41,6 +42,7 @@ class Rating extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'authority_id' => Yii::t('app', 'Authority ID'),
             'rating' => Yii::t('app', 'Rating'),
+            'user_id' => Yii::t('app', 'User'),
         ];
     }
 }

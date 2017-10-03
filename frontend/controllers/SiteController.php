@@ -220,14 +220,26 @@ class SiteController extends Controller
     }
 
     public function actionRating(){
-        $request = Yii::$app->getRequest();
-        $id =  $request->post('id');
-        $value =  $request->post('value');
+        if($user_id=Yii::$app->user->id){
+            $request = Yii::$app->getRequest();
+            $id =  $request->post('id');
+            $value =  $request->post('value');
 
-        $model = new Rating();
-        $model->rating = $value;
-        $model->authority_id = $id;
-        $model->save();  // equivalent to $model->insert();
+            $model=Rating::find()->where(['user_id'=>$user_id, 'authority_id'=>$id])->one();
+            if($model){
+                if($model->rating!=$value){
+                    $model->rating=$value;
+                    $model->save();
+                }
+            }
+            else{
+                $model = new Rating();
+                $model->rating = $value;
+                $model->authority_id = $id;
+                $model->user_id = $user_id;
+                $model->save();
+            }
+        }
     }
     
     //kartik fileupload
