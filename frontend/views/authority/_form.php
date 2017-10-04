@@ -36,7 +36,8 @@ use kartik\rating\StarRating;
 
     <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
 
-    <?php echo $form->field($model, 'rating')->widget(StarRating::classname(), [
+
+    <?php /*echo $form->field($model, 'rating')->widget(StarRating::classname(), [
         'pluginOptions' => [
             'theme' => 'krajee-uni',
             'filledStar' => '&#x2605;',
@@ -50,8 +51,7 @@ use kartik\rating\StarRating;
                 5 => 'Very Good',
             ],
         ]
-    ]); ?>
-
+    ]); */?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
