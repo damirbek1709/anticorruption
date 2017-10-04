@@ -1,7 +1,9 @@
 <?php
+
 namespace frontend\controllers;
 
 use frontend\models\Rating;
+use frontend\models\Vocabulary;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -31,26 +33,16 @@ class SiteController extends Controller
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['index','login','map','city'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout','index','image-upload','rating','city','map','remove-image'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                    [
-                        'actions' => ['remove-image'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
+
                 ],
             ],
         ];
@@ -68,6 +60,17 @@ class SiteController extends Controller
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            ],
+            'image-upload' => [
+                'class' => 'vova07\imperavi\actions\UploadAction',
+                'url' => 'http://anticorruption.kg/images/uploads', // Directory URL address, where files are stored.
+                'path' => '@webroot/images/uploads'
+            ],
+            'file-upload' => [
+                'class' => 'vova07\imperavi\actions\UploadAction',
+                'url' => 'http://anticorruption.kg/files/uploads', // Directory URL address, where files are stored.
+                'path' => '@webroot/files/uploads',
+                'uploadOnlyImage' => false, // For not image-only uploading.
             ],
         ];
     }
@@ -235,11 +238,11 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionRating(){
-        if(Yii::$app->user->isGuest){
+    public function actionRating()
+    {
+        if (Yii::$app->user->isGuest) {
             return false;
-        }
-        else {
+        } else {
             $request = Yii::$app->getRequest();
             $id = $request->post('id');
             $value = $request->post('value');
@@ -251,40 +254,32 @@ class SiteController extends Controller
             return true;
         }
     }
-    
+
     //kartik fileupload
 
-    public function actionImgDelete($id,$model_name)
+    public function actionImgDelete($id, $model_name)
     {
-        $key=Yii::$app->request->post('key');
-        $webroot=Yii::getAlias('@webroot');
-        if(is_dir($dir=$webroot."/images/{$model_name}/".$id))
-        {
-            if(is_file($dir.'/'.$key)){
-                $expl=explode('s_',$key);
-                $full=$expl[1];
-                @unlink($dir.'/'.$key);
-                @unlink($dir.'/'.$full);
+        $key = Yii::$app->request->post('key');
+        $webroot = Yii::getAlias('@webroot');
+        if (is_dir($dir = $webroot . "/images/{$model_name}/" . $id)) {
+            if (is_file($dir . '/' . $key)) {
+                $expl = explode('s_', $key);
+                $full = $expl[1];
+                @unlink($dir . '/' . $key);
+                @unlink($dir . '/' . $full);
                 Yii::$app->db->createCommand("UPDATE {$model_name} SET text='{$key}' WHERE id='{$id}'")->execute();
             }
         }
-        Yii::$app->response->format=\yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return true;
     }
 
-    public function actionFileDelete($id,$model_name)
+
+    public function actionCity()
     {
-        $key=Yii::$app->request->post('key');
-        $webroot=Yii::getAlias('@webroot');
-        if(is_dir($dir=$webroot."/files/{$model_name}/".$id))
-        {
-            if(is_file($dir.'/'.$key)){
-                unlink($dir.'/'.$key);
-            }
-        }
-        Yii::$app->response->format=\yii\web\Response::FORMAT_JSON;
-        return true;
+        $key = Yii::$app->request->post('city_id');
+        $coords = Vocabulary::getCityCoord($key);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $coords;
     }
-
-
 }

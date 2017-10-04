@@ -9,6 +9,8 @@ use yii\helpers\Url;
 use yii\imagine\Image;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
+use yii\db\ActiveRecord;
+use yii\behaviors\AttributeBehavior;
 
 /**
  * This is the model class for table "education".
@@ -40,6 +42,22 @@ class Education extends \yii\db\ActiveRecord
             [['date'], 'safe'],
             [['text'], 'string'],
             [['title', 'img'], 'string', 'max' => 255],
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'date', // update 1 attribute 'created' OR multiple attribute ['created','updated']
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'date', // update 1 attribute 'created' OR multiple attribute ['created','updated']
+                ],
+                'value' => function ($event) {
+                    return date('Y-m-d H:i:s', strtotime($this->date));
+                },
+            ],
         ];
     }
 

@@ -21,7 +21,7 @@ class NewsController extends \yii\rest\ActiveController
 
         // customize the data provider preparation with the "prepareDataProvider()" method
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
-        //unset($actions['view']); //use my own below
+        unset($actions['view']); //use my own below
 
         return $actions;
     }
@@ -37,6 +37,13 @@ class NewsController extends \yii\rest\ActiveController
             ],
             'sort'=> ['defaultOrder' => ['date'=>SORT_DESC]]
         ]);
+    }
+
+    public function actionView($id)
+    {
+        $model = News::find()->where(['id'=>$id])->with('category', 'comments')->asArray()->one();
+        /*unset($model['form_id'],$model['location_id']);*/
+        return $model;
     }
 
     //compare maxId on depend table

@@ -24,16 +24,7 @@ use kartik\datetime\DateTimePicker;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'img')->hiddenInput(['value' => '','class'=>'news-main-img'])->label(false); ?>
-    <?=
-    $form->field($model, 'description')->widget(Widget::className(), [
-        'settings' => [
-            'lang' => 'ru',
-            'minHeight' => 200,
-            'plugins' => [
-            ],
-            'buttons' => ['bold', 'italic', 'orderedlist']
-        ]
-    ]); ?>
+    <?= $form->field($model, 'description')->textArea(['maxlength' => true]) ?>
     <?= $form->field($model, 'category_id')->dropDownList(
         ArrayHelper::map(\frontend\models\Vocabulary::find()->where(['key'=>'news_category'])->all(), 'id', 'value')
     ); ?>

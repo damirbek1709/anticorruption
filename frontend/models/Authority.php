@@ -48,7 +48,6 @@ class Authority extends \yii\db\ActiveRecord
         return [
             [['title', 'text'], 'required'],
             [['text'], 'string'],
-            [['rating'], 'number'],
             [['votes','category_id'], 'integer'],
             [['title', 'img'], 'string', 'max' => 255],
             [
@@ -121,7 +120,7 @@ class Authority extends \yii\db\ActiveRecord
         return parent::beforeSave($insert);
     }
 
-    public function getRating($id){
+    public static function getRating($id){
         $query = (new Query())->from('rating')->where(['authority_id'=>$id]);
         if($query->count()==0)
             $rating = 0;

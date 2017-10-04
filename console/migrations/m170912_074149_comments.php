@@ -6,7 +6,7 @@ class m170912_074149_comments extends Migration
 {
     public function safeUp()
     {
-        /*$tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+        $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         $this->createTable('comments', [
             'id' => $this->primaryKey(),
             'name' =>$this->string('255')->notNull(),
@@ -15,7 +15,7 @@ class m170912_074149_comments extends Migration
             'text' =>$this->text(),
             'news_id' => $this->integer('11')->defaultValue(0),
             'category_id' => $this->integer('11')->defaultValue(0),
-        ],$tableOptions);*/
+        ],$tableOptions);
         $this->createIndex('idx_com_ctg', 'comments', 'category_id');
         $this->createIndex('idx_com_news', 'comments', 'news_id');
     }

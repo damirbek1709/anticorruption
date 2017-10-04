@@ -881,7 +881,7 @@ a.desc:after {
     border-left: none !important;
 }
 
-#map {
+.map {
     height: 400px;
     width: 100%;
 }
@@ -1139,6 +1139,19 @@ a.desc:after {
     background-color: #5cb85c;
     color: #fff;
 }
+.rel{position: relative;}
+.qhint{position: absolute;
+    top: 12px;
+    right: 6px;
+    color: #ccc;}
+
+.qhint:hover{color: #999;}
+.popover{
+    font-size: 12px;
+    width: 320px;
+    max-width: 100%;
+}
+.anonym_height{height:150px;}
 .authority-logo img{
     height: 220px;
     margin-bottom: 15px;

@@ -1,5 +1,4 @@
 <?php
-
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
@@ -8,36 +7,16 @@ use yii\widgets\DetailView;
 /* @var $model frontend\models\Education */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Educations'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="news-view">
 
+<div class="news-view">
     <div class="minor_heading"><?= Html::encode($this->title) ?></div>
     <?
     echo Html::tag('span', Yii::$app->formatter->asDate($model->date), ['class' => 'news_date']);
     echo Html::tag('span', '', ['class' => 'glyphicon glyphicon-time date-clock']);
     echo Html::tag('span', Yii::$app->formatter->asTime($model->date), ['class' => 'news_date']);
-
     ?>
-    <div class="demo" style="margin-top:10px;">
-        <div class="item" style="margin-bottom:20px;">
-            <ul id="content-slider" class="content-slider">
-                <?php
-                $images = $model->getImages();
-                foreach ($images as $image) {
-                    echo Html::beginTag("li", []);
-                    echo Html::beginTag("div", ['class' => 'slider_cover']);
-                    echo Html::beginTag("div", ['class' => 'slider_bg']);
-                    echo Html::a($image, ['/education/view', 'id' => $model->id]);
-                    echo Html::endTag("div");
-                    echo Html::endTag("div");
-                    echo Html::endTag("li");
-                }
-                ?>
-            </ul>
-        </div>
-    </div>
+
 
     <div class="news_text"><?= $model->text; ?></div>
     <div class="share_buttons">

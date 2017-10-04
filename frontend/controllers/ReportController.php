@@ -10,6 +10,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
+use yii\filters\AccessRule;
 
 /**
  * ReportController implements the CRUD actions for Report model.
@@ -19,13 +21,37 @@ class ReportController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
+    function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
+            'roleAccess' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['view', 'index','get-locations'],
+                        'roles' => ['?', '@','admin']
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'roles' => ['@','admin']
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['update','delete'],
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            if (Yii::$app->user->can('admin') || $this->isUserAuthor()) {
+                                return true;
+                            }
+                            return false;
+                        }
+                    ],
+
                 ],
             ],
         ];
@@ -120,7 +146,7 @@ class ReportController extends Controller
         $newcomment = new Comments();
         return $this->render('view', [
             'model' => $model,
-            'comment'=>$newcomment,
+            'comment' => $newcomment,
         ]);
     }
 
@@ -134,6 +160,8 @@ class ReportController extends Controller
         $model = new Report();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $msg = Yii::$app->db->createCommand("SELECT `value` FROM vocabulary WHERE `key`='lookup_submitted'")->queryOne();
+            Yii::$app->getSession()->setFlash('success', $msg['value']);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -188,5 +216,29 @@ class ReportController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionGetLocations()
+    {
+        $rows = Yii::$app->db->createCommand("SELECT id, title, lat, lon FROM report WHERE lat<>0 AND lon<>0")->queryAll();
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $rows;
+    }
+
+    public function actionStatus()
+    {
+        $request = Yii::$app->getRequest();
+        $id = $request->post('id');
+        $status = $request->post('status');
+        $model = $this->findModel($id);
+        $model->status = $status;
+        if ($model->save()) {
+            return $model->status;
+        }
+    }
+
+    protected function isUserAuthor()
+    {
+        return $this->findModel(Yii::$app->request->get('id'))->user_id == Yii::$app->user->id;
     }
 }

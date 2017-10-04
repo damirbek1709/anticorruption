@@ -5,6 +5,9 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use vova07\imperavi\Widget;
 use kartik\datetime\DateTimePicker;
+use kartik\file\FileInput;
+use frontend\models\Vocabulary;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Analytics */
@@ -17,15 +20,21 @@ use kartik\datetime\DateTimePicker;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'category_id')->dropDownList(
+        ArrayHelper::map(Vocabulary::find()->where(['key'=>'document_category'])->all(), 'id', 'value'),
+        ['prompt'=>'Выберите категорию']
+    ); ?>
+
     <?=
     $form->field($model, 'text')->widget(Widget::className(), [
         'settings' => [
             'lang' => 'ru',
             'minHeight' => 200,
-            'imageUpload' => Url::to(['/site/image-upload']),
+            'fileUpload' => Url::to(['/site/file-upload']),
             'plugins' => [
                 'clips',
-                'fullscreen'
+                'fullscreen',
+                'fontcolor',
             ]
         ]
     ]); ?>
@@ -46,40 +55,15 @@ use kartik\datetime\DateTimePicker;
         ]); ?>
     </div>
 
-    <?= $form->field($model, 'author_id')->textInput() ?>
-    <?= $form->field($model, 'status')->textInput() ?>
+
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Добавить') : Yii::t('app', 'Редактировать'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
 
 </div>
 
-<script type="text/javascript">
-    var myId = $('.model_id').attr('id');
-    $('.img-main').on('click', function () {
 
-        $('.img-main').removeClass('picked-main');
-        $(this).addClass('picked-main');
-        var name = $(this).siblings('.thumb-img').attr('name');
-        $.ajax({
-            url: "/object/main",
-            type: "post",
-            data: {name: name, id: myId},
-            cache: false
-        });
-    });
 
-    $('.img-delete').on('click', function () {
-        var name = $(this).siblings('.thumb-img').attr('name');
-        $(this).parent().fadeOut();
-        $.ajax({
-            url: "/object/remove",
-            type: "post",
-            data: {id: myId, name: name},
-            cache: false
-        });
-    });
-</script>
