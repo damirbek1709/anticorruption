@@ -18,10 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     echo Html::tag('span', Yii::$app->formatter->asDate($model->date), ['class' => 'news_date']);
     echo Html::tag('span', '', ['class' => 'glyphicon glyphicon-time date-clock']);
     echo Html::tag('span', Yii::$app->formatter->asTime($model->date), ['class' => 'news_date']);
-    echo Html::beginTag('span', ['class' => 'news_view_count']);
-    echo Html::tag('span', "", ['class' => 'glyphicon glyphicon-eye-open ']);
-    // echo Html::tag('span', "Просмотров: {$model->views}", ['style' => 'margin-left:5px']);
-    echo Html::endTag('span');
+
     ?>
     <div class="demo" style="margin-top:10px;">
         <div class="item" style="margin-bottom:20px;">
@@ -60,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
             })();</script>
         <div class="pluso" data-background="none;"
              data-options="medium,square,line,horizontal,counter,sepcounter=1,theme=14"
-             data-services="facebook,vkontakte,odnoklassniki,twitter" data-url="http://anticorruption.kg"
+             data-services="facebook,vkontakte,odnoklassniki,twitter" data-url="http://anticorruption.kg/education/<?=$model->id?>"
              data-title="Антикоррупционный портал Кыргызской Республики">
         </div>
     </div>

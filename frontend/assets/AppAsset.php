@@ -1,10 +1,7 @@
 <?php
-
 namespace frontend\assets;
-
 use yii\web\AssetBundle;
 use yii\web\View;
-
 /**
  * Main frontend application asset bundle.
  */

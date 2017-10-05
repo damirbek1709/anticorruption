@@ -35,11 +35,7 @@ $this->title = Yii::t('app', 'Антикоррупционный портал К
                         echo Html::beginTag("li", []);
                         echo Html::beginTag("div", ['class' => 'slider_cover']);
                         echo Html::beginTag("div", ['class' => 'slider_bg']);
-                        if ($new->img) {
-                            echo Html::a(Html::img(Url::base() . "/images/news/{$new->img}"), ['/news/view', 'id' => $new->id]);
-                        } else {
-                            echo Html::a(Html::img(Url::base() . "/images/news/{$new->img}"), ['/news/view', 'id' => $new->id]);
-                        }
+                        echo $new->getMainImg();
                         echo Html::endTag("div");
                         echo Html::endTag("div");
                         echo Html::a($new->title, ['/news/view', 'id' => $new->id], ['class' => 'slider_title']);

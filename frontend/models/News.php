@@ -25,7 +25,7 @@ use frontend\models\Vocabulary;
 class News extends \yii\db\ActiveRecord
 {
 
-    public $image;
+    public $file;
     public $crop_info;
 
     /**
@@ -74,12 +74,7 @@ class News extends \yii\db\ActiveRecord
             [['text'], 'string'],
             [['title'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 600],
-            [
-                'image',
-                'image',
-                'extensions' => ['jpg', 'jpeg', 'png', 'gif'],
-                'mimeTypes' => ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif'],
-            ],
+
             ['crop_info', 'safe'],
         ];
     }
@@ -99,29 +94,81 @@ class News extends \yii\db\ActiveRecord
             'views' => Yii::t('app', 'Просмотры'),
             'date' => Yii::t('app', 'Дата'),
             'main_news' => Yii::t('app', 'Главная новость'),
+            'file' => Yii::t('app', 'Фото'),
         ];
     }
 
-    public function getImages(){
 
+
+    function getThumbs()
+    {
+        $result = [];
+        if (is_dir(Yii::getAlias("@webroot/images/news/{$this->id}"))) {
+            $images = FileHelper::findFiles(Yii::getAlias("@webroot/images/news/{$this->id}/thumbs"), [
+                'recursive' => false,
+                'except' => ['.gitignore']
+            ]);
+
+            $index = 0;
+            foreach ($images as $image) {
+                $result[] = $image;
+                if (basename($image) == $this->img) {
+                    $new_value = $image;
+                    unset($result[$index]);
+                    array_unshift($result, $new_value);
+                }
+                $index++;
+            }
+            return $result;
+        }
+    }
+
+    function getThumbImages()
+    {
+        $result = [];
+        if (is_dir(Yii::getAlias("@webroot/images/news/{$this->id}"))) {
+            $images = FileHelper::findFiles(Yii::getAlias("@webroot/images/news/{$this->id}/thumbs"), [
+                'recursive' => false,
+                'except' => ['.gitignore']
+            ]);
+
+            $index = 0;
+            foreach ($images as $image) {
+                $result[] = Html::img(str_replace([Yii::getAlias('@webroot'), DIRECTORY_SEPARATOR], [Yii::getAlias('@web'), '/'], $image));
+                if (basename($image) == $this->img) {
+                    $new_value = Html::img(str_replace([Yii::getAlias('@webroot'), DIRECTORY_SEPARATOR], [Yii::getAlias('@web'), '/'], $image));
+                    unset($result[$index]);
+                    array_unshift($result, $new_value);
+                }
+                $index++;
+            }
+        }
+        return $result;
     }
 
     public function getThumb(){
-        return Html::img(Url::base().'/images/news/s_'.$this->img);
+        if($this->img)
+            return Html::img(Url::base()."/images/news/{$this->id}/thumbs/{$this->img}");
+        else
+            return "";
     }
 
-    public function beforeValidate()
-    {
-        $this->image = UploadedFile::getInstance($this, 'image');
-        return parent::beforeValidate();
+    public function getMainImg(){
+        if($this->img) {
+            return Html::img(Url::base() . "/images/news/{$this->id}/{$this->img}");
+        }
+        else{
+            return Html::img(Url::base() . "/images/site/template.png");
+        }
     }
 
     public function beforeSave($insert)
     {
-        if ($this->image)
-            $this->img = $this->image->name;
+        $this->file = UploadedFile::getInstances($this, 'file');
         return parent::beforeSave($insert);
     }
+
+
 
     public function getCategory(){
         return $this->hasOne(Vocabulary::className(), ['id' => 'category_id']);
@@ -132,42 +179,55 @@ class News extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_favorited']);
     }
 
+    function getImages()
+    {
+        $result = [];
+        if (is_dir(Yii::getAlias("@webroot/images/news/{$this->id}"))) {
+            $images = FileHelper::findFiles(Yii::getAlias("@webroot/images/news/{$this->id}/"), [
+                'recursive' => false,
+                'except' => ['.gitignore']
+            ]);
+
+            $index = 0;
+            foreach ($images as $image) {
+                $result[] = Html::img(str_replace([Yii::getAlias('@webroot'), DIRECTORY_SEPARATOR], [Yii::getAlias('@web'), '/'], $image));
+                if (basename($image) == $this->img) {
+                    $new_value = Html::img(str_replace([Yii::getAlias('@webroot'), DIRECTORY_SEPARATOR], [Yii::getAlias('@web'), '/'], $image));
+                    unset($result[$index]);
+                    array_unshift($result, $new_value);
+                }
+                $index++;
+            }
+        }
+        return $result;
+    }
+
     public function afterSave($insert, $changedAttributes)
     {
-        // open image
-        if ($this->image) {
-            $cropInfo = Json::decode(Yii::$app->request->post()['image_data']);
-
-            $width = (int)$cropInfo['width'];
-            $height = (int)$cropInfo['height'];
-
-            $x = $cropInfo["x"];
-            $y = $cropInfo["y"];
+        if (count($this->file)) {
+            $dir = Yii::getAlias("@webroot/images/news/{$this->id}");
+            $thumbDir = Yii::getAlias("@webroot/images/news/{$this->id}/thumbs");
+            FileHelper::createDirectory($dir);
+            FileHelper::createDirectory($thumbDir);
 
             $imagine = Image::getImagine();
-            $this->image->saveAs(
-                Yii::getAlias('@webroot/images/news')
-                . '/'
-                . $this->image->name, ['quality' => 100]);
+            foreach ($this->file as $file) {
+                $file->saveAs("{$dir}" . DIRECTORY_SEPARATOR . "{$file->baseName}.{$file->extension}");
+                $image = $imagine->open(
+                    Yii::getAlias('@webroot/images/news')
+                    . "/{$this->id}/{$file->baseName}.{$file->extension}", ['quality' => 100]);
 
-            $image = $imagine->open(
-                Yii::getAlias('@webroot/images/news')
-                . '/'
-                . $this->image->name, ['quality' => 100]);
+                $image->resize(new Box(440, 270))->save(Yii::getAlias('@webroot/images/news/')
+                    ."{$this->id}/". $file->baseName.".".$file->extension, ['quality' => 100]);
 
-            $image->resize(new Box($image->getSize()->getWidth(), $image->getSize()->getHeight()))
-                ->crop(new Point($x, $y), new Box($width, $height))
-                ->save(Yii::getAlias('@webroot/images/news')
-                    . '/'
-                    . $this->image->name, ['quality' => 100]);
+                Image::thumbnail($dir . '/' . "{$file->baseName}.{$file->extension}", 440, 270)->save($dir . '/' . "{$file->baseName}.{$file->extension}", ['quality' => 100]);
 
-            $image->resize(new Box(440, 270))->save(Yii::getAlias('@webroot/images/news')
-                . '/'
-                . $this->image->name, ['quality' => 100]);
+                $image->resize(new Box(135, 100))->save(Yii::getAlias('@webroot/images/news/')
+                    .
+                    "{$this->id}/thumbs/{$file->baseName}.{$file->extension}", ['quality' => 100]);
 
-            $image->resize(new Box(135, 100))->save(Yii::getAlias('@webroot/images/news')
-                . '/s_'.
-                $this->image->name, ['quality' => 100]);
+                Image::thumbnail($dir . '/' . "{$file->baseName}.{$file->extension}", 135, 100)->save($dir . '/thumbs/' . "{$file->baseName}.{$file->extension}", ['quality' => 100]);
+            }
         }
     }
 }

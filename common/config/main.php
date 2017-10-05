@@ -7,7 +7,7 @@ return [
            'modelMap' => [
                 'User' => 'frontend\models\User',
             ],
-            'admins' => ['damirbek@gmail.com']
+            'admins' => ['admin']
             // you will configure your module inside this file
             // or if need different configuration for frontend and backend you may
             // configure in needed configs

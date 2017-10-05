@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use vova07\imperavi\Widget;
 use kartik\datetime\DateTimePicker;
@@ -21,6 +22,7 @@ use kartik\datetime\DateTimePicker;
         'settings' => [
             'lang' => 'ru',
             'minHeight' => 200,
+            'imageUpload' => Url::to(['/site/image-upload']),
             'plugins' => [
                 'clips',
                 'fullscreen'

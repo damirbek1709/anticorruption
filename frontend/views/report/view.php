@@ -35,24 +35,38 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="report-cats">
         <div class="cat-row">
-            <span><?=Yii::t('app','Гос.орган: ')?></span>
-            <?=$model->authority->title;?>
+            <span><?= Yii::t('app', 'Гос.орган: ') ?></span>
+            <?= $model->authority->title; ?>
         </div>
         <div class="cat-row">
-            <span><?=Yii::t('app','Сектор коррупции: ')?></span>
-            <?=$model->department->value;?>
-        </div>
-
-        <div class="cat-row">
-            <span><?=Yii::t('app','Местоположение: ')?></span>
-            <?=$model->city->value;?>
+            <span><?= Yii::t('app', 'Сектор коррупции: ') ?></span>
+            <?= $model->department->value; ?>
         </div>
 
         <div class="cat-row">
-            <span><?=Yii::t('app','Тип обращения: ')?></span>
-            <?=$model->type->value;?>
+            <span><?= Yii::t('app', 'Местоположение: ') ?></span>
+            <?= $model->city->value; ?>
+        </div>
+
+        <div class="cat-row">
+            <span><?= Yii::t('app', 'Тип обращения: ') ?></span>
+            <?= $model->type->value; ?>
         </div>
     </div>
+
+
+    <div class="clear" style="margin-top: 20px;"></div>
+
+    <?php
+    if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin) {
+        if ($model->status == 0) {
+            echo Html::tag('span', 'Одобрить', ['class' => 'btn-moderate btn btn-success','data-status'=>1]);
+        }
+        else{
+            echo Html::tag('span', 'Блокировать', ['class' => 'btn-moderate btn btn-danger','data-status'=>0]);
+        }
+    }
+    ?>
 
     <div class="share_buttons">
         <span class="share_label">Поделиться в соц.сетях: </span>
@@ -71,7 +85,8 @@ $this->params['breadcrumbs'][] = $this->title;
             })();</script>
         <div class="pluso" data-background="none;"
              data-options="medium,square,line,horizontal,counter,sepcounter=1,theme=14"
-             data-services="facebook,vkontakte,odnoklassniki,twitter" data-url="http://anticorruption.kg"
+             data-services="facebook,vkontakte,odnoklassniki,twitter"
+             data-url="http://anticorruption.kg/report/<?= $model->id ?>"
              data-title="Антикоррупционный портал Кыргызской Республики">
         </div>
     </div>
@@ -92,7 +107,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // Note: The code uses the JavaScript Array.prototype.map() method to
             // create an array of markers based on a given "locations" array.
             // The map() method here has nothing to do with the Google Maps API.
-            var markers = locations.map(function(location, i) {
+            var markers = locations.map(function (location, i) {
                 return new google.maps.Marker({
                     position: location,
                     label: labels[i % labels.length]
@@ -103,6 +118,7 @@ $this->params['breadcrumbs'][] = $this->title;
             var markerCluster = new MarkerClusterer(map, markers,
                 {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
         }
+
         var locations = [
             {lat: <?=$model->lat;?>, lng: <?=$model->lon;?>},
         ]
@@ -113,7 +129,7 @@ $this->params['breadcrumbs'][] = $this->title;
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDyJXbc-D_sxlQgbxS6fa-ImOsz1dyyQs&callback=initMap">
     </script>
 
-    <?php Pjax::begin(['id' => 'pjax-comment']);?>
+    <?php Pjax::begin(['id' => 'pjax-comment']); ?>
     <div class="comment-box">
         <div class="top_marginer"></div>
         <div class="comments">Комментарии(<?= $model->commentsCount; ?>)</div>
@@ -145,7 +161,7 @@ $this->params['breadcrumbs'][] = $this->title;
             echo $form->field($comment, 'name')->hiddenInput(['value' => Yii::$app->user->identity->username])->label(false);
             echo $form->field($comment, 'email')->hiddenInput(['value' => Yii::$app->user->identity->email])->label(false);
         }
-        echo $form->field($comment, 'category_id')->hiddenInput(['value' => 2])->label(false);?>
+        echo $form->field($comment, 'category_id')->hiddenInput(['value' => 2])->label(false); ?>
         <?= $form->field($comment, 'news_id')->hiddenInput(['value' => $model->id])->label(false); ?>
 
         <?= $form->field($comment, 'text')->textarea(['maxlength' => true, 'rows' => 9, 'placeholder' => 'Введите текст комментария', 'class' => 'form-control comment-input-text'])->label(false); ?>
@@ -159,7 +175,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <?php ActiveForm::end(); ?>
     </div>
-    <?php Pjax::end();?>
+    <?php Pjax::end(); ?>
 </div>
 
 <script type="text/javascript">
@@ -174,14 +190,40 @@ $this->params['breadcrumbs'][] = $this->title;
             type: 'post',
             data: form.serialize(),
             success: function (response) {
-                if(response == "No") {
+                if (response == "No") {
                     alert(response);
                 }
-                else{
+                else {
                     $.pjax.reload({container: "#pjax-comment"});
                 }
             }
         });
         return false;
     });
+
+    $('body').on('click','.btn-moderate',function () {
+        var status = $(this).attr('data-status');
+        var thisOne = $(this);
+        $.ajax({
+            url: '/report/status',
+            type: 'post',
+            data: {id:<?=$model->id?>,status:status},
+            success: function (response) {
+                if (response == 1) {
+                    alert("Обращение одобрено и опубликовано  на сайте");
+                    thisOne.removeClass('btn-success').addClass('btn-danger');
+                    thisOne.text("Блокировать");
+                    thisOne.attr('data-status',0);
+                }
+                else {
+                    alert("Обращение заблокировано");
+                    thisOne.removeClass('btn-danger').addClass('btn-success');
+                    thisOne.text("Одобрить");
+                    thisOne.attr('data-status',1);
+                }
+            }
+        });
+
+        return false;
+    })
 </script>

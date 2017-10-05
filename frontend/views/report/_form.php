@@ -8,6 +8,7 @@ use kartik\select2\Select2;
 use yii\helpers\Url;
 use kartik\file\FileInput;
 use yii\bootstrap\Modal;
+use kartik\datetime\DateTimePicker;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Report */
@@ -67,8 +68,8 @@ $lkup=ArrayHelper::map($lookups,'key','value');
 
 
 
-    <!-- <div class="form-group">
-        <? /* echo '<label>Дата и время</label>';
+     <div class="form-group">
+        <? echo '<label>Дата и время</label>';
         echo DateTimePicker::widget([
             'model' => $model,
             'name' => 'date',
@@ -80,8 +81,8 @@ $lkup=ArrayHelper::map($lookups,'key','value');
                 //'startDate' => '01-Mar-2017 12:00 AM',
                 'todayHighlight' => true
             ]
-        ]); */ ?>
-    </div>-->
+        ]);?>
+    </div>
 
 
     <div class="form-group">
@@ -132,8 +133,59 @@ $lkup=ArrayHelper::map($lookups,'key','value');
         ],
     ])->label(false); ?>
 
+
+    <div class="img-drop" style="font-family: Arial,sans-serif">
+        <?php
+        $savedImagesCaption = [];
+        if ($model->isNewRecord) {
+            $savedImages = [];
+        } else {
+            $savedImages = $model->getThumbImages();
+            $captionArr = $model->getThumbs();
+            /*var_dump($captionArr);
+            die();*/
+            if ($model->getThumbs()!=null)
+            {
+                foreach ($captionArr as $image) {
+                    $savedImagesCaption[] = [
+                        "caption" => basename($image),
+                        "url" => "/site/remove-image",
+                        'key' => basename($image),
+                        'extra' => ['id' => $model->id,'controller'=>'report'],
+                    ];
+                }
+            }
+        }
+        echo $form->field($model, 'file[]')->widget(FileInput::classname(), [
+            'options' => ['multiple' => true, 'accept' => 'image/*'],
+            'pluginOptions' => [
+                'allowedFileExtensions' => ['jpg', 'gif', 'png'],
+                'initialPreview' => $savedImages,
+                'initialCaption' => '',
+                'uploadAsync' => false,
+                //'deleteUrl'=>'/site/remove-image',
+                //'data-key'=>[$savedImagesCaption,$model->id],
+                'initialPreviewConfig' => $savedImagesCaption,
+                'showCaption' => false,
+                'showRemove' => false,
+                'showUpload' => false,
+                'overwriteInitial' => false,
+
+                'fileActionSettings' => [
+                    'showZoom' => false,
+                    'showRemove'=>false,
+                    'indicatorNew' => '&nbsp;',
+                    //'removeIcon' => '<span class="glyphicon glyphicon-trash" title="Удалить"></span> ',
+                ],
+            ]
+        ]);
+        ?>
+    </div>
+
     <?= $form->field($model, 'lat')->hiddenInput(['value' => 0, 'class' => 'report_lat'])->label(false); ?>
     <?= $form->field($model, 'lon')->hiddenInput(['value' => 0, 'class' => 'report_lot'])->label(false); ?>
+    <?= $form->field($model, 'user_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false); ?>
+
 
     <div class="form-group map" id="map"></div>
 
