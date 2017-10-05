@@ -19,7 +19,7 @@ class AuthorityController extends \yii\rest\ActiveController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::className(),
-            'except' => ['index', 'view'],
+            'except' => ['index', 'view', 'depend'],
         ];
         /*$behaviors['access'] = [
             'class' => AccessControl::className(),
@@ -130,9 +130,9 @@ class AuthorityController extends \yii\rest\ActiveController
     }
 
     //compare maxId on depend table
-    /*public function actionDepend()
+    public function actionDepend()
     {
-        $row=Yii::$app->db->createCommand("SELECT * FROM depend WHERE `table_name`='category'")->queryOne();
-        return $row['last_update'];
-    }*/
+        $row=Yii::$app->db->createCommand("SELECT * FROM depend WHERE `table_name`='authority'")->queryOne();
+        return (int)$row['last_update'];
+    }
 }
