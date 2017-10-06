@@ -78,9 +78,9 @@ class ReportController extends \yii\rest\ActiveController
     }
 
     //compare maxId on depend table
-    /*public function actionDepend()
+    public function actionDepend()
     {
-        $row=Yii::$app->db->createCommand("SELECT * FROM depend WHERE `table_name`='category'")->queryOne();
+        $row=Yii::$app->db->createCommand("SELECT * FROM depend WHERE `table_name`='report'")->queryOne();
         return $row['last_update'];
-    }*/
+    }
 }
