@@ -48,17 +48,22 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '' => 'site/index',
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'page'],
                 [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'category',
+                    'class' => 'yii\rest\UrlRule', 
+                    'controller' => 'report',
                     'extraPatterns' => [
                         'GET depend' => 'depend',
-                    ],
+                    ]
                 ],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'page'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'report'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'comments'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'news'],
+                [
+                    'class' => 'yii\rest\UrlRule', 
+                    'controller' => 'news',
+                    'extraPatterns' => [
+                        'GET depend' => 'depend',
+                    ]
+                ],
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'authority',
