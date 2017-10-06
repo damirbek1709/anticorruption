@@ -189,6 +189,19 @@ class Report extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
+        //depend table holds timestamp of last table modification. it's for api
+        $dao=Yii::$app->db;
+        $voc=$dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='report'")->queryOne();
+        if(!$voc){
+            $dao->createCommand()->insert('depend', [
+                'table_name'=>'news',
+                'last_update' =>time(),
+            ])->execute();
+        }
+        else{
+            $dao->createCommand()->update('depend', ['last_update' =>time()], 'table_name="report"')->execute();
+        }
+
         $this->file = UploadedFile::getInstances($this, 'file');
         return parent::beforeSave($insert);
     }
