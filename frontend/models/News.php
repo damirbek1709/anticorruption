@@ -70,7 +70,7 @@ class News extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'description', 'text'], 'required'],
-            [['category_id', 'views', 'img','date','main_news'], 'safe'],
+            [['category_id', 'views','date','main_news','img'], 'safe'],
             [['text'], 'string'],
             [['title'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 600],
@@ -164,7 +164,9 @@ class News extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
-
+        if($this->file) {
+            $this->file = UploadedFile::getInstances($this, 'file');
+        }
         //depend table holds timestamp of last table modification. it's for api
         $dao=Yii::$app->db;
         $voc=$dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='news'")->queryOne();
@@ -177,8 +179,7 @@ class News extends \yii\db\ActiveRecord
         else{
             $dao->createCommand()->update('depend', ['last_update' =>time()], 'table_name="news"')->execute();
         }
-        
-        $this->file = UploadedFile::getInstances($this, 'file');
+
         return parent::beforeSave($insert);
     }
 
@@ -229,6 +230,10 @@ class News extends \yii\db\ActiveRecord
             $counter = 1;
             foreach ($this->file as $file) {
                 $filename = $counter.$now.".".$file->extension;
+                if($this->img==null && $counter==1){
+                    Yii::$app->db->createCommand()->update('news', ['img' => $filename], ['id' => $this->id])->execute();
+                }
+
                 $file->saveAs("{$dir}" . DIRECTORY_SEPARATOR . "{$filename}");
                 $image = $imagine->open(
                     Yii::getAlias('@webroot/images/news')
