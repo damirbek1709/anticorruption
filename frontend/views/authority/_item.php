@@ -50,20 +50,21 @@ echo Html::endTag("div");
 echo Html::beginTag('div',['class'=>'title_width_limiter']);
 echo Html::a($model->title, ['/authority/view', 'id' => $model->id], ['class' => 'authority_index_title']);
 echo Html::endTag('div');
-$actual_rating = $model->getRating($model->id) - 5;
+$rating=$model->getRating($model->id);
+$actual_rating = $rating - 5;
 if($model->getRating($model->id)==0){
     $actual_rating = "Нет оценок";
 }
-elseif ($model->getRating($model->id)<=5){
-    $actual_rating  = $model->getRating($model->id) - 6;
+elseif ($rating<=5){
+    $actual_rating  = $rating - 6;
 }
 echo Html::tag('div', "Рейтинг: <span class='inner_red'>".$actual_rating ."</span>", ['class' => 'news_date']);
 echo Html::tag('div', "Оценок: <span class='inner_red'>{$model->ratingCount}</span>", ['class' => 'news_date']);
-echo Html::tag('div', "Комментариев: <span class='inner_red'></span>", ['class' => 'news_date']);
+echo Html::tag('div', "Комментариев: <span class='inner_red'>{$model->commentsCount}</span>", ['class' => 'news_date']);
 echo Html::tag('div', "Обращений: <span class='inner_red'>{$model->reportCount}</span>", ['class' => 'news_date']);
 
 
-if($model->getRating($model->id)<5):?>
+if($rating<5):?>
 <style>
     #mark-<?=$model->id?> .rating-container .filled-stars{
         color: #b90302;

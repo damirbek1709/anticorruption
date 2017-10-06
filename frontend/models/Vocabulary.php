@@ -160,4 +160,20 @@ class Vocabulary extends \yii\db\ActiveRecord
         }
         return $myLocation;
     }
+
+    public function beforeSave($insert)
+    {
+        $dao=Yii::$app->db;
+        $voc=$dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='vocabulary'")->queryOne();
+        if(!$voc){
+            $dao->createCommand()->insert('depend', [
+                'table_name'=>'vocabulary',
+                'last_update' =>time(),
+            ])->execute();
+        }
+        else{
+            $dao->createCommand()->update('depend', ['last_update' =>time()], 'table_name="vocabulary"')->execute();
+        }
+        return parent::beforeSave($insert);
+    }
 }

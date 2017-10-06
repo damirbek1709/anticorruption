@@ -114,7 +114,7 @@ class Report extends \yii\db\ActiveRecord
     }
 
 
-    public function getDropdownItems($data_key = "")
+    public static function getDropdownItems($data_key = "")
     {
         $items = ArrayHelper::map(Vocabulary::find()->where(['parent' => 0, 'key' => $data_key])->all(), 'id', 'value');
         $new_arr = [];
@@ -124,7 +124,7 @@ class Report extends \yii\db\ActiveRecord
         return $new_arr;
     }
 
-    public function getAuthorities()
+    public static function getAuthorities()
     {
         $items = ArrayHelper::map(Authority::find()->where(['category_id' => 0])->all(), 'id', 'title');
         $new_arr = [];
@@ -134,7 +134,7 @@ class Report extends \yii\db\ActiveRecord
         return $new_arr;
     }
 
-    public function getSingleDrop($key){
+    public static function getSingleDrop($key){
         return ArrayHelper::map(Vocabulary::find()->where(['key' => $key])->all(),'id', 'value');
     }
 

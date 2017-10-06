@@ -9,6 +9,7 @@ use yii\widgets\ListView;
 
 $this->title = Yii::t('app', 'News');
 //$this->params['breadcrumbs'][] = $this->title;
+$title=$this->title;
 ?>
 <div class="news-index">
     <div class="main_heading">

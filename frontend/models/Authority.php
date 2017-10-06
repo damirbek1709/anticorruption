@@ -23,8 +23,6 @@ use frontend\models\Comments;
  * @property integer $id
  * @property string $title
  * @property string $text
- * @property double $rating
- * @property integer $votes
  * @property string $img
  */
 class Authority extends \yii\db\ActiveRecord
@@ -48,7 +46,7 @@ class Authority extends \yii\db\ActiveRecord
         return [
             [['title', 'text'], 'required'],
             [['text'], 'string'],
-            [['votes','category_id'], 'integer'],
+            [['category_id'], 'integer'],
             [['title', 'img'], 'string', 'max' => 255],
             [
                 'image',
@@ -81,7 +79,7 @@ class Authority extends \yii\db\ActiveRecord
     }
 
 
-    public function behaviors()
+    /*public function behaviors()
     {
         return [
             [
@@ -95,7 +93,7 @@ class Authority extends \yii\db\ActiveRecord
                 },
             ],
         ];
-    }
+    }*/
 
     /**
      * @inheritdoc
@@ -120,6 +118,19 @@ class Authority extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
+        //depend table holds timestamp of last table modification. it's for api
+        $dao=Yii::$app->db;
+        $voc=$dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='authority'")->queryOne();
+        if(!$voc){
+            $dao->createCommand()->insert('depend', [
+                'table_name'=>'authority',
+                'last_update' =>time(),
+            ])->execute();
+        }
+        else{
+            $dao->createCommand()->update('depend', ['last_update' =>time()], 'table_name="authority"')->execute();
+        }
+
         if ($this->image)
             $this->img = $this->image->name;
         return parent::beforeSave($insert);
@@ -141,7 +152,7 @@ class Authority extends \yii\db\ActiveRecord
 
     public function getReportCount()
     {
-        return $this->hasMany(Rating::className(), ['authority_id' => 'id'])->count();
+        return $this->hasMany(Report::className(), ['authority_id' => 'id'])->count();
     }
 
     public function afterSave($insert, $changedAttributes)

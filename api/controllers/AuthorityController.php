@@ -19,7 +19,7 @@ class AuthorityController extends \yii\rest\ActiveController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::className(),
-            'except' => ['index', 'view'],
+            'except' => ['index', 'view', 'depend'],
         ];
         /*$behaviors['access'] = [
             'class' => AccessControl::className(),
@@ -58,18 +58,19 @@ class AuthorityController extends \yii\rest\ActiveController
     public function prepareDataProvider()
     {
         //$select='id,title,parent,image';
-        $query =Authority::find()->asArray()->all();
-        /*$query =Authority::find()->all();
-        $row=[];
-        $titles=[];
-        foreach($query as $q){
-            $titles[$q->category_id][$q->id]=$q->title;
-
-            if($q->category_id==0){
-                
-            }
-        }*/
-        return $query;
+        $models=Authority::find()->all();
+        $items=[];
+        foreach($models as $k=>$model){
+            $items[$k]['id']=$model->id;
+            $items[$k]['title']=$model->title;
+            $items[$k]['text']=$model->text;
+            $items[$k]['img']=$model->img;
+            $items[$k]['parent_id']=$model->category_id;
+            $items[$k]['rating']=Authority::getRating($model->id);
+            $items[$k]['comments']=$model->commentsCount;
+            $items[$k]['reports']=$model->reportCount;
+        }
+        return $items;
     }
 
 
@@ -130,9 +131,9 @@ class AuthorityController extends \yii\rest\ActiveController
     }
 
     //compare maxId on depend table
-    /*public function actionDepend()
+    public function actionDepend()
     {
-        $row=Yii::$app->db->createCommand("SELECT * FROM depend WHERE `table_name`='category'")->queryOne();
-        return $row['last_update'];
-    }*/
+        $row=Yii::$app->db->createCommand("SELECT * FROM depend WHERE `table_name`='authority'")->queryOne();
+        return (int)$row['last_update'];
+    }
 }

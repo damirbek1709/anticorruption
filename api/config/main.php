@@ -59,18 +59,18 @@ return [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'report'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'comments'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'news'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'vocabulary'],
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'authority',
                     'extraPatterns' => [
                         'POST rate' => 'rate',
                         'GET userrate' => 'userrate',
+                        'GET depend' => 'depend',
                     ],
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'lookup',
+                    'controller' => 'vocabulary',
                     'extraPatterns' => [
                         'GET depend' => 'depend',
                     ],
