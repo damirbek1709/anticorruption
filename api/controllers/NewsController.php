@@ -30,6 +30,7 @@ class NewsController extends \yii\rest\ActiveController
     {
         $query =News::find();
 
+
         return new ActiveDataProvider([
             'query' => $query,
             'pagination' => [

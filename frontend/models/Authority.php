@@ -74,7 +74,7 @@ class Authority extends \yii\db\ActiveRecord
     }
 
 
-    public function behaviors()
+    /*public function behaviors()
     {
         return [
             [
@@ -88,7 +88,7 @@ class Authority extends \yii\db\ActiveRecord
                 },
             ],
         ];
-    }
+    }*/
 
     /**
      * @inheritdoc
@@ -113,6 +113,7 @@ class Authority extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
+        //depend table holds timestamp of last table modification. it's for api
         $dao=Yii::$app->db;
         $voc=$dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='authority'")->queryOne();
         if(!$voc){
@@ -146,7 +147,7 @@ class Authority extends \yii\db\ActiveRecord
 
     public function getReportCount()
     {
-        return $this->hasMany(Rating::className(), ['authority_id' => 'id'])->count();
+        return $this->hasMany(Report::className(), ['authority_id' => 'id'])->count();
     }
 
     public function afterSave($insert, $changedAttributes)
