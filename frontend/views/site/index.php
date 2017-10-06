@@ -23,7 +23,7 @@ $this->title = Yii::t('app', 'Антикоррупционный портал К
 
 <div class="slider_wrap">
     <?php
-    $news = News::find()->where(['main_news'=>1])->orderBy(['date' => SORT_DESC])->limit(3)->all();
+    $news = News::find()->where(['main_news' => 1])->orderBy(['date' => SORT_DESC])->limit(3)->all();
     ?>
 
     <div class="demo">
@@ -31,16 +31,15 @@ $this->title = Yii::t('app', 'Антикоррупционный портал К
             <ul id="content-slider" class="content-slider">
                 <?php
                 foreach ($news as $new) {
-                    if ($new->main_news == 1) {
-                        echo Html::beginTag("li", []);
-                        echo Html::beginTag("div", ['class' => 'slider_cover']);
-                        echo Html::beginTag("div", ['class' => 'slider_bg']);
-                        echo $new->getMainImg();
-                        echo Html::endTag("div");
-                        echo Html::endTag("div");
-                        echo Html::a($new->title, ['/news/view', 'id' => $new->id], ['class' => 'slider_title']);
-                        echo Html::endTag("li");
-                    }
+                    echo Html::beginTag("li", []);
+                    echo Html::beginTag("div", ['class' => 'slider_cover']);
+                    echo Html::beginTag("div", ['class' => 'slider_bg']);
+                    echo $new->getMainImg();
+                    echo Html::endTag("div");
+                    echo Html::endTag("div");
+                    echo Html::a($new->title, ['/news/view', 'id' => $new->id], ['class' => 'slider_title']);
+                    echo Html::endTag("li");
+
                 }
                 ?>
             </ul>
@@ -80,7 +79,7 @@ $this->title = Yii::t('app', 'Антикоррупционный портал К
     <?= Yii::t('app', 'Карта коррупции'); ?>
 </div>
 <div id="map_index" class="map"></div>
-<?php echo $this->render('reports')?>
+<?php echo $this->render('reports') ?>
 
 
 

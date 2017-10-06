@@ -32,7 +32,7 @@ class ReportController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['view', 'index','get-locations'],
+                        'actions' => ['index','get-locations'],
                         'roles' => ['?', '@','admin']
                     ],
                     [
@@ -51,7 +51,17 @@ class ReportController extends Controller
                             return false;
                         }
                     ],
-
+                    [
+                        'allow' => true,
+                        'actions' => ['view'],
+                        'roles' => ['?', '@','admin'],
+                        'matchCallback' => function ($rule, $action) {
+                            if (Yii::$app->user->can('admin') || $this->isUserAuthor() || $this->isApproved()) {
+                                return true;
+                            }
+                            return false;
+                        }
+                    ],
                 ],
             ],
         ];
@@ -240,5 +250,10 @@ class ReportController extends Controller
     protected function isUserAuthor()
     {
         return $this->findModel(Yii::$app->request->get('id'))->user_id == Yii::$app->user->id;
+    }
+
+    protected function isApproved()
+    {
+        return $this->findModel(Yii::$app->request->get('id'))->status == 1;
     }
 }

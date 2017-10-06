@@ -49,7 +49,7 @@ class Comments extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'email', 'text'], 'required'],
-            [['date','news_id','category_id'], 'safe'],
+            [['date','news_id','category_id','report_id'], 'safe'],
             [['text'], 'string'],
             [['name', 'email'], 'string', 'max' => 255],
         ];

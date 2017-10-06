@@ -65,6 +65,9 @@ $lkup=ArrayHelper::map($lookups,'key','value');
         )->label(false);
     ?>
 
+
+
+
      <div class="form-group">
         <? echo '<label>Дата и время</label>';
         echo DateTimePicker::widget([
@@ -79,36 +82,6 @@ $lkup=ArrayHelper::map($lookups,'key','value');
                 'todayHighlight' => true
             ]
         ]);?>
-    </div>
-
-
-    <div class="form-group">
-        <div id="user-contact" class="col-md-6" style="padding-left: 0">
-            <?= $form->field($model, 'author',[
-                'template' =>
-                    '<div class="form-group rel">{input}<span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="'.$lkup['lookup_name'].'"></span>{error}</div>'])->textInput(['placeholder' => 'Введите ваше имя', 'class' => 'form-control sharper'])->label(false); ?>
-            <?= $form->field($model, 'email',[
-                'template' =>
-                    '<div class="form-group rel">{input}<span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="'.$lkup['lookup_email'].'"></span>{error}</div>'])->textInput(['placeholder' => '@электронная почта', 'class' => 'form-control sharper'])->label(false); ?>
-            <?= $form->field($model, 'contact',[
-                'template' =>
-                    '<div class="form-group rel">{input}<span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="'.$lkup['lookup_contact'].'"></span>{error}</div>'])->textInput(['placeholder' => 'Ваши контакты', 'class' => 'form-control sharper'])->label(false); ?>
-        </div>
-
-        <div class="col-md-6" style="padding-right: 0">
-            <div class="border-maker anonym_height">
-                <div class="radio-row">
-
-                    <?= $form->field($model, 'anonymous', [
-                        'template' => "<ul><li>{input}\n{label}\n</li></ul><div class=\"check\">
-                                        <div class=\"inside\"></div>
-                                    </div>",
-                        'labelOptions' => ['for' => 'report-anonymous','class'=>'anon-label'],
-                    ])->input('checkbox',['class'=>'input_checker','value'=>0])->label('Я хочу подать анонимное объявление') ?>
-                    <span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="<?=$lkup['lookup_anonym']?>" data-placement="bottom"></span>
-                </div>
-            </div>
-        </div>
     </div>
 
     <div class="clear"></div>
@@ -130,54 +103,6 @@ $lkup=ArrayHelper::map($lookups,'key','value');
         ],
     ])->label(false); ?>
 
-
-    <div class="img-drop" style="font-family: Arial,sans-serif">
-        <?php
-        $savedImagesCaption = [];
-        if ($model->isNewRecord) {
-            $savedImages = [];
-        } else {
-            $savedImages = $model->getThumbImages();
-            $captionArr = $model->getThumbs();
-            /*var_dump($captionArr);
-            die();*/
-            if ($model->getThumbs()!=null)
-            {
-                foreach ($captionArr as $image) {
-                    $savedImagesCaption[] = [
-                        "caption" => basename($image),
-                        "url" => "/site/remove-image",
-                        'key' => basename($image),
-                        'extra' => ['id' => $model->id,'controller'=>'report'],
-                    ];
-                }
-            }
-        }
-        echo $form->field($model, 'file[]')->widget(FileInput::classname(), [
-            'options' => ['multiple' => true, 'accept' => 'image/*'],
-            'pluginOptions' => [
-                'allowedFileExtensions' => ['jpg', 'gif', 'png'],
-                'initialPreview' => $savedImages,
-                'initialCaption' => '',
-                'uploadAsync' => false,
-                //'deleteUrl'=>'/site/remove-image',
-                //'data-key'=>[$savedImagesCaption,$model->id],
-                'initialPreviewConfig' => $savedImagesCaption,
-                'showCaption' => false,
-                'showRemove' => false,
-                'showUpload' => false,
-                'overwriteInitial' => false,
-
-                'fileActionSettings' => [
-                    'showZoom' => false,
-                    'showRemove'=>false,
-                    'indicatorNew' => '&nbsp;',
-                    //'removeIcon' => '<span class="glyphicon glyphicon-trash" title="Удалить"></span> ',
-                ],
-            ]
-        ]);
-        ?>
-    </div>
 
     <?= $form->field($model, 'lat')->hiddenInput(['value' => $model->lat, 'class' => 'report_lat'])->label(false); ?>
     <?= $form->field($model, 'lon')->hiddenInput(['value' => $model->lon, 'class' => 'report_lon'])->label(false); ?>

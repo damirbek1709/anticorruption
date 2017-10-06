@@ -57,6 +57,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="clear" style="margin-top: 20px;"></div>
 
+    <div id="map" class="map"></div>
+
+    <div class="clear" style="margin-top: 20px;"></div>
+
     <?php
     if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin) {
         if ($model->status == 0) {
@@ -90,44 +94,12 @@ $this->params['breadcrumbs'][] = $this->title;
              data-title="Антикоррупционный портал Кыргызской Республики">
         </div>
     </div>
+    <?php
+        echo Html::hiddenInput('lat', $model->lat,['class'=>'report_lat']);
+        echo Html::hiddenInput('lon', $model->lon,['class'=>'report_lon']);
+    ?>
 
-    <div id="map"></div>
-    <script>
 
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 6,
-                center: {lat: 41.2044, lng: 74.7661}
-            });
-
-            // Create an array of alphabetical characters used to label the markers.
-            var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-            // Add some markers to the map.
-            // Note: The code uses the JavaScript Array.prototype.map() method to
-            // create an array of markers based on a given "locations" array.
-            // The map() method here has nothing to do with the Google Maps API.
-            var markers = locations.map(function (location, i) {
-                return new google.maps.Marker({
-                    position: location,
-                    label: labels[i % labels.length]
-                });
-            });
-
-            // Add a marker clusterer to manage the markers.
-            var markerCluster = new MarkerClusterer(map, markers,
-                {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-        }
-
-        var locations = [
-            {lat: <?=$model->lat;?>, lng: <?=$model->lon;?>},
-        ]
-    </script>
-    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
-    </script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDyJXbc-D_sxlQgbxS6fa-ImOsz1dyyQs&callback=initMap">
-    </script>
 
     <?php Pjax::begin(['id' => 'pjax-comment']); ?>
     <div class="comment-box">
@@ -161,8 +133,7 @@ $this->params['breadcrumbs'][] = $this->title;
             echo $form->field($comment, 'name')->hiddenInput(['value' => Yii::$app->user->identity->username])->label(false);
             echo $form->field($comment, 'email')->hiddenInput(['value' => Yii::$app->user->identity->email])->label(false);
         }
-        echo $form->field($comment, 'category_id')->hiddenInput(['value' => 2])->label(false); ?>
-        <?= $form->field($comment, 'news_id')->hiddenInput(['value' => $model->id])->label(false); ?>
+        echo $form->field($comment, 'report_id')->hiddenInput(['value' => $model->id])->label(false); ?>
 
         <?= $form->field($comment, 'text')->textarea(['maxlength' => true, 'rows' => 9, 'placeholder' => 'Введите текст комментария', 'class' => 'form-control comment-input-text'])->label(false); ?>
 

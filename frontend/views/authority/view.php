@@ -38,7 +38,7 @@ $this->title = $model->title;
             <?php
             Modal::end();
             if ($model->img)
-                echo Html::img(Url::base() . '/images/authority/' . $model->img);
+                echo Html::img(Url::base() . "/images/authority/{$model->img}");
             else
                 echo Html::img(Url::base() . '/images/authority/herb.png');
             ?>
@@ -103,8 +103,8 @@ $this->title = $model->title;
                 ],
                 [
                     'label' => 'Сводка',
-                    'content' => 'Morbi tincidunt, dui sit amet facilisis feugiat...',
-                    'options' => ['id' => 'my-tab'],
+                    'content' => $this->render('brief', ['model' => $model]),
+                    'options' => ['tag' => 'div'],
                 ],
 
             ],

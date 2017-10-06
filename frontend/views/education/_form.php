@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use vova07\imperavi\Widget;
 use kartik\datetime\DateTimePicker;
@@ -16,7 +17,8 @@ use kartik\file\FileInput;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'img')->hiddenInput(['value' => '','class'=>'educattion-main-img'])->label(false); ?>
+
+    <?= $form->field($model, 'img')->hiddenInput(['value' => $model->img ? $moddel->img : '', 'class' => 'education-main-img'])->label(false); ?>
 
     <?=
     $form->field($model, 'text')->widget(Widget::className(), [
@@ -54,10 +56,7 @@ use kartik\file\FileInput;
         } else {
             $savedImages = $model->getThumbImages();
             $captionArr = $model->getThumbs();
-             /*var_dump($captionArr);
-             die();*/
-            if ($model->getThumbs()!=null)
-            {
+            if ($model->getThumbs() != null) {
                 foreach ($captionArr as $image) {
                     $savedImagesCaption[] = [
                         "caption" => basename($image),
@@ -82,12 +81,12 @@ use kartik\file\FileInput;
                                 <button type="button" class="kv-cust-btn btn btn-xs">
                                     <i class="glyphicon glyphicon-ok"> Основной рисунок</i>
                                 </button>
-                               <!-- <button type="button" class="kv-cust-btn btn btn-xs">
+                               <button type="button" class="kv-cust-btn btn btn-xs">
                                     <i class="glyphicon glyphicon-trash"></i>
-                                </button>-->
+                                </button>
                                 ',
                 'showCaption' => false,
-                'showRemove' => true,
+                'showRemove' => false,
                 'showUpload' => false,
                 'overwriteInitial' => false,
                 'fileActionSettings' => [
@@ -100,8 +99,17 @@ use kartik\file\FileInput;
         ?>
     </div>
 
+    <?php if ($model->isNewRecord) {
+        $button = Yii::t('app', 'Добавить');
+        $id = 0;
+    } else {
+        $button = "Сохранить";
+        $id = $model->id;
+    }
+    ?>
+
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Добавить') : Yii::t('app', 'Редактировать'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($button, ['class' =>'btn btn-success']); ?>
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -110,37 +118,37 @@ use kartik\file\FileInput;
 
 <script type="text/javascript">
     var myId = $('.model_id').attr('id');
-    $('.img-main').on('click', function () {
+    var controller = 'education';
+    var id = <?=$id?>;
 
-        $('.img-main').removeClass('picked-main');
-        $(this).addClass('picked-main');
-        var name = $(this).siblings('.thumb-img').attr('name');
-        $.ajax({
-            url: "/object/main",
-            type: "post",
-            data: {name: name, id: myId},
-            cache: false
-        });
+    $('body').on('click', '.btn-img-remove', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        $(this).parents('.kv-preview-thumb').fadeOut();
+
+        if (id > 0) {
+            var name = $(this).parents('.file-actions').siblings('.file-footer-caption').attr('title');
+            $.ajax({
+                url: "<?=Url::base() . '/site/remove-image'?>",
+                type: "post",
+                data: {id: id, controller: controller, name: name},
+                cache: false
+            });
+        }
     });
 
-    $('.img-delete').on('click', function () {
-        var name = $(this).siblings('.thumb-img').attr('name');
-        $(this).parent().fadeOut();
-        $.ajax({
-            url: "/object/remove",
-            type: "post",
-            data: {id: myId, name: name},
-            cache: false
-        });
+    $('body').on('fileselect', '#education-file', function (event, numFiles, label) {
+        if (id == 0) {
+            $('.education-main-img').val(label);
+        }
     });
-
 
     $('body').on('click', '.kv-cust-btn', function () {
         var name = $(this).parents('.file-actions').siblings('.file-footer-caption').attr('title');
         $('.kv-cust-btn').removeClass('btn-main-img');
         $(this).addClass('btn-main-img');
-        $('.kv-cust-btn').css({'color':'#000','background-color':'#ddd'});
-        $('.educattion-main-img').val(name);
+        $('.kv-cust-btn').css({'color': '#000', 'background-color': '#ddd'});
+        $('.education-main-img').val(name);
     });
 </script>
 

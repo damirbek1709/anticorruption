@@ -104,11 +104,12 @@ class Authority extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'title' => Yii::t('app', 'Гос.орган'),
-            'text' => Yii::t('app', 'Текст о гос.органе'),
-            'rating' => Yii::t('app', 'Рейтинг'),
-            'votes' => Yii::t('app', 'Кол-во голосов'),
-            'img' => Yii::t('app', 'Рисунок'),
+            'title' => Yii::t('app', 'Title'),
+            'text' => Yii::t('app', 'Text'),
+            'rating' => Yii::t('app', 'Rating'),
+            'votes' => Yii::t('app', 'Votes'),
+            'img' => Yii::t('app', 'Img'),
+            'image' => Yii::t('app', 'Рисунок'),
         ];
     }
 
