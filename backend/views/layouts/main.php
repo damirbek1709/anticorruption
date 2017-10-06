@@ -36,7 +36,9 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
+        ['label' => 'Обращение о коррупции', 'url' => ['/report/index']],
+        ['label' => 'Гос.Органы', 'url' => ['/authority/index']],
+        ['label' => 'Новости', 'url' => ['/news/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/user/security/login']];

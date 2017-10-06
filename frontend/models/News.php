@@ -225,22 +225,26 @@ class News extends \yii\db\ActiveRecord
             FileHelper::createDirectory($thumbDir);
 
             $imagine = Image::getImagine();
+            $now = time();
+            $counter = 1;
             foreach ($this->file as $file) {
-                $file->saveAs("{$dir}" . DIRECTORY_SEPARATOR . "{$file->baseName}.{$file->extension}");
+                $filename = $counter.$now.".".$file->extension;
+                $file->saveAs("{$dir}" . DIRECTORY_SEPARATOR . "{$filename}");
                 $image = $imagine->open(
                     Yii::getAlias('@webroot/images/news')
-                    . "/{$this->id}/{$file->baseName}.{$file->extension}", ['quality' => 100]);
+                    . "/{$this->id}/{$filename}", ['quality' => 100]);
 
                 $image->resize(new Box(440, 270))->save(Yii::getAlias('@webroot/images/news/')
-                    ."{$this->id}/". $file->baseName.".".$file->extension, ['quality' => 100]);
+                    ."{$this->id}/". $filename, ['quality' => 100]);
 
-                Image::thumbnail($dir . '/' . "{$file->baseName}.{$file->extension}", 440, 270)->save($dir . '/' . "{$file->baseName}.{$file->extension}", ['quality' => 100]);
+                Image::thumbnail($dir . '/' . "{$filename}", 440, 270)->save($dir . '/' . "{$filename}", ['quality' => 100]);
 
                 $image->resize(new Box(135, 100))->save(Yii::getAlias('@webroot/images/news/')
                     .
-                    "{$this->id}/thumbs/{$file->baseName}.{$file->extension}", ['quality' => 100]);
+                    "{$this->id}/thumbs/{$filename}", ['quality' => 100]);
 
-                Image::thumbnail($dir . '/' . "{$file->baseName}.{$file->extension}", 135, 100)->save($dir . '/thumbs/' . "{$file->baseName}.{$file->extension}", ['quality' => 100]);
+                Image::thumbnail($dir . '/' . "{$filename}", 135, 100)->save($dir . '/thumbs/' . "{$filename}", ['quality' => 100]);
+                $counter++;
             }
         }
     }

@@ -23,6 +23,8 @@ use frontend\models\Comments;
  * @property integer $id
  * @property string $title
  * @property string $text
+ * @property double $rating
+ * @property integer $votes
  * @property string $img
  */
 class Authority extends \yii\db\ActiveRecord
@@ -46,7 +48,7 @@ class Authority extends \yii\db\ActiveRecord
         return [
             [['title', 'text'], 'required'],
             [['text'], 'string'],
-            [['category_id'], 'integer'],
+            [['votes','category_id'], 'integer'],
             [['title', 'img'], 'string', 'max' => 255],
             [
                 'image',
@@ -79,7 +81,7 @@ class Authority extends \yii\db\ActiveRecord
     }
 
 
-    /*public function behaviors()
+    public function behaviors()
     {
         return [
             [
@@ -93,7 +95,7 @@ class Authority extends \yii\db\ActiveRecord
                 },
             ],
         ];
-    }*/
+    }
 
     /**
      * @inheritdoc
@@ -102,11 +104,12 @@ class Authority extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'title' => Yii::t('app', 'Гос.орган'),
-            'text' => Yii::t('app', 'Текст о гос.органе'),
-            'rating' => Yii::t('app', 'Рейтинг'),
-            'votes' => Yii::t('app', 'Кол-во голосов'),
-            'img' => Yii::t('app', 'Рисунок'),
+            'title' => Yii::t('app', 'Title'),
+            'text' => Yii::t('app', 'Text'),
+            'rating' => Yii::t('app', 'Rating'),
+            'votes' => Yii::t('app', 'Votes'),
+            'img' => Yii::t('app', 'Img'),
+            'image' => Yii::t('app', 'Рисунок'),
         ];
     }
 
@@ -118,19 +121,6 @@ class Authority extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
-        //depend table holds timestamp of last table modification. it's for api
-        $dao=Yii::$app->db;
-        $voc=$dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='authority'")->queryOne();
-        if(!$voc){
-            $dao->createCommand()->insert('depend', [
-                'table_name'=>'authority',
-                'last_update' =>time(),
-            ])->execute();
-        }
-        else{
-            $dao->createCommand()->update('depend', ['last_update' =>time()], 'table_name="authority"')->execute();
-        }
-
         if ($this->image)
             $this->img = $this->image->name;
         return parent::beforeSave($insert);
@@ -152,7 +142,7 @@ class Authority extends \yii\db\ActiveRecord
 
     public function getReportCount()
     {
-        return $this->hasMany(Report::className(), ['authority_id' => 'id'])->count();
+        return $this->hasMany(Rating::className(), ['authority_id' => 'id'])->count();
     }
 
     public function afterSave($insert, $changedAttributes)

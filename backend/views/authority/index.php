@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel frontend\models\EducationSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Новости');
+$this->title = Yii::t('app', 'Государственные органы');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="education-index">
@@ -15,21 +15,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Добавить новость'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
     <?= GridView::widget([
-        'summary' => false,
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'summary' => false,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'title',
-            'date',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                //'template' => '{view}{delete}',
+                ],
         ],
     ]); ?>
 </div>

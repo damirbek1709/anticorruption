@@ -23,7 +23,7 @@ use kartik\datetime\DateTimePicker;
         ]]); ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'img')->hiddenInput(['value' => '','class'=>'news-main-img'])->label(false); ?>
+    <?= $form->field($model, 'img')->hiddenInput(['value' => $model->img ? $moddel->img : '','class'=>'news-main-img'])->label(false); ?>
     <?= $form->field($model, 'description')->textArea(['maxlength' => true]) ?>
     <?= $form->field($model, 'category_id')->dropDownList(
         ArrayHelper::map(\frontend\models\Vocabulary::find()->where(['key'=>'news_category'])->all(), 'id', 'value')
@@ -59,16 +59,16 @@ use kartik\datetime\DateTimePicker;
                 'initialPreview' => $savedImages,
                 'initialCaption' => '',
                 'uploadAsync' => false,
-                //'deleteUrl'=>'/site/remove-image',
-                //'data-key'=>[$savedImagesCaption,$model->id],
+                'deleteUrl'=>'/site/remove-image',
+                'data-key'=>[$savedImagesCaption,$model->id],
                 'initialPreviewConfig' => $savedImagesCaption,
                 'otherActionButtons' => '
                                 <button type="button" class="kv-cust-btn btn btn-xs">
                                     <i class="glyphicon glyphicon-ok"> Основной рисунок</i>
                                 </button>
-                                <!--<button type="button" class="kv-cust-btn btn btn-xs btn-img-remove">
+                                <button type="button" class="kv-cust-btn btn btn-xs btn-img-remove">
                                     <i class="glyphicon glyphicon-trash"></i>
-                                </button>-->
+                                </button>
                                 ',
                 'showCaption' => false,
                 'showRemove' => false,
@@ -77,7 +77,7 @@ use kartik\datetime\DateTimePicker;
 
                 'fileActionSettings' => [
                     'showZoom' => false,
-                    'showRemove'=>false,
+                    'showRemove'=>true,
                     'indicatorNew' => '&nbsp;',
                     //'removeIcon' => '<span class="glyphicon glyphicon-trash" title="Удалить"></span> ',
                 ],
@@ -117,8 +117,18 @@ use kartik\datetime\DateTimePicker;
 
     <?= $form->field($model, 'main_news')->checkbox() ?>
 
+    <?php if($model->isNewRecord){
+        $button = Yii::t('app', 'Добавить');
+        $id = 0;
+    }
+    else{
+        $button = "Сохранить";
+        $id = $model->id;
+    }
+    ?>
+
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Добавить') : Yii::t('app', 'Сохранить'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($button, ['class' =>'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -126,29 +136,31 @@ use kartik\datetime\DateTimePicker;
 </div>
 
 <script type="text/javascript">
-
     var myId = $('.model_id').attr('id');
     var controller = 'news';
-    var id = <?=$model->id;?>;
+    var id = <?=$id?>;
 
-//    $('body').on('click','.btn-img-remove', function (e) {/*
-//        e.preventDefault();
-//        e.stopImmediatePropagation();*/
-//        $(this).parents('.kv-preview-thumb').fadeOut();
-//        var name = $(this).parents('.file-actions').siblings('.file-footer-caption').attr('title');
-//        $.ajax({
-//            url: "<?//=Url::base().'/site/remove-image'?>//",
-//            type: "post",
-//            data: {id: id,controller:controller,name:name},
-//            cache: false
-//        });
-//    });
+    $('body').on('click','.btn-img-remove', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        $(this).parents('.kv-preview-thumb').fadeOut();
 
-    $('body').on('fileselect', '#news-file',function(event, numFiles, label) {
-        var name =$('.kv-preview-thumb').find('.file-footer-caption').attr('title');
-        $('.news-main-img').val(name);
+        if(id>0) {
+            var name = $(this).parents('.file-actions').siblings('.file-footer-caption').attr('title');
+            $.ajax({
+                url: "<?=Url::base() . '/site/remove-image'?>",
+                type: "post",
+                data: {id: id, controller: controller, name: name},
+                cache: false
+            });
+        }
     });
 
+    $('body').on('fileselect', '#news-file',function(event, numFiles, label) {
+        if(id==0) {
+            $('.news-main-img').val(label);
+        }
+    });
 
     $('body').on('click', '.kv-cust-btn', function () {
         var name = $(this).parents('.file-actions').siblings('.file-footer-caption').attr('title');

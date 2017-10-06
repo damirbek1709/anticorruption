@@ -118,4 +118,18 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+.map {
+    height: 400px;
+    width: 100%;
+}
+.uploadcrop {
+    min-height: 203px;
+    width: 201px;
+    border: #286090 3px solid;
+    /* background-color: rgb(40, 96, 144); */
+}
+.kv-preview-thumb:nth-of-type(1) .kv-cust-btn {
+    background-color: #5cb85c;
+    color: #fff;
+}
 

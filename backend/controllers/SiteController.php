@@ -95,4 +95,12 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
+    public function actionCity()
+    {
+        $key = Yii::$app->request->post('city_id');
+        $coords = Vocabulary::getCityCoord($key);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $coords;
+    }
 }
