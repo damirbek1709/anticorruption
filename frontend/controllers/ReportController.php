@@ -45,7 +45,7 @@ class ReportController extends Controller
                         'actions' => ['update','delete'],
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
-                            if (Yii::$app->user->can('admin') || $this->isUserAuthor()) {
+                            if (Yii::$app->user->identity->isAdmin || $this->isUserAuthor()) {
                                 return true;
                             }
                             return false;
@@ -56,7 +56,7 @@ class ReportController extends Controller
                         'actions' => ['view'],
                         'roles' => ['?', '@','admin'],
                         'matchCallback' => function ($rule, $action) {
-                            if (Yii::$app->user->can('admin') || $this->isUserAuthor() || $this->isApproved()) {
+                            if (Yii::$app->user->identity->isAdmin || $this->isUserAuthor() || $this->isApproved()) {
                                 return true;
                             }
                             return false;

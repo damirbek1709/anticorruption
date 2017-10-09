@@ -93,6 +93,17 @@ class EducationController extends Controller
         }
     }
 
+    public function actionRemoveImage()
+    {
+        $controller = $_POST['controller'];
+        $id = $_POST['id'];
+        $name = $_POST['key'];
+
+        chmod(unlink(Yii::getAlias("@webroot/images/{$controller}/{$id}/thumbs/{$name}")), 0644);
+        chmod(unlink(Yii::getAlias("@webroot/images/{$controller}/{$id}/{$name}")), 0644);
+        return '{}';
+    }
+
     /**
      * Deletes an existing Education model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

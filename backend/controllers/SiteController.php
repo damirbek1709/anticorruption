@@ -26,10 +26,14 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout','login', 'index','remove-image'],
                         'allow' => true,
                         'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return Yii::$app->user->identity->isAdmin;
+                        }
                     ],
+
                 ],
             ],
             'verbs' => [
@@ -61,6 +65,18 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    public function actionRemoveImage()
+    {
+        $controller = $_POST['controller'];
+        $id = $_POST['id'];
+        $name = $_POST['key'];
+        @chmod( Yii::getAlias("@frontend/web/images/{$controller}/{$id}/thumbs/{$name}"), 0777 );
+        @chmod( Yii::getAlias("@frontend/web/images/{$controller}/{$id}/{$name}"), 0777 );
+        unlink(Yii::getAlias("@frontend/web/images/{$controller}/{$id}/thumbs/{$name}"));
+        unlink(Yii::getAlias("@frontend/web/images/$controller/{$id}/{$name}"),0777);
+        return '{}';
     }
 
     /**
