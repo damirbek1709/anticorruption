@@ -254,12 +254,12 @@ class Report extends \yii\db\ActiveRecord
                     Yii::getAlias('@webroot/images/report')
                     . "/{$this->id}/{$file->baseName}.{$file->extension}", ['quality' => 100]);
 
-                $image->resize(new Box(440, 270))->save(Yii::getAlias('@webroot/images/report/')
+                $image->thumbnail(new Box(440, 270))->save(Yii::getAlias('@webroot/images/report/')
                     ."{$this->id}/". $file->baseName.".".$file->extension, ['quality' => 100]);
 
                 Image::thumbnail($dir . '/' . "{$file->baseName}.{$file->extension}", 440, 270)->save($dir . '/' . "{$file->baseName}.{$file->extension}", ['quality' => 100]);
 
-                $image->resize(new Box(135, 100))->save(Yii::getAlias('@webroot/images/report/')
+                $image->thumbnail(new Box(135, 100))->save(Yii::getAlias('@webroot/images/report/')
                     .
                     "{$this->id}/thumbs/{$file->baseName}.{$file->extension}", ['quality' => 100]);
 

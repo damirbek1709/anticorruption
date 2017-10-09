@@ -3,11 +3,12 @@
 namespace backend\controllers;
 
 use Yii;
-use frontend\models\News;
+use backend\models\News;
 use frontend\models\NewsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Html;
 
 /**
  * NewsController implements the CRUD actions for News model.
@@ -87,7 +88,7 @@ class NewsController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('@frontend/views/news/update', [
+            return $this->render('update', [
                 'model' => $model,
             ]);
         }

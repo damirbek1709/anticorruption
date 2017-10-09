@@ -81,7 +81,7 @@ use kartik\file\FileInput;
                                 <button type="button" class="kv-cust-btn btn btn-xs">
                                     <i class="glyphicon glyphicon-ok"> Основной рисунок</i>
                                 </button>
-                               <button type="button" class="kv-cust-btn btn btn-xs">
+                               <button type="button" class="kv-cust-btn btn btn-xs btn-img-remove">
                                     <i class="glyphicon glyphicon-trash"></i>
                                 </button>
                                 ',
@@ -129,7 +129,7 @@ use kartik\file\FileInput;
         if (id > 0) {
             var name = $(this).parents('.file-actions').siblings('.file-footer-caption').attr('title');
             $.ajax({
-                url: "<?=Url::base() . '/site/remove-image'?>",
+                url: "<?=Url::base() . '/education/remove-image'?>",
                 type: "post",
                 data: {id: id, controller: controller, name: name},
                 cache: false

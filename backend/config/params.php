@@ -1,4 +1,7 @@
 <?php
 return [
-    'adminEmail' => 'admin@example.com',
+    'aliases' => [
+        '@front' => 'anticorruption.kg',
+        '@back' => 'anticorruption.kg/admin',
+    ],
 ];

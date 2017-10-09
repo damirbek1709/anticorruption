@@ -19,9 +19,9 @@ return [
             'enableUnconfirmedLogin' => false,
             'confirmWithin' => 21600,
             'cost' => 12,
-            'admins' => ['admin'],
+            'admins' => ['admin','damirbek@gmail.com'],
             'controllerMap' => [
-                'admin' => 'backend\controllers\user\AdminController',
+                //'admin' => 'backend\controllers\user\AdminController',
                 //'security' => 'frontend\controllers\user\SecurityController'
             ],
         ],
@@ -90,6 +90,13 @@ return [
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
+        ],
+
+        'urlManagerFrontEnd' => [
+            'class' => 'yii\web\urlManager',
+            'baseUrl' => '/',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
         ],
 
     ],
