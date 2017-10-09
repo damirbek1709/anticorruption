@@ -74,6 +74,25 @@ class ReportController extends \yii\rest\ActiveController
     {
         $model = Report::find()->where(['id'=>$id])->with('authority', 'department', 'city', 'comments','type')->asArray()->one();
         /*unset($model['form_id'],$model['location_id']);*/
+
+        //images
+        $alias=Yii::getAlias("@frontend");
+        $dir=$alias."/web/images/report/".$id;
+        $imgs=[];
+        if(is_dir($dir)){
+            $imgs=scandir($dir);
+            foreach($imgs as $k=>$img){
+                if(in_array($img,['.','..'])){
+                    unset($imgs[$k]);
+                }
+                elseif(strpos($img,'thumbs')!==false){
+                    unset($imgs[$k]);
+                }
+            }
+            $imgs = array_values($imgs);
+        }
+        $model['images']=$imgs;
+
         return $model;
     }
 
