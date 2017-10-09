@@ -268,4 +268,36 @@ class Report extends \yii\db\ActiveRecord
         }
     }
 
+    public function fields()
+    {
+        return [
+            'id','title','text','date','lon','lat',
+            'anonymous','author','email','contact','views',
+            'comments_count'=>function($model) {
+                return $model->commentsCount;
+            },
+            'authority_id',
+            'authority_title' => function($model) {
+                return $model->authority->title;
+            },
+            'category_id',
+            'category_title' => function($model) {
+                return $model->department->value;
+            },
+            'city_id',
+            'city_title' => function($model) {
+                return $model->city->value;
+            },
+            'type_id',
+            'type_title' => function($model) {
+                return $model->type->value;
+            }
+        ];
+    }
+
+    public function extraFields()
+    {
+        return ['profile'];
+    }
+
 }
