@@ -28,7 +28,20 @@ class NewsController extends \yii\rest\ActiveController
 
     public function prepareDataProvider()
     {
+        // prepare and return a data provider for the "index" action
+        $request=\Yii::$app->request->get();
+        $ctg='';$text='';
+        if(isset($request['category_id'])){
+            $ctg=$request['category_id'];
+        }
+        if(isset($request['text'])){
+            $text=$request['text'];
+        }
         $query =News::find();
+
+
+        $query->filterWhere(['category_id'=>$ctg]);
+        $query->andFilterWhere(['or',['like','title',$text],['like','text',$text]]);
 
 
         return new ActiveDataProvider([
