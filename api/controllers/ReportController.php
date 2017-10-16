@@ -31,18 +31,28 @@ class ReportController extends \yii\rest\ActiveController
     {
         // prepare and return a data provider for the "index" action
         $request=\Yii::$app->request->get();
-        $ctg='';$verified='';$text='';$user_id="";
-        if(isset($request['category_id'])){
-            $ctg=$request['category_id'];
-        }
-        if(isset($request['verified'])){
-            $verified=$request['verified'];
-        }
+        $text='';$user_id=""; $authority_id="";$category_id="";
+        $type_id="";$city_id="";$anonymous="";
         if(isset($request['text'])){
             $text=$request['text'];
         }
         if(isset($request['user_id'])){
             $user_id=$request['user_id'];
+        }
+        if(isset($request['authority_id'])){
+            $authority_id=$request['authority_id'];
+        }
+        if(isset($request['category_id'])){
+            $category_id=$request['category_id'];
+        }
+        if(isset($request['type_id'])){
+            $type_id=$request['type_id'];
+        }
+        if(isset($request['city_id'])){
+            $city_id=$request['city_id'];
+        }
+        if(isset($request['anonymous'])){
+            $anonymous=$request['anonymous'];
         }
         $query =Report::find();
 
@@ -50,6 +60,11 @@ class ReportController extends \yii\rest\ActiveController
         //$query->filterWhere(['incident_verified'=>$verified]);
         $query->andFilterWhere(['or',['like','title',$text],['like','text',$text]]);
         $query->andFilterWhere(['user_id'=> $user_id]);
+        $query->andFilterWhere(['authority_id'=> $authority_id]);
+        $query->andFilterWhere(['category_id'=> $category_id]);
+        $query->andFilterWhere(['type_id'=> $type_id]);
+        $query->andFilterWhere(['city_id'=> $city_id]);
+        $query->andFilterWhere(['anonymous'=> $anonymous]);
 
         /*if($ctg){
             $query->joinWith([
@@ -74,6 +89,25 @@ class ReportController extends \yii\rest\ActiveController
     {
         $model = Report::find()->where(['id'=>$id])->with('authority', 'department', 'city', 'comments','type')->asArray()->one();
         /*unset($model['form_id'],$model['location_id']);*/
+
+        //images
+        $alias=Yii::getAlias("@frontend");
+        $dir=$alias."/web/images/report/".$id;
+        $imgs=[];
+        if(is_dir($dir)){
+            $imgs=scandir($dir);
+            foreach($imgs as $k=>$img){
+                if(in_array($img,['.','..'])){
+                    unset($imgs[$k]);
+                }
+                elseif(strpos($img,'thumbs')!==false){
+                    unset($imgs[$k]);
+                }
+            }
+            $imgs = array_values($imgs);
+        }
+        $model['images']=$imgs;
+
         return $model;
     }
 
