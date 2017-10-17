@@ -32,7 +32,7 @@ class ReportController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index','get-locations'],
+                        'actions' => ['index','get-locations','view'],
                         'roles' => ['?', '@','admin']
                     ],
                     [
@@ -53,7 +53,7 @@ class ReportController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['view'],
+                        'actions' => ['update'],
                         'roles' => ['?', '@','admin'],
                         'matchCallback' => function ($rule, $action) {
                             if (Yii::$app->user->identity->isAdmin || $this->isUserAuthor() || $this->isApproved()) {
