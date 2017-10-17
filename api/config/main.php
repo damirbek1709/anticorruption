@@ -88,10 +88,9 @@ return [
                         'POST forgot' => 'forgot',
                     ],
                 ],
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'documents',
-                ],
+                ['class' => 'yii\rest\UrlRule','controller' => 'documents'],
+                ['class' => 'yii\rest\UrlRule','controller' => 'analytics'],
+                ['class' => 'yii\rest\UrlRule','controller' => 'education'],
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
