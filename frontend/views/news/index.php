@@ -7,13 +7,12 @@ use yii\widgets\ListView;
 /* @var $searchModel app\models\NewsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'News');
+$this->title = $news_title;
 //$this->params['breadcrumbs'][] = $this->title;
-$title=$this->title;
 ?>
 <div class="news-index">
     <div class="main_heading">
-        <?=$title;?>
+        <?=$this->title;?>
     </div>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 

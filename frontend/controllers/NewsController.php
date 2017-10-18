@@ -57,6 +57,7 @@ class NewsController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'news_title'=>Yii::t('app','Новости')
         ]);
     }
 
@@ -76,7 +77,7 @@ class NewsController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'title'=>$title
+            'news_title'=>$title
         ]);
     }
 
