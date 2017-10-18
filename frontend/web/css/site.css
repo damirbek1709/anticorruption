@@ -1205,3 +1205,7 @@ a.desc:after {
     background-position: -218px -162px;
     float: left;
 }
+.top-menu .dropdown-menu > .active > a{
+    background-color:#fff;
+    color:#000;
+}
