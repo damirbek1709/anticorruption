@@ -13,7 +13,7 @@ echo Html::beginTag('span', ['class' => 'news_view_count']);
 echo Html::tag('span', "", ['class' => 'glyphicon glyphicon-eye-open ']);
 echo Html::tag('span', "Просмотров: {$model->views}", ['style' => 'margin-left:5px']);
 echo Html::endTag('span');
-echo Html::tag('span', Yii::$app->formatter->asTime($model->date), ['class' => 'news_date']);
+echo Html::tag('span', date("H:i",strtotime($model->date)), ['class' => 'news_date']);
 echo Html::tag('div', '', ['class' => 'clear']);
 echo Html::a($model->title, ['/news/view', 'id' => $model->id], ['class' => 'news_title']);
 echo Html::tag('div', $model->description, ['class' => 'news_description']);
