@@ -4,7 +4,9 @@ use yii\helpers\Html;
 use yii\helpers\BaseStringHelper; ?>
 
 <?php
-echo Html::tag('span', "Имя: <span class='inner'>{$model->author}</span>", ['class' => 'news_date right-marginer']);
+if($model->author) {
+    echo Html::tag('span', "Имя: <span class='inner'>{$model->author}</span>", ['class' => 'news_date right-marginer']);
+}
 echo Html::tag('span', Yii::$app->formatter->asDate($model->date), ['class' => 'news_date right-marginer']);
 echo Html::tag('span', "Просмотров: <span class='inner'>{$model->views}</span>", ['class' => 'news_date right-marginer']);
 echo Html::tag('span', "Комментарии: <span class='inner'>{$model->commentsCount}</span>", ['class' => 'news_date right-marginer']);

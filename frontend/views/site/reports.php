@@ -22,8 +22,11 @@ use yii\helpers\BaseStringHelper;
         <?php $reports = Report::find()->orderBy(['date' => SORT_DESC])->all();
         foreach ($reports as $report) {
             echo Html::beginTag('div', ['class' => 'report_block']);
-            echo Html::tag('span', "Имя: <span class='inner'>{$report->author}</span>", ['class' => 'news_date right-marginer']);
-            echo Html::tag('span', Yii::$app->formatter->asDate($report->date), ['class' => 'news_date right-marginer']);
+            if($report->author){
+                echo Html::tag('span', "Имя: <span class='inner'>{$report->author}</span>", ['class' => 'news_date right-marginer']);
+
+            }
+           echo Html::tag('span', Yii::$app->formatter->asDate($report->date), ['class' => 'news_date right-marginer']);
             echo Html::tag('span', "Просмотров: <span class='inner'>{$report->views}</span>", ['class' => 'news_date right-marginer']);
             echo Html::tag('span', "Комментарии: <span class='inner'>{$report->commentsCount}</span>", ['class' => 'news_date right-marginer']);
             echo Html::tag('div', '', ['clear' => 'both']);
