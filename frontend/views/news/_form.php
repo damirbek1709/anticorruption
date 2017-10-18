@@ -100,15 +100,21 @@ use kartik\datetime\DateTimePicker;
     ]); ?>
 
     <div class="form-group">
-        <? echo '<label>Дата и время</label>';
+        <? echo '<label>Установите дату и время</label>';
+        //echo date("Y-m-d h:i");
+        $current_date = $model->date;
+        if($model->isNewRecord){
+            $current_date = date("Y-m-d H:i:s");
+        }
         echo DateTimePicker::widget([
             'model' => $model,
             'name' => 'date',
             'attribute' => 'date',
-            'options' => ['placeholder' => 'Установите дату и время'],
+            'value'=> $current_date,
+            'options' => ['placeholder' => $current_date],
             //'convertFormat' => true,
             'pluginOptions' => [
-                //'format' => 'd-M-Y g:i A',
+                //'format' => 'yyyy-mm-dd H:i',
                 //'startDate' => '01-Mar-2017 12:00 AM',
                 'todayHighlight' => true
             ]

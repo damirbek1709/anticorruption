@@ -159,6 +159,9 @@ class News extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
+        if(!$this->date){
+            $this->date = date("Y-m-d H:i:s");
+        }
         $this->file = UploadedFile::getInstances($this, 'file');
         //depend table holds timestamp of last table modification. it's for api
         $dao = Yii::$app->db;
