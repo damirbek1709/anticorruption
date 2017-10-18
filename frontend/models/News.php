@@ -1,5 +1,7 @@
 <?php
+
 namespace frontend\models;
+
 use Yii;
 use yii\helpers\FileHelper;
 use yii\helpers\Url;
@@ -12,6 +14,7 @@ use yii\web\UploadedFile;
 use yii\db\ActiveRecord;
 use yii\behaviors\AttributeBehavior;
 use frontend\models\Vocabulary;
+
 /**
  * This is the model class for table "news".
  *
@@ -24,6 +27,7 @@ class News extends \yii\db\ActiveRecord
 {
     public $file;
     public $crop_info;
+
     /**
      * @inheritdoc
      */
@@ -31,6 +35,7 @@ class News extends \yii\db\ActiveRecord
     {
         return 'news';
     }
+
     public function behaviors()
     {
         return [
@@ -46,14 +51,17 @@ class News extends \yii\db\ActiveRecord
             ],
         ];
     }
+
     public function getComments()
     {
         return $this->hasMany(Comments::className(), ['news_id' => 'id'])->orderBy(['date' => SORT_ASC]);
     }
+
     public function getCommentsCount()
     {
         return $this->hasMany(Comments::className(), ['news_id' => 'id'])->count();
     }
+
     /**
      * @inheritdoc
      */
@@ -61,13 +69,14 @@ class News extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'description', 'text'], 'required'],
-            [['category_id', 'views','date','main_news','img'], 'safe'],
+            [['category_id', 'views', 'date', 'main_news', 'img'], 'safe'],
             [['text'], 'string'],
             [['title'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 600],
             ['crop_info', 'safe'],
         ];
     }
+
     /**
      * @inheritdoc
      */
@@ -86,6 +95,7 @@ class News extends \yii\db\ActiveRecord
             'file' => Yii::t('app', 'Фото'),
         ];
     }
+
     function getThumbs()
     {
         $result = [];
@@ -107,6 +117,7 @@ class News extends \yii\db\ActiveRecord
             return $result;
         }
     }
+
     function getThumbImages()
     {
         $result = [];
@@ -128,46 +139,51 @@ class News extends \yii\db\ActiveRecord
         }
         return $result;
     }
-    public function getThumb(){
-        if($this->img)
-            return Html::img(Url::base()."/images/news/{$this->id}/thumbs/{$this->img}");
+
+    public function getThumb()
+    {
+        if ($this->img)
+            return Html::img(Url::base() . "/images/news/{$this->id}/thumbs/{$this->img}");
         else
             return "";
     }
-    public function getMainImg(){
-        if($this->img) {
+
+    public function getMainImg()
+    {
+        if ($this->img) {
             return Html::img(Url::base() . "/images/news/{$this->id}/{$this->img}");
-        }
-        else{
+        } else {
             return Html::img(Url::base() . "/images/site/template.png");
         }
     }
+
     public function beforeSave($insert)
     {
-        if($this->file) {
-            $this->file = UploadedFile::getInstances($this, 'file');
-        }
+        $this->file = UploadedFile::getInstances($this, 'file');
         //depend table holds timestamp of last table modification. it's for api
-        $dao=Yii::$app->db;
-        $voc=$dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='news'")->queryOne();
-        if(!$voc){
+        $dao = Yii::$app->db;
+        $voc = $dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='news'")->queryOne();
+        if (!$voc) {
             $dao->createCommand()->insert('depend', [
-                'table_name'=>'news',
-                'last_update' =>time(),
+                'table_name' => 'news',
+                'last_update' => time(),
             ])->execute();
-        }
-        else{
-            $dao->createCommand()->update('depend', ['last_update' =>time()], 'table_name="news"')->execute();
+        } else {
+            $dao->createCommand()->update('depend', ['last_update' => time()], 'table_name="news"')->execute();
         }
         return parent::beforeSave($insert);
     }
-    public function getCategory(){
+
+    public function getCategory()
+    {
         return $this->hasOne(Vocabulary::className(), ['id' => 'category_id']);
     }
+
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_favorited']);
     }
+
     function getImages()
     {
         $result = [];
@@ -189,6 +205,7 @@ class News extends \yii\db\ActiveRecord
         }
         return $result;
     }
+
     public function afterSave($insert, $changedAttributes)
     {
         if (count($this->file)) {
@@ -200,8 +217,8 @@ class News extends \yii\db\ActiveRecord
             $now = time();
             $counter = 1;
             foreach ($this->file as $file) {
-                $filename = $counter.$now.".".$file->extension;
-                if($this->img==null && $counter==1){
+                $filename = $counter . $now . "." . $file->extension;
+                if ($this->img == null && $counter == 1) {
                     Yii::$app->db->createCommand()->update('news', ['img' => $filename], ['id' => $this->id])->execute();
                 }
                 $file->saveAs("{$dir}" . DIRECTORY_SEPARATOR . "{$filename}");
@@ -209,7 +226,7 @@ class News extends \yii\db\ActiveRecord
                     Yii::getAlias('@webroot/images/news')
                     . "/{$this->id}/{$filename}", ['quality' => 100]);
                 $image->resize(new Box(440, 270))->save(Yii::getAlias('@webroot/images/news/')
-                    ."{$this->id}/". $filename, ['quality' => 100]);
+                    . "{$this->id}/" . $filename, ['quality' => 100]);
                 Image::thumbnail($dir . '/' . "{$filename}", 440, 270)->save($dir . '/' . "{$filename}", ['quality' => 100]);
                 $image->resize(new Box(135, 100))->save(Yii::getAlias('@webroot/images/news/')
                     .

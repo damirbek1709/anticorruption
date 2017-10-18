@@ -12,11 +12,6 @@ use yii\widgets\Pjax;
 
 $this->title = $model->title;
 ?>
-<meta property="og:title" content="Антикоррупционный портал Кыргызской Республики <?=$model->title?>" />
-<meta property="og:description" content="<?=$model->description;?>" />
-<meta property="og:url" content="htpp://www.anticorruption.kg/news/<?=$model->id?>" />
-<meta property="og:image" content="<?=$model->getThumb();?>" />
-
 
 <div class="news-view">
 
