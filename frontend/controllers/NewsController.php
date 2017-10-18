@@ -66,7 +66,7 @@ class NewsController extends Controller
         $searchModel = new NewsSearch();
         $dataProvider = new ActiveDataProvider([
             'query' => NewsSearch::find()->where(['category_id'=>$id]),
-            //'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
+            'sort' => ['defaultOrder' => ['date' => SORT_DESC]],
             'pagination' => [
                 'pageSize' => 12,
             ],
