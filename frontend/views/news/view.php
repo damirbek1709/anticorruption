@@ -19,7 +19,7 @@ $this->title = $model->title;
     <?
     echo Html::tag('span', Yii::$app->formatter->asDate($model->date), ['class' => 'news_date']);
     echo Html::tag('span', '', ['class' => 'glyphicon glyphicon-time date-clock']);
-    echo Html::tag('span', Yii::$app->formatter->asTime($model->date), ['class' => 'news_date']);
+    echo Html::tag('span', date("H:i",strtotime($model->date)), ['class' => 'news_date']);
     echo Html::beginTag('span', ['class' => 'news_view_count']);
     echo Html::tag('span', "", ['class' => 'glyphicon glyphicon-eye-open ']);
     echo Html::tag('span', "Просмотров: {$model->views}", ['style' => 'margin-left:5px']);
@@ -83,7 +83,7 @@ $this->title = $model->title;
             echo Html::tag('div', '', ['class' => 'comment-avatar']);
             echo Html::tag('div', $item->name, ['class' => 'comment-author']);
             echo Html::tag('div', $item->text, ['class' => 'comment-text']);
-            echo Html::tag('span', Yii::$app->formatter->asTime($model->date), ['class' => 'comment-date']);
+            echo Html::tag('span', date("H:i",strtotime($model->date)), ['class' => 'comment-date']);
             echo Html::tag('span', Yii::$app->formatter->asDate($model->date), ['class' => 'comment-date']);
             if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin) {
                 echo Html::tag('div', '', ['class' => 'clear']);

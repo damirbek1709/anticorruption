@@ -63,7 +63,7 @@ $this->title = Yii::t('app', 'Антикоррупционный портал К
         echo Html::tag('span', "", ['class' => 'glyphicon glyphicon-eye-open ']);
         echo Html::tag('span', "Просмотров: {$new->views}", ['style' => 'margin-left:5px']);
         echo Html::endTag('span');
-        echo Html::tag('span', Yii::$app->formatter->asTime($new->date), ['class' => 'news_date']);
+        echo Html::tag('span', date("H:i",strtotime($model->date)), ['class' => 'news_date']);
         echo Html::tag('div', '', ['class' => 'clear']);
         echo Html::a($new->title, ['/news/view', 'id' => $new->id], ['class' => 'news_title']);
         echo Html::tag('div', $new->description, ['class' => 'news_description']);
