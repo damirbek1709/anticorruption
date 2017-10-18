@@ -68,4 +68,19 @@ class Analytics extends \yii\db\ActiveRecord
             'text' => Yii::t('app', 'Текст'),
         ];
     }
+
+    public function getAuthor()
+    {
+        return $this->hasOne(User::className(), ['id' => 'author_id']);
+    }
+
+    public function fields()
+    {
+        return [
+            'id','title','text','date','author_id',
+            'author_name' => function($model) {
+                return $model->author->username;
+            }
+        ];
+    }
 }
