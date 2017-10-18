@@ -160,6 +160,11 @@ class News extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         $this->file = UploadedFile::getInstances($this, 'file');
+        var_dump($this->file);
+        die();
+        if($this->isNewRecord && !$this->img){
+
+        }
         //depend table holds timestamp of last table modification. it's for api
         $dao = Yii::$app->db;
         $voc = $dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='news'")->queryOne();
