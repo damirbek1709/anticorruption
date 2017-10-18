@@ -32,7 +32,7 @@ class ReportController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index','get-locations','view'],
+                        'actions' => ['index','get-locations','view','authority','sector','city','type'],
                         'roles' => ['?', '@','admin']
                     ],
                     [

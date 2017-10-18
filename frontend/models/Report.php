@@ -166,6 +166,7 @@ class Report extends \yii\db\ActiveRecord
 
     function getImages()
     {
+        $result = [];
         if (is_dir(Yii::getAlias("@webroot/images/report/{$this->id}"))) {
             $images = FileHelper::findFiles(Yii::getAlias("@webroot/images/report/{$this->id}"), [
                 'recursive' => false,

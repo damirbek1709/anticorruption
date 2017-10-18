@@ -990,20 +990,19 @@ a.desc:after {
     font-size: 15px;
 }
 .report-text:before{
-    content: '“';
+    background-image: url("../images/site/icons.png");
     font-size: 75px;
     font-family: 'Noto Serif', serif;
     font-style: italic;
     color: #1f77bb;
     height: 30px;
+    width: 30px;
     display: inline-block;
-    opacity: 0.6;
     margin-top: -10px;
 }
 .report-padder{
     padding-left: 40px;
     display: block;
-    margin-top: -55px;
 }
 .cat-row{
     font-size: 15px;
@@ -1198,4 +1197,11 @@ a.desc:after {
 .gallery-view-img{
     margin: 0 10px 10px 0;
     display: inline-block;
+}
+.quotes{
+    width: 30px;
+    height: 21px;
+    background-image: url(../images/site/icons.png);
+    background-position: -218px -162px;
+    float: left;
 }

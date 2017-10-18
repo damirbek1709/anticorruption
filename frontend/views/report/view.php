@@ -58,7 +58,9 @@ $this->params['breadcrumbs'][] = $this->title;
     echo Html::tag('span', "Просмотров: {$model->views}", ['style' => 'margin-left:5px']);
     echo Html::endTag('span');
     ?>
-    <div class="report-text">
+    <div class="clear" style="margin-top: 10px"></div>
+    <div class="quotes"></div>
+    <div class="report-text" style="margin-bottom: 25px;">
         <div class="report-padder">
             <?= $model->text; ?>
             <div class="clear"></div>
@@ -183,7 +185,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($comment, 'text')->textarea(['maxlength' => true, 'rows' => 9, 'placeholder' => 'Введите текст комментария', 'class' => 'form-control comment-input-text'])->label(false); ?>
 
         <div class="form-group">
-            <div class="g-recaptcha" data-sitekey="6LfuDjAUAAAAAMoT6P4SAA7HOu1hVa2ibjIAx8Vn"></div>
+            <div class="g-recaptcha" data-sitekey="6LegmzEUAAAAAGucd6quo8hn50mfC6xt_WF9u43P"></div>
         </div>
 
         <div class="form-group">
