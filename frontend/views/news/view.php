@@ -10,8 +10,14 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $model app\models\News */
 
-$this->title = $model->title;;
+$this->title = $model->title;
 ?>
+<meta property="og:title" content="Антикоррупционный портал Кыргызской Республики <?=$model->title?>" />
+<meta property="og:description" content="<?=$model->description;?>" />
+<meta property="og:url" content="htpp://www.anticorruption.kg/news/<?=$model->id?>" />
+<meta property="og:image" content="<?=$model->getThumb();?>" />
+
+
 <div class="news-view">
 
     <div class="minor_heading"><?= Html::encode($this->title) ?></div>
@@ -28,25 +34,25 @@ $this->title = $model->title;;
     <?php
     $images = $model->getImages();
     if (!empty($images)):
-    ?>
-    <div class="demo" style="margin-top:10px;">
-        <div class="item" style="margin-bottom:20px;">
-            <ul id="content-slider" class="content-slider">
-                <?php
-                foreach ($images as $image) {
-                    echo Html::beginTag("li", []);
-                    echo Html::beginTag("div", ['class' => 'slider_cover']);
-                    echo Html::beginTag("div", ['class' => 'slider_bg']);
-                    echo $image;
-                    echo Html::endTag("div");
-                    echo Html::endTag("div");
-                    echo Html::endTag("li");
-                }
-                ?>
-            </ul>
+        ?>
+        <div class="demo" style="margin-top:10px;">
+            <div class="item" style="margin-bottom:20px;">
+                <ul id="content-slider" class="content-slider">
+                    <?php
+                    foreach ($images as $image) {
+                        echo Html::beginTag("li", []);
+                        echo Html::beginTag("div", ['class' => 'slider_cover']);
+                        echo Html::beginTag("div", ['class' => 'slider_bg']);
+                        echo $image;
+                        echo Html::endTag("div");
+                        echo Html::endTag("div");
+                        echo Html::endTag("li");
+                    }
+                    ?>
+                </ul>
+            </div>
         </div>
-    </div>
-    <?php endif;?>
+    <?php endif; ?>
 
     <div class="news_category_italic"><?= $model->category->value; ?></div>
     <div class="news_text"><?= $model->text; ?></div>
@@ -84,6 +90,11 @@ $this->title = $model->title;;
             echo Html::tag('div', $item->text, ['class' => 'comment-text']);
             echo Html::tag('span', Yii::$app->formatter->asTime($model->date), ['class' => 'comment-date']);
             echo Html::tag('span', Yii::$app->formatter->asDate($model->date), ['class' => 'comment-date']);
+            if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin) {
+                echo Html::tag('div', '', ['class' => 'clear']);
+                echo Html::tag('button', 'Редактировать', ['class' => 'btn btn-primary comment-update', 'style' => 'margin:10px 10px 0 0;', 'data-id' => $item->id]);
+                echo Html::tag('button', 'Удалить', ['class' => 'btn btn-danger comment-delete', 'style' => 'margin:10px 0 0 0;', 'data-id' => $item->id]);
+            }
             echo Html::endTag('div');
         }
         ?>
@@ -104,8 +115,7 @@ $this->title = $model->title;;
             echo $form->field($comment, 'name')->hiddenInput(['value' => Yii::$app->user->identity->username])->label(false);
             echo $form->field($comment, 'email')->hiddenInput(['value' => Yii::$app->user->identity->email])->label(false);
         }
-        echo $form->field($comment, 'category_id')->hiddenInput(['value' => 2])->label(false);
-        ?>
+        echo $form->field($comment, 'category_id')->hiddenInput(['value' => 2])->label(false); ?>
         <?= $form->field($comment, 'news_id')->hiddenInput(['value' => $model->id])->label(false); ?>
 
 
@@ -145,6 +155,49 @@ $this->title = $model->title;;
                 else {
                     $.pjax.reload({container: "#pjax-comment"});
                 }
+            }
+        });
+        return false;
+    });
+
+    $('body').on('click', '.comment-delete', function (e) {
+        e.preventDefault();
+        var commentId = $(this).attr('data-id');
+        var thisOne = $(this);
+        $.ajax({
+            url: '/comments/remove',
+            type: 'post',
+            data: {id: commentId},
+            success: function () {
+                $.pjax.reload({container: "#pjax-comment"});
+            }
+        });
+        return false;
+    });
+
+
+    $('body').on('click', '.comment-update', function (e) {
+        e.preventDefault();
+
+        var thisOne = $(this);
+        if(!thisOne.hasClass('sender')) {
+            thisOne.addClass('sender');
+            thisOne.before("<textarea class='form-control editable-comment comment-input-text'>" + thisOne.siblings('.comment-text').text() + "</textarea>");
+        }
+
+    });
+    $('body').on('click', '.sender', function (e) {
+        e.preventDefault();
+        var commentId = $(this).attr('data-id');
+        var thisOne = $(this);
+        var newText = thisOne.siblings('.editable-comment').val();
+
+        $.ajax({
+            url: '/comments/edit',
+            type: 'post',
+            data: {id: commentId, text: newText},
+            success: function () {
+                $.pjax.reload({container: "#pjax-comment"});
             }
         });
         return false;

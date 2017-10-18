@@ -19,6 +19,11 @@ use yii\helpers\Html;
             echo Html::tag('div', $item->text, ['class' => 'comment-text']);
             echo Html::tag('span', Yii::$app->formatter->asTime($item->date), ['class' => 'comment-date']);
             echo Html::tag('span', Yii::$app->formatter->asDate($item->date), ['class' => 'comment-date']);
+            if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin) {
+                echo Html::tag('div', '', ['class' => 'clear']);
+                echo Html::tag('button', 'Редактировать', ['class' => 'btn btn-primary comment-update', 'style' => 'margin:10px 10px 0 0;', 'data-id' => $item->id]);
+                echo Html::tag('button', 'Удалить', ['class' => 'btn btn-danger comment-delete', 'style' => 'margin:10px 0 0 0;', 'data-id' => $item->id]);
+            }
             echo Html::endTag('div');
         }
         ?>
@@ -74,6 +79,47 @@ use yii\helpers\Html;
                 else{
                     $.pjax.reload({container: "#pjax-comment"});
                 }
+            }
+        });
+        return false;
+    });
+
+    $('body').on('click', '.comment-update', function (e) {
+        e.preventDefault();
+
+        var thisOne = $(this);
+        if(!thisOne.hasClass('sender')) {
+            thisOne.addClass('sender');
+            thisOne.before("<textarea class='form-control editable-comment comment-input-text'>" + thisOne.siblings('.comment-text').text() + "</textarea>");
+        }
+    });
+    $('body').on('click', '.sender', function (e) {
+        e.preventDefault();
+        var commentId = $(this).attr('data-id');
+        var thisOne = $(this);
+        var newText = thisOne.siblings('.editable-comment').val();
+
+        $.ajax({
+            url: '/comments/edit',
+            type: 'post',
+            data: {id: commentId, text: newText},
+            success: function () {
+                $.pjax.reload({container: "#pjax-comment"});
+            }
+        });
+        return false;
+    });
+
+    $('body').on('click', '.comment-delete', function (e) {
+        e.preventDefault();
+        var commentId = $(this).attr('data-id');
+        var thisOne = $(this);
+        $.ajax({
+            url: '/comments/remove',
+            type: 'post',
+            data: {id: commentId},
+            success: function () {
+                $.pjax.reload({container: "#pjax-comment"});
             }
         });
         return false;

@@ -1195,3 +1195,7 @@ a.desc:after {
 .tabs-authority .tab-content{
     padding: 15px 0;
 }
+.gallery-view-img{
+    margin: 0 10px 10px 0;
+    display: inline-block;
+}

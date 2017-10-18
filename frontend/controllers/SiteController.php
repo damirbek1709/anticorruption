@@ -22,6 +22,8 @@ use yii\helpers\FileHelper;
  */
 class SiteController extends Controller
 {
+
+    public $layout;
     /**
      * @inheritdoc
      */
@@ -87,6 +89,7 @@ class SiteController extends Controller
 
     public function actionMap()
     {
+        $this->layout = "long";
         return $this->render('map');
     }
 

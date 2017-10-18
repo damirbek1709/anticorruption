@@ -164,6 +164,33 @@ class Report extends \yii\db\ActiveRecord
         return $this->hasMany(Comments::className(), ['report_id' => 'id'])->count();
     }
 
+    function getImages()
+    {
+        if (is_dir(Yii::getAlias("@webroot/images/report/{$this->id}"))) {
+            $images = FileHelper::findFiles(Yii::getAlias("@webroot/images/report/{$this->id}"), [
+                'recursive' => false,
+                'except' => ['.gitignore'],
+            ]);
+            $thumbs = FileHelper::findFiles(Yii::getAlias("@webroot/images/report/{$this->id}/thumbs"), [
+                'recursive' => false,
+                'except' => ['.gitignore'],
+            ]);
+            $result = [];
+            $thumbResult = [];
+
+            foreach ($images as $image) {
+                $result[] = str_replace([Yii::getAlias('@webroot'), DIRECTORY_SEPARATOR], [Yii::getAlias('@web'), '/'], $image);
+            }
+
+            foreach ($thumbs as $thumb) {
+                $thumbResult[] = str_replace([Yii::getAlias('@webroot'), DIRECTORY_SEPARATOR], [Yii::getAlias('@web'), '/'], $thumb);
+            }
+            $result =  array_combine($thumbResult, $result);
+        }
+
+        return $result;
+    }
+
 
 
     /**
@@ -253,11 +280,6 @@ class Report extends \yii\db\ActiveRecord
                 $image = $imagine->open(
                     Yii::getAlias('@webroot/images/report')
                     . "/{$this->id}/{$file->baseName}.{$file->extension}", ['quality' => 100]);
-
-                $image->thumbnail(new Box(440, 270))->save(Yii::getAlias('@webroot/images/report/')
-                    ."{$this->id}/". $file->baseName.".".$file->extension, ['quality' => 100]);
-
-                Image::thumbnail($dir . '/' . "{$file->baseName}.{$file->extension}", 440, 270)->save($dir . '/' . "{$file->baseName}.{$file->extension}", ['quality' => 100]);
 
                 $image->thumbnail(new Box(135, 100))->save(Yii::getAlias('@webroot/images/report/')
                     .

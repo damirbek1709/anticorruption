@@ -84,7 +84,7 @@ AppAsset::register($this);
                 <?= Html::tag('div', $formated_num . ' ' . Yii::t('app', 'обращений о коррупции'), ['class' => 'report_number']); ?>
                 <?
                 echo Html::beginTag('button', ['class' => 'button_transparent']);
-                echo Html::a( Yii::t('app', 'Сообщить о коррупции'),['/report/create'], ['class' => 'report_label']);
+                echo Html::a(Yii::t('app', 'Сообщить о коррупции'), ['/report/create'], ['class' => 'report_label']);
                 echo Html::tag('span', Yii::t('app', ''), ['class' => 'report_arrow']);
                 echo Html::endTag('button');
                 ?>
@@ -107,30 +107,30 @@ AppAsset::register($this);
                 'label' => Yii::t('app', 'Новости'),
                 'items' => [
                     ['label' => Yii::t('app', 'Новостная лента'), 'url' => ['/news/category/133']],
-                    ['label' => Yii::t('app', 'Сводка коррупционных преступлений'),  'url' => ['/news/category/132']],
+                    ['label' => Yii::t('app', 'Сводка коррупционных преступлений'), 'url' => ['/news/category/132']],
                     ['label' => Yii::t('app', 'Достижения'), 'url' => ['/news/category/130']],
-                    ['label' => Yii::t('app', 'Пресс-релизы гос.органов'),  'url' => ['/news/category/131']],
+                    ['label' => Yii::t('app', 'Пресс-релизы гос.органов'), 'url' => ['/news/category/131']],
                 ],
             ],
             [
                 'label' => Yii::t('app', 'Антикоррупционное образование'),
-                'url'=>['/education']
+                'url' => ['/education']
             ],
             [
                 'label' => Yii::t('app', 'Отчеты'),
                 'items' => [
-                    ['label' => Yii::t('app', 'Исследования'), 'url' => ['/document/category','id'=>146]],
-                    ['label' => Yii::t('app', 'Отчеты гос.органов'),  'url' => ['/document/category','id'=>147]],
-                    ['label' => Yii::t('app', 'Международное сотрудничество'),  'url' => ['/document/category','id'=>148]],
-                    ['label' => Yii::t('app', 'Декларация о доходах'),  'url' => ['/document/category','id'=>149]],
+                    ['label' => Yii::t('app', 'Исследования'), 'url' => ['/document/category', 'id' => 146]],
+                    ['label' => Yii::t('app', 'Отчеты гос.органов'), 'url' => ['/document/category', 'id' => 147]],
+                    ['label' => Yii::t('app', 'Международное сотрудничество'), 'url' => ['/document/category', 'id' => 148]],
+                    ['label' => Yii::t('app', 'Декларация о доходах'), 'url' => ['/document/category', 'id' => 149]],
                 ],
             ],
             [
                 'label' => Yii::t('app', 'Борьба с коррупцией'),
                 'items' => [
-                    ['label' => Yii::t('app', 'Профилактика коррупции в госорганах'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Общественные советы'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Комплайенс-офицеры'), 'url' => '#'],
+                    ['label' => Yii::t('app', 'Профилактика коррупции в госорганах'), 'url' => ['/page/view', 'id' => 1]],
+                    ['label' => Yii::t('app', 'Общественные советы'), 'url' => ['/page/view', 'id' => 2]],
+                    ['label' => Yii::t('app', 'Комплайенс-офицеры'), 'url' => ['/page/view', 'id' => 3]],
                 ],
             ],
             [
@@ -138,13 +138,17 @@ AppAsset::register($this);
                 'url' => ['/site/map'],
                 'items' => [
                     ['label' => Yii::t('app', 'Сообщить о коррупции'), 'url' => ['report/create']],
-                    ['label' => Yii::t('app', 'Рассказать о коррупционной схеме'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Все обращения'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Мне интересно знать, Откуда?'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Коррупционный рейтинг?'), 'url' => '#'],
+                    ['label' => Yii::t('app', 'Рассказать о коррупционной схеме'),
+                        'url' => [ 'report/create'],
+                        'data-method' => 'POST',
+                        'data-params' => ['param' => 1],
+                        ],
+                        ['label' => Yii::t('app', 'Все обращения'), 'url' => ['report/index']],
+                        ['label' => Yii::t('app', 'Мне интересно знать, Откуда?'), 'url' => ['report/create']],
+                        ['label' => Yii::t('app', 'Коррупционный рейтинг'), 'url' => ['authority/index']],
+                    ],
                 ],
-            ],
-        ];
+            ];
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-left'],
             'items' => $menuItems,
@@ -168,13 +172,13 @@ AppAsset::register($this);
                             <?= Yii::t('app', 'Новости'); ?>
                         </div>
                         <?= Html::tag("span", "", ["class" => "l-list l-news-list"]); ?>
-                        <?= Html::tag("div", Html::a(Yii::t('app', 'Новостная лента'), ['/news/category','id'=>133]), ["class" => "left_category_list"]); ?>
+                        <?= Html::tag("div", Html::a(Yii::t('app', 'Новостная лента'), ['/news/category', 'id' => 133]), ["class" => "left_category_list"]); ?>
                         <?= Html::tag("span", "", ["class" => "l-list l-victim-list"]); ?>
-                        <?= Html::tag("div", Html::a(Yii::t('app', 'Сводка коррупционных преступлений'), ['/news/category','id'=>132]), ["class" => "left_category_list"]); ?>
+                        <?= Html::tag("div", Html::a(Yii::t('app', 'Сводка коррупционных преступлений'), ['/news/category', 'id' => 132]), ["class" => "left_category_list"]); ?>
                         <?= Html::tag("span", "", ["class" => "l-list l-achiev-list"]); ?>
-                        <?= Html::tag("div", Html::a(Yii::t('app', 'Достижения'), ['/news/category','id'=>130]), ["class" => "left_category_list"]); ?>
+                        <?= Html::tag("div", Html::a(Yii::t('app', 'Достижения'), ['/news/category', 'id' => 130]), ["class" => "left_category_list"]); ?>
                         <?= Html::tag("span", "", ["class" => "l-list l-press-list"]); ?>
-                        <?= Html::tag("div", Html::a(Yii::t('app', 'Пресс-релизы гос.органов'), ['/news/category','id'=>131], ['class' => 'rmb']), ["class" => "left_category_list"]); ?>
+                        <?= Html::tag("div", Html::a(Yii::t('app', 'Пресс-релизы гос.органов'), ['/news/category', 'id' => 131], ['class' => 'rmb']), ["class" => "left_category_list"]); ?>
                     </div>
                 </div>
                 <div class="l_report_block">
@@ -221,7 +225,7 @@ AppAsset::register($this);
                             echo Html::tag('div', '', ['class' => 'clear']);
                         }
                         ?>
-                        <div class="more"><sup><?=Html::a('...',['/news/category','id'=>132])?></sup></div>
+                        <div class="more"><sup><?= Html::a('...', ['/news/category', 'id' => 132]) ?></sup></div>
                     </div>
                 </div>
 
@@ -240,7 +244,7 @@ AppAsset::register($this);
                             echo Html::tag('div', '', ['class' => 'clear']);
                         }
                         ?>
-                        <div class="more"><sup><?=Html::a('...',['/news/category','id'=>131])?></sup></div>
+                        <div class="more"><sup><?= Html::a('...', ['/news/category', 'id' => 131]) ?></sup></div>
                     </div>
                 </div>
 
@@ -258,7 +262,7 @@ AppAsset::register($this);
                             echo Html::tag('div', '', ['class' => 'clear']);
                         }
                         ?>
-                        <div class="more"><sup><?=Html::a('...',['/education/index'])?></sup></div>
+                        <div class="more"><sup><?= Html::a('...', ['/education/index']) ?></sup></div>
                     </div>
                 </div>
             </div>
@@ -282,7 +286,7 @@ AppAsset::register($this);
                             echo Html::tag('div', '', ['class' => 'clear']);
                         }
                         ?>
-                        <div class="more"><sup><?=Html::a('...',['/news/category','id'=>130])?></sup></div>
+                        <div class="more"><sup><?= Html::a('...', ['/news/category', 'id' => 130]) ?></sup></div>
                     </div>
                 </div>
                 <div class="sidebar_authority">
@@ -300,9 +304,8 @@ AppAsset::register($this);
                                     echo Html::beginTag("div", ['class' => 'sidebar_slider_bg']);
                                     if ($authority->img) {
                                         echo Html::a(Html::img(Url::base() . "/images/authority/s_{$authority->img}"), ['/authority/view', 'id' => $authority->id]);
-                                    }
-                                    else{
-                                        echo Html::a(Html::img(Url::base() . "/images/site/herb.png",['style'=>'width:150px']), ['/authority/view', 'id' => $authority->id]);
+                                    } else {
+                                        echo Html::a(Html::img(Url::base() . "/images/site/herb.png", ['style' => 'width:150px']), ['/authority/view', 'id' => $authority->id]);
                                     }
                                     echo Html::endTag("div");
                                     echo Html::endTag("div");
@@ -365,8 +368,8 @@ AppAsset::register($this);
                             echo Html::tag('div', '', ['class' => 'clear']);
                         }
                         ?>
-                        <div class="more"><sup><?=Html::a('...',['/analytics/index'])?></sup></div>
-                        <div class="add_opinion"><?=Html::a('Добавить мнение',['/analytics/create'])?></div>
+                        <div class="more"><sup><?= Html::a('...', ['/analytics/index']) ?></sup></div>
+                        <div class="add_opinion"><?= Html::a('Добавить мнение', ['/analytics/create']) ?></div>
                     </div>
                 </div>
 
