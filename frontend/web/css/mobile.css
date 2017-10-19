@@ -26,6 +26,8 @@ body {
 }
 .mobile_cover .navbar-inverse .navbar-brand{
     color: #000;
+    font-size: 13px!important;
+    text-transform: uppercase!important;
 }
 .herb_logo{
     width: 42px;
