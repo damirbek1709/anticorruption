@@ -159,7 +159,7 @@ class News extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
-        if(!$this->date){
+        if($this->isNewRecord && !$this->date){
             $this->date = date("Y-m-d H:i:s");
         }
         $this->file = UploadedFile::getInstances($this, 'file');
