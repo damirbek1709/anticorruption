@@ -293,6 +293,7 @@ a.desc:after {
 .right_news_block {
 
     display: table;
+    width: 100%;
 }
 
 .news_title {
@@ -1209,3 +1210,7 @@ a.desc:after {
     background-color:#fff;
     color:#000;
 }
+.chameleon{
+    display: none;
+}
+
