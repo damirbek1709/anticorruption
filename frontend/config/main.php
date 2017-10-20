@@ -28,6 +28,29 @@ return [
         ],
     ],
     'components' => [
+        'authClientCollection' => [
+            'class'   => \yii\authclient\Collection::className(),
+            'clients' => [
+                'facebook' => [
+                    'class'        => 'dektrium\user\clients\Facebook',
+                    'clientId'     => '2026864364212005',
+                    'clientSecret' => '29f4870c9076767061dd83b6aa515241',
+                ],
+                'twitter' => [
+                    'class'          => 'dektrium\user\clients\Twitter',
+                    'consumerKey'    => 'AIw8j1pjMcH2QXUAPLaQQJ3SL',
+                    'consumerSecret' => '72HJCEZjjNU77TgrELQoskYpxhSuQslXciMolHrF9AW4lfnwbt',
+                ],
+
+                'google' => [
+                    'class'        => 'dektrium\user\clients\Google',
+                    'clientId'     => '170973181296-95l2bfoimt60cgoe7nairr0i0vt7kko7.apps.googleusercontent.com',
+                    'clientSecret' => '6RLc8LGSfLtm7NjXoPn8J8ad',
+                ],
+                // here is the list of clients you want to use
+                // you can read more in the "Available clients" section
+            ],
+        ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
             'baseUrl'=>''

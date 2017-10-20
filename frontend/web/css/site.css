@@ -293,7 +293,7 @@ a.desc:after {
 .right_news_block {
 
     display: table;
-    width: 100%;
+    width: auto;
 }
 
 .news_title {
