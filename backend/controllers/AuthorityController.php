@@ -28,6 +28,7 @@ class AuthorityController extends \yii\web\Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $this->alterDepend();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -42,6 +43,21 @@ class AuthorityController extends \yii\web\Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    private function alterDepend(){
+        //depend table holds timestamp of last table modification. it's for api
+        $dao=Yii::$app->db;
+        $voc=$dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='authority'")->queryOne();
+        if(!$voc){
+            $dao->createCommand()->insert('depend', [
+                'table_name'=>'authority',
+                'last_update' =>time(),
+            ])->execute();
+        }
+        else{
+            $dao->createCommand()->update('depend', ['last_update' =>time()], 'table_name="authority"')->execute();
         }
     }
 }

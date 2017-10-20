@@ -170,6 +170,18 @@ class ReportController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+        //depend table holds timestamp of last table modification. it's for api
+        $dao=Yii::$app->db;
+        $voc=$dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='report'")->queryOne();
+        if(!$voc){
+            $dao->createCommand()->insert('depend', [
+                'table_name'=>'report',
+                'last_update' =>time(),
+            ])->execute();
+        }
+        else{
+            $dao->createCommand()->update('depend', ['last_update' =>time()], 'table_name="report"')->execute();
+        }
 
         return $this->redirect(['index']);
     }
