@@ -14,7 +14,7 @@ $this->title = $model->title;
     <?
     echo Html::tag('span', Yii::$app->formatter->asDate($model->date), ['class' => 'news_date']);
     echo Html::tag('span', '', ['class' => 'glyphicon glyphicon-time date-clock']);
-    echo Html::tag('span', Yii::$app->formatter->asTime($model->date), ['class' => 'news_date']);
+    echo Html::tag('span', date("H:i",strtotime($model->date)), ['class' => 'news_date']);
     ?>
 
 

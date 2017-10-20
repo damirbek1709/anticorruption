@@ -12,19 +12,14 @@ use yii\widgets\Pjax;
 
 $this->title = $model->title;
 ?>
-<meta property="og:title" content="Антикоррупционный портал Кыргызской Республики <?=$model->title?>" />
-<meta property="og:description" content="<?=$model->description;?>" />
-<meta property="og:url" content="htpp://www.anticorruption.kg/news/<?=$model->id?>" />
-<meta property="og:image" content="<?=$model->getThumb();?>" />
 
-
-<div class="news-view">
+<div class="news-view mobile_padder">
 
     <div class="minor_heading"><?= Html::encode($this->title) ?></div>
     <?
     echo Html::tag('span', Yii::$app->formatter->asDate($model->date), ['class' => 'news_date']);
     echo Html::tag('span', '', ['class' => 'glyphicon glyphicon-time date-clock']);
-    echo Html::tag('span', Yii::$app->formatter->asTime($model->date), ['class' => 'news_date']);
+    echo Html::tag('span', date("H:i",strtotime($model->date)), ['class' => 'news_date']);
     echo Html::beginTag('span', ['class' => 'news_view_count']);
     echo Html::tag('span', "", ['class' => 'glyphicon glyphicon-eye-open ']);
     echo Html::tag('span', "Просмотров: {$model->views}", ['style' => 'margin-left:5px']);
@@ -35,7 +30,7 @@ $this->title = $model->title;
     $images = $model->getImages();
     if (!empty($images)):
         ?>
-        <div class="demo" style="margin-top:10px;">
+        <div class="demo chameleon_reversed" style="margin-top:10px;">
             <div class="item" style="margin-bottom:20px;">
                 <ul id="content-slider" class="content-slider">
                     <?php
@@ -88,7 +83,7 @@ $this->title = $model->title;
             echo Html::tag('div', '', ['class' => 'comment-avatar']);
             echo Html::tag('div', $item->name, ['class' => 'comment-author']);
             echo Html::tag('div', $item->text, ['class' => 'comment-text']);
-            echo Html::tag('span', Yii::$app->formatter->asTime($model->date), ['class' => 'comment-date']);
+            echo Html::tag('span', date("H:i",strtotime($model->date)), ['class' => 'comment-date']);
             echo Html::tag('span', Yii::$app->formatter->asDate($model->date), ['class' => 'comment-date']);
             if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin) {
                 echo Html::tag('div', '', ['class' => 'clear']);

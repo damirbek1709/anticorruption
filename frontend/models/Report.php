@@ -166,6 +166,7 @@ class Report extends \yii\db\ActiveRecord
 
     function getImages()
     {
+        $result = [];
         if (is_dir(Yii::getAlias("@webroot/images/report/{$this->id}"))) {
             $images = FileHelper::findFiles(Yii::getAlias("@webroot/images/report/{$this->id}"), [
                 'recursive' => false,
@@ -217,6 +218,9 @@ class Report extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         //depend table holds timestamp of last table modification. it's for api
+        if($this->isNewRecord && !$this->date){
+            $this->date = date("Y-m-d H:i:s");
+        }
         $dao=Yii::$app->db;
         $voc=$dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='report'")->queryOne();
         if(!$voc){

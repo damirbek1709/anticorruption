@@ -23,7 +23,7 @@ use kartik\datetime\DateTimePicker;
         ]]); ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'img')->hiddenInput(['value' => $model->img ? $moddel->img : '','class'=>'news-main-img'])->label(false); ?>
+    <?= $form->field($model, 'img')->hiddenInput(['value' => $model->img ? $model->img : '','class'=>'news-main-img'])->label(false); ?>
     <?= $form->field($model, 'description')->textArea(['maxlength' => true]) ?>
     <?= $form->field($model, 'category_id')->dropDownList(
         ArrayHelper::map(\frontend\models\Vocabulary::find()->where(['key'=>'news_category'])->all(), 'id', 'value')
@@ -100,15 +100,21 @@ use kartik\datetime\DateTimePicker;
     ]); ?>
 
     <div class="form-group">
-        <? echo '<label>Дата и время</label>';
+        <? echo '<label>Установите дату и время</label>';
+        //echo date("Y-m-d h:i");
+        $current_date = $model->date;
+        if($model->isNewRecord){
+            $current_date = date("Y-m-d H:i:s");
+        }
         echo DateTimePicker::widget([
             'model' => $model,
             'name' => 'date',
             'attribute' => 'date',
-            'options' => ['placeholder' => 'Установите дату и время'],
+            'value'=> $current_date,
+            'options' => ['placeholder' => $current_date],
             //'convertFormat' => true,
             'pluginOptions' => [
-                //'format' => 'd-M-Y g:i A',
+                //'format' => 'yyyy-mm-dd H:i',
                 //'startDate' => '01-Mar-2017 12:00 AM',
                 'todayHighlight' => true
             ]

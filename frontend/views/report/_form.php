@@ -14,20 +14,20 @@ use kartik\datetime\DateTimePicker;
 /* @var $model frontend\models\Report */
 /* @var $form yii\widgets\ActiveForm */
 
-$lookups=Yii::$app->db->createCommand("SELECT * FROM vocabulary WHERE `key` LIKE 'lookup_%'")->queryAll();
-$lkup=ArrayHelper::map($lookups,'key','value');
+$lookups = Yii::$app->db->createCommand("SELECT * FROM vocabulary WHERE `key` LIKE 'lookup_%'")->queryAll();
+$lkup = ArrayHelper::map($lookups, 'key', 'value');
 ?>
 
 <div class="report-form">
 
-    <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data']]); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?php echo $form->errorSummary($model)?>
+    <?php echo $form->errorSummary($model) ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true,
         'placeholder' => 'Введите заголовок вашего сообщения',
-        'data-toggle'=>'modal',
-        'data-target'=>'#warning-modal',
+        'data-toggle' => 'modal',
+        'data-target' => '#warning-modal',
         'class' => 'form-control sharper'])->label(false); ?>
 
     <?= $form->field($model, 'text')->textarea(['rows' => 6, 'placeholder' => 'Расскажите подробнее о факте коррупции с которым вы столкнулись', 'class' => 'form-control comment-input-text'])->label(false); ?>
@@ -56,16 +56,21 @@ $lkup=ArrayHelper::map($lookups,'key','value');
     ])->label(false); ?>
 
     <?php
+    $type = 134;
+    if(isset($_POST['paramType'])){
+        $type = $_POST['paramType'];
+    }
     echo $form->field($model, 'type_id')
         ->dropDownList(ArrayHelper::map(Vocabulary::find()->asArray()->where(['key' => 'report_type'])->all(), 'id', 'value'),
             [
+                'value' => $type,
                 'prompt' => 'Выберите тип обращения',
                 'class' => 'form-control custom-drop'
             ]
         )->label(false);
     ?>
 
-     <div class="form-group">
+    <div class="form-group">
         <? echo '<label>Дата и время</label>';
         echo DateTimePicker::widget([
             'model' => $model,
@@ -78,21 +83,21 @@ $lkup=ArrayHelper::map($lookups,'key','value');
                 //'startDate' => '01-Mar-2017 12:00 AM',
                 'todayHighlight' => true
             ]
-        ]);?>
+        ]); ?>
     </div>
 
 
     <div class="form-group">
         <div id="user-contact" class="col-md-6" style="padding-left: 0">
-            <?= $form->field($model, 'author',[
+            <?= $form->field($model, 'author', [
                 'template' =>
-                    '<div class="form-group rel">{input}<span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="'.$lkup['lookup_name'].'"></span>{error}</div>'])->textInput(['placeholder' => 'Введите ваше имя', 'class' => 'form-control sharper'])->label(false); ?>
-            <?= $form->field($model, 'email',[
+                    '<div class="form-group rel">{input}<span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="' . $lkup['lookup_name'] . '"></span>{error}</div>'])->textInput(['placeholder' => 'Введите ваше имя', 'class' => 'form-control sharper'])->label(false); ?>
+            <?= $form->field($model, 'email', [
                 'template' =>
-                    '<div class="form-group rel">{input}<span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="'.$lkup['lookup_email'].'"></span>{error}</div>'])->textInput(['placeholder' => '@электронная почта', 'class' => 'form-control sharper'])->label(false); ?>
-            <?= $form->field($model, 'contact',[
+                    '<div class="form-group rel">{input}<span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="' . $lkup['lookup_email'] . '"></span>{error}</div>'])->textInput(['placeholder' => '@электронная почта', 'class' => 'form-control sharper'])->label(false); ?>
+            <?= $form->field($model, 'contact', [
                 'template' =>
-                    '<div class="form-group rel">{input}<span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="'.$lkup['lookup_contact'].'"></span>{error}</div>'])->textInput(['placeholder' => 'Ваши контакты', 'class' => 'form-control sharper'])->label(false); ?>
+                    '<div class="form-group rel">{input}<span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="' . $lkup['lookup_contact'] . '"></span>{error}</div>'])->textInput(['placeholder' => 'Ваши контакты', 'class' => 'form-control sharper'])->label(false); ?>
         </div>
 
         <div class="col-md-6" style="padding-right: 0">
@@ -103,9 +108,10 @@ $lkup=ArrayHelper::map($lookups,'key','value');
                         'template' => "<ul><li>{input}\n{label}\n</li></ul><div class=\"check\">
                                         <div class=\"inside\"></div>
                                     </div>",
-                        'labelOptions' => ['for' => 'report-anonymous','class'=>'anon-label'],
-                    ])->input('checkbox',['class'=>'input_checker','value'=>0])->label('Я хочу подать анонимное объявление') ?>
-                    <span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="<?=$lkup['lookup_anonym']?>" data-placement="bottom"></span>
+                        'labelOptions' => ['for' => 'report-anonymous', 'class' => 'anon-label'],
+                    ])->input('checkbox', ['class' => 'input_checker', 'value' => 0])->label('Я хочу подать анонимное объявление') ?>
+                    <span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover"
+                          data-content="<?= $lkup['lookup_anonym'] ?>" data-placement="bottom"></span>
                 </div>
             </div>
         </div>
@@ -141,14 +147,13 @@ $lkup=ArrayHelper::map($lookups,'key','value');
             $captionArr = $model->getThumbs();
             /*var_dump($captionArr);
             die();*/
-            if ($model->getThumbs()!=null)
-            {
+            if ($model->getThumbs() != null) {
                 foreach ($captionArr as $image) {
                     $savedImagesCaption[] = [
                         "caption" => basename($image),
                         "url" => "/site/remove-image",
                         'key' => basename($image),
-                        'extra' => ['id' => $model->id,'controller'=>'report'],
+                        'extra' => ['id' => $model->id, 'controller' => 'report'],
                     ];
                 }
             }
@@ -170,7 +175,7 @@ $lkup=ArrayHelper::map($lookups,'key','value');
 
                 'fileActionSettings' => [
                     'showZoom' => false,
-                    'showRemove'=>false,
+                    'showRemove' => false,
                     'indicatorNew' => '&nbsp;',
                     //'removeIcon' => '<span class="glyphicon glyphicon-trash" title="Удалить"></span> ',
                 ],
@@ -196,7 +201,7 @@ $lkup=ArrayHelper::map($lookups,'key','value');
     $modal = Modal::begin([
         'id' => 'warning-modal',
         'header' => Html::tag('h4', $lkup['lookup_warning_title'], ['class' => 'modal-title']),
-        'footer'=>'<button type="button" class="btn btn-default" data-dismiss="modal">'.Yii::t('app', 'Закрыть').'</button>'
+        'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal">' . Yii::t('app', 'Закрыть') . '</button>'
     ]);
     echo $lkup['lookup_warning_text'];
     $modal::end();

@@ -4,13 +4,16 @@ use yii\helpers\Html;
 use yii\helpers\BaseStringHelper; ?>
 
 <?php
-echo Html::tag('span', "Имя: <span class='inner'>{$model->author}</span>", ['class' => 'news_date right-marginer']);
+if($model->author) {
+    echo Html::tag('span', "Имя: <span class='inner'>{$model->author}</span>", ['class' => 'news_date right-marginer']);
+}
 echo Html::tag('span', Yii::$app->formatter->asDate($model->date), ['class' => 'news_date right-marginer']);
 echo Html::tag('span', "Просмотров: <span class='inner'>{$model->views}</span>", ['class' => 'news_date right-marginer']);
 echo Html::tag('span', "Комментарии: <span class='inner'>{$model->commentsCount}</span>", ['class' => 'news_date right-marginer']);
 echo Html::tag('div', '', ['clear' => 'both']);
 echo Html::a($model->title, ['/report/view', 'id' => $model->id], ['class' => 'italic_header', 'style' => 'color:#000;margin-top:10px;display:block;']); ?>
-    <div class="report-text" style="margin-top: -10px;">
+    <div class="report-text" style="margin-top: 15px;">
+        <div class="quotes"></div>
         <span class="report-padder">
             <?= BaseStringHelper::truncateWords($model->text, 25); ?>
         </span>

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b55a250fb20f68c39fecac02d5a8f14",
+    "content-hash": "13ca58c5db886b7e2f50c481e171cb22",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -1023,6 +1023,49 @@
                 "yii2"
             ],
             "time": "2017-09-04T15:30:52+00:00"
+        },
+        {
+            "name": "kotchuprik/yii2-odnoklassniki-authclient",
+            "version": "v1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kotchuprik/yii2-odnoklassniki-authclient.git",
+                "reference": "6d59d60ea8cba5bac83fd8c55bf859fd17b9360d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kotchuprik/yii2-odnoklassniki-authclient/zipball/6d59d60ea8cba5bac83fd8c55bf859fd17b9360d",
+                "reference": "6d59d60ea8cba5bac83fd8c55bf859fd17b9360d",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2-authclient": "~2.0@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "kotchuprik\\authclient\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Constantin Chuprik",
+                    "email": "constantinchuprik@gmail.com"
+                }
+            ],
+            "description": "Odnoklassniki extenion for using via yii2-authclient",
+            "homepage": "http://github.com/kotchuprik/yii2-odnoklassniki-authclient",
+            "keywords": [
+                "authclient",
+                "oauth",
+                "odnoklassniki",
+                "yii2"
+            ],
+            "time": "2017-03-11T18:07:12+00:00"
         },
         {
             "name": "newerton/yii2-fancybox",

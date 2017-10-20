@@ -7,24 +7,24 @@ use yii\widgets\ListView;
 /* @var $searchModel app\models\NewsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'News');
+$this->title = $news_title;
 //$this->params['breadcrumbs'][] = $this->title;
-$title=$this->title;
 ?>
 <div class="news-index">
-    <div class="main_heading">
-        <?=$title;?>
+    <div class="main_heading mobile_ribbon">
+        <?= $this->title; ?>
     </div>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <?php
-    echo ListView::widget([
-        'summary' => false,
-        'dataProvider' => $dataProvider,
-        'itemView' => '_item',
-        'itemOptions' => [
-            'class' => 'news_block',
-        ],
-        //'options' => ['class' => 'general-apart-list']
-    ]);?>
+    <div class="mobile_padder">
+        <?php
+        echo ListView::widget([
+            'summary' => false,
+            'dataProvider' => $dataProvider,
+            'itemView' => '_item',
+            'itemOptions' => [
+                'class' => 'news_block',
+            ],
+            //'options' => ['class' => 'general-apart-list']
+        ]); ?>
+    </div>
 </div>

@@ -139,16 +139,26 @@ AppAsset::register($this);
                 'items' => [
                     ['label' => Yii::t('app', 'Сообщить о коррупции'), 'url' => ['report/create']],
                     ['label' => Yii::t('app', 'Рассказать о коррупционной схеме'),
-                        'url' => [ 'report/create'],
-                        'data-method' => 'POST',
-                        'data-params' => ['param' => 1],
+                        'url' => ['/report/create'],
+                        'linkOptions' => [
+                            'data-method' => 'post',
+                            'data-params' => ['paramType' => 137]
                         ],
-                        ['label' => Yii::t('app', 'Все обращения'), 'url' => ['report/index']],
-                        ['label' => Yii::t('app', 'Мне интересно знать, Откуда?'), 'url' => ['report/create']],
-                        ['label' => Yii::t('app', 'Коррупционный рейтинг'), 'url' => ['authority/index']],
                     ],
+                    ['label' => Yii::t('app', 'Все обращения'), 'url' => ['report/index']],
+                    ['label' => Yii::t('app', 'Мне интересно знать, Откуда?'),
+                        'url' => ['/report/create'],
+                        'linkOptions' => [
+                            'data-method' => 'post',
+                            'data-params' => ['paramType' => 138]
+                        ],
+
+                    ],
+                    ['label' => Yii::t('app', 'Коррупционный рейтинг'), 'url' => ['authority/index']],
+                    ['label' => Yii::t('app', 'Обращения на карте'), 'url' => ['site/map']],
                 ],
-            ];
+            ],
+        ];
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-left'],
             'items' => $menuItems,
@@ -194,19 +204,32 @@ AppAsset::register($this);
                             <?= Yii::t('app', 'Борьба с коррупцией'); ?>
                         </div>
                         <div class="l_corruption_links">
-                            <?= Html::a(Yii::t('app', 'Профилактика коррупции в госорганах'), ['#']) ?>
-                            <?= Html::a(Yii::t('app', 'Общественные советы'), ['#']) ?>
-                            <?= Html::a(Yii::t('app', 'Комплайенс-офицеры'), ['#']) ?>
+                            <?= Html::a(Yii::t('app', 'Профилактика коррупции в госорганах'), ['/page/view', 'id' => 1]); ?>
+                            <?= Html::a(Yii::t('app', 'Общественные советы'), ['/page/view', 'id' => 2]); ?>
+                            <?= Html::a(Yii::t('app', 'Комплайенс-офицеры'), ['/page/view', 'id' => 3]); ?>
                         </div>
                         <div class="italic_header top_marginer">
                             <?= Yii::t('app', 'Карта коррупции'); ?>
                         </div>
                         <div class="l_corruption_links">
-                            <?= Html::a(Yii::t('app', 'Сообщить о коррупции'), ['#']) ?>
-                            <?= Html::a(Yii::t('app', 'Рассказать о коррупционной схеме'), ['#']) ?>
-                            <?= Html::a(Yii::t('app', 'Мне интересно знать откуда'), ['#']) ?>
-                            <?= Html::a(Yii::t('app', 'Все обращения'), ['#']) ?>
-                            <?= Html::a(Yii::t('app', 'Коррупционный рейтинг'), ['#']) ?>
+                            <?= Html::a(Yii::t('app', 'Сообщить о коррупции'), ['/report/create']) ?>
+                            <?= Html::a(Yii::t('app', 'Рассказать о коррупционной схеме'), ['/report/create'],
+                                [
+                                    'data-method' => 'POST',
+                                    'data-params' => [
+                                        'paramType' => 137,
+                                    ]
+                                ]); ?>
+                            <?= Html::a(Yii::t('app', 'Мне интересно знать откуда'), ['report/create'],
+                                [
+                                    'data-method' => 'POST',
+                                    'data-params' => [
+                                        'paramType' => 138,
+                                    ]
+                                ]
+                            ); ?>
+                            <?= Html::a(Yii::t('app', 'Все обращения'), ['/report/index']) ?>
+                            <?= Html::a(Yii::t('app', 'Коррупционный рейтинг'), ['/authority/index']) ?>
                         </div>
                     </div>
                 </div>

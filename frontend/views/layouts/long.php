@@ -138,11 +138,18 @@ AppAsset::register($this);
             ],
             [
                 'label' => Yii::t('app', 'Карта коррупции'),
+                'url' => ['/site/map'],
                 'items' => [
-                    ['label' => Yii::t('app', 'Новостная лента'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Сводка коррупционных преступлений'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Достижения'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Пресс-релизы гос.органов'), 'url' => '#'],
+                    ['label' => Yii::t('app', 'Сообщить о коррупции'), 'url' => ['report/create']],
+                    ['label' => Yii::t('app', 'Рассказать о коррупционной схеме'),
+                        'url' => ['report/create'],
+                        'data-method' => 'POST',
+                        'data-params' => ['param' => 1],
+                    ],
+                    ['label' => Yii::t('app', 'Все обращения'), 'url' => ['report/index']],
+                    ['label' => Yii::t('app', 'Мне интересно знать, Откуда?'), 'url' => ['report/create']],
+                    ['label' => Yii::t('app', 'Коррупционный рейтинг'), 'url' => ['authority/index']],
+                    ['label' => Yii::t('app', 'Обращения на карте'), 'url' => ['site/map']],
                 ],
             ],
 

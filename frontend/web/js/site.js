@@ -118,6 +118,28 @@ $(window).load(function(){
         });
     }
 
+    else if($('#map_long').length){
+        var cluster = document.createElement('script');
+        cluster.src = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
+        document.body.appendChild(cluster);
+        $.ajax({
+            type: 'GET',
+            url: '/report/get-locations',
+            //beforeSend: function () {},
+            success:function(data){
+                $.each(data, function() {
+                    locations.push({
+                        lat: parseFloat(this.lat),
+                        lng: parseFloat(this.lon),
+                        info:"<a href='/report/"+this.id+"'>"+this.title+"</a>"
+                    });
+                });
+                //console.log(locations);
+                loadScriptLong();
+            }
+        });
+    }
+
     $('#report-city_id').change(function () {
         console.log("changed");
         var city_id=$(this).val();
@@ -138,9 +160,52 @@ function loadScriptIndex() {
     document.body.appendChild(script);
 }
 
+function loadScriptLong() {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDDyJXbc-D_sxlQgbxS6fa-ImOsz1dyyQs&callback=initMapLong";
+    document.body.appendChild(script);
+}
+
 function initMapIndex() {
     var map = new google.maps.Map(document.getElementById('map_index'), {
         zoom: 6,
+        center: {lat: 41.2044, lng: 74.7661}
+    });
+
+    var infoWin = new google.maps.InfoWindow();
+
+    // Add some markers to the map.
+    // Note: The code uses the JavaScript Array.prototype.map() method to
+    // create an array of markers based on a given "locations" array.
+    // The map() method here has nothing to do with the Google Maps API.
+    var markers = locations.map(function (location, i) {
+        var marker= new google.maps.Marker({
+            position: location
+        });
+        google.maps.event.addListener(marker, 'click', function(evt) {
+            infoWin.setContent(location.info);
+            infoWin.open(map, marker);
+        });
+        return marker;
+    });
+
+    // Add a marker clusterer to manage the markers.
+    var markerCluster = new MarkerClusterer(map, markers,
+        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
+    //infowindow
+    /*var infowindow = new google.maps.InfoWindow({
+        content: "asdf"
+    });
+    marker.addListener('click', function() {
+        infowindow.open(map, marker);
+    });*/
+}
+
+function initMapLong() {
+    var map = new google.maps.Map(document.getElementById('map_long'), {
+        zoom: 7,
         center: {lat: 41.2044, lng: 74.7661}
     });
 
