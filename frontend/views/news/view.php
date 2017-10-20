@@ -13,7 +13,7 @@ use yii\widgets\Pjax;
 $this->title = $model->title;
 ?>
 
-<div class="news-view">
+<div class="news-view mobile_padder">
 
     <div class="minor_heading"><?= Html::encode($this->title) ?></div>
     <?
@@ -30,7 +30,7 @@ $this->title = $model->title;
     $images = $model->getImages();
     if (!empty($images)):
         ?>
-        <div class="demo" style="margin-top:10px;">
+        <div class="demo chameleon_reversed" style="margin-top:10px;">
             <div class="item" style="margin-bottom:20px;">
                 <ul id="content-slider" class="content-slider">
                     <?php
