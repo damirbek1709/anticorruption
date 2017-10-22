@@ -154,7 +154,7 @@ use kartik\datetime\DateTimePicker;
         if(id>0) {
             var name = $(this).parents('.file-actions').siblings('.file-footer-caption').attr('title');
             $.ajax({
-                url: "<?=Url::base() . '/site/remove-image'?>",
+                url: "<?=Yii::$app->urlManagerFrontend->createAbsoluteUrl(['site/remove-image']);?>",
                 type: "post",
                 data: {id: id, controller: controller, name: name},
                 cache: false

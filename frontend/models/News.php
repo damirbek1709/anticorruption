@@ -99,8 +99,8 @@ class News extends \yii\db\ActiveRecord
     function getThumbs()
     {
         $result = [];
-        if (is_dir(Yii::getAlias("@webroot/images/news/{$this->id}"))) {
-            $images = FileHelper::findFiles(Yii::getAlias("@webroot/images/news/{$this->id}/thumbs"), [
+        if (is_dir(Yii::getAlias("@frontend/web/images/news/{$this->id}"))) {
+            $images = FileHelper::findFiles(Yii::getAlias("@frontend/web/images/news/{$this->id}/thumbs"), [
                 'recursive' => false,
                 'except' => ['.gitignore']
             ]);
@@ -121,16 +121,17 @@ class News extends \yii\db\ActiveRecord
     function getThumbImages()
     {
         $result = [];
-        if (is_dir(Yii::getAlias("@webroot/images/news/{$this->id}"))) {
-            $images = FileHelper::findFiles(Yii::getAlias("@webroot/images/news/{$this->id}/thumbs"), [
+        if (is_dir(Yii::getAlias("@frontend/web/images/news/{$this->id}"))) {
+            $images = FileHelper::findFiles(Yii::getAlias("@frontend/web/images/news/{$this->id}/thumbs"), [
                 'recursive' => false,
                 'except' => ['.gitignore']
             ]);
             $index = 0;
             foreach ($images as $image) {
-                $result[] = Html::img(str_replace([Yii::getAlias('@webroot'), DIRECTORY_SEPARATOR], [Yii::getAlias('@web'), '/'], $image));
+                $result[] = Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $image));
+
                 if (basename($image) == $this->img) {
-                    $new_value = Html::img(str_replace([Yii::getAlias('@webroot'), DIRECTORY_SEPARATOR], [Yii::getAlias('@web'), '/'], $image));
+                    $new_value = Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $image));
                     unset($result[$index]);
                     array_unshift($result, $new_value);
                 }
@@ -159,7 +160,7 @@ class News extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
-        if($this->isNewRecord && !$this->date){
+        if ($this->isNewRecord && !$this->date) {
             $this->date = date("Y-m-d H:i:s");
         }
         $this->file = UploadedFile::getInstances($this, 'file');
@@ -212,8 +213,8 @@ class News extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         if (count($this->file)) {
-            $dir = Yii::getAlias("@webroot/images/news/{$this->id}");
-            $thumbDir = Yii::getAlias("@webroot/images/news/{$this->id}/thumbs");
+            $dir = Yii::getAlias("@frontend/web/images/news/{$this->id}");
+            $thumbDir = Yii::getAlias("@frontend/web/images/news/{$this->id}/thumbs");
             FileHelper::createDirectory($dir);
             FileHelper::createDirectory($thumbDir);
             $imagine = Image::getImagine();
@@ -226,12 +227,12 @@ class News extends \yii\db\ActiveRecord
                 }
                 $file->saveAs("{$dir}" . DIRECTORY_SEPARATOR . "{$filename}");
                 $image = $imagine->open(
-                    Yii::getAlias('@webroot/images/news')
+                    Yii::getAlias('@frontend/web/images/news')
                     . "/{$this->id}/{$filename}", ['quality' => 100]);
-                $image->resize(new Box(440, 270))->save(Yii::getAlias('@webroot/images/news/')
+                $image->resize(new Box(440, 270))->save(Yii::getAlias('@frontend/web/images/news/')
                     . "{$this->id}/" . $filename, ['quality' => 100]);
                 Image::thumbnail($dir . '/' . "{$filename}", 440, 270)->save($dir . '/' . "{$filename}", ['quality' => 100]);
-                $image->resize(new Box(135, 100))->save(Yii::getAlias('@webroot/images/news/')
+                $image->resize(new Box(135, 100))->save(Yii::getAlias('@frontend/web//images/news/')
                     .
                     "{$this->id}/thumbs/{$filename}", ['quality' => 100]);
                 Image::thumbnail($dir . '/' . "{$filename}", 135, 100)->save($dir . '/thumbs/' . "{$filename}", ['quality' => 100]);

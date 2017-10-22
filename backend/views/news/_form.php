@@ -145,11 +145,10 @@ use kartik\datetime\DateTimePicker;
         e.stopImmediatePropagation();
         $(this).parents('.kv-preview-thumb').fadeOut();
 
-
         if(id>0) {
             var name = $(this).parents('.file-actions').siblings('.file-footer-caption').attr('title');
             $.ajax({
-                url: "<?=Url::base() . '/site/remove-image'?>",
+                url: "<?=Yii::$app->urlManagerFrontEnd->createAbsoluteUrl().'/';?>",
                 type: "post",
                 data: {id: id, controller: controller, name: name},
                 cache: false

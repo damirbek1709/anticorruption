@@ -170,26 +170,26 @@ class Authority extends \yii\db\ActiveRecord
             $imagine = Image::getImagine();
             $this->image->saveAs(
                 Yii::getAlias('@frontend/web/images/authority')
-                . "/{$this->id}-"
+                . "/{$this->id}_"
                 . $this->image->name, ['quality' => 100]);
 
             $image = $imagine->open(
                 Yii::getAlias('@frontend/web/images/authority')
-                . "/{$this->id}-"
+                . "/{$this->id}_"
                 . $this->image->name, ['quality' => 100]);
 
             $image->resize(new Box($image->getSize()->getWidth(), $image->getSize()->getHeight()))
                 ->crop(new Point($x, $y), new Box($width, $height))
                 ->save(Yii::getAlias('@frontend/web/images/authority')
-                    . "/{$this->id}-"
+                    . "/{$this->id}_"
                     . $this->image->name, ['quality' => 100]);
 
             $image->resize(new Box(400, 400))->save(Yii::getAlias('@frontend/web/images/authority')
-                . "/{$this->id}-"
+                . "/{$this->id}_"
                 . $this->image->name, ['quality' => 100]);
 
             $image->resize(new Box(150, 150))->save(Yii::getAlias('@frontend/web/images/authority')
-                . "/s-{$this->id}-".
+                . "/s_{$this->id}_".
                 $this->image->name, ['quality' => 100]);
         }
     }

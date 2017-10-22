@@ -326,7 +326,7 @@ AppAsset::register($this);
                                     echo Html::beginTag("div", ['class' => 'sidebar_slider_cover']);
                                     echo Html::beginTag("div", ['class' => 'sidebar_slider_bg']);
                                     if ($authority->img) {
-                                        echo Html::a(Html::img(Url::base() . "/images/authority/s_{$authority->img}"), ['/authority/view', 'id' => $authority->id]);
+                                        echo Html::a(Html::img(Url::base() . "/images/authority/s_{$authority->id}_{$authority->img}"), ['/authority/view', 'id' => $authority->id]);
                                     } else {
                                         echo Html::a(Html::img(Url::base() . "/images/site/herb.png", ['style' => 'width:150px']), ['/authority/view', 'id' => $authority->id]);
                                     }

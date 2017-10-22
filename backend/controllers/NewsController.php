@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use frontend\models\News;
+use frontend\models\Comments;
 use frontend\models\NewsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -52,8 +53,10 @@ class NewsController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        $newcomment = new Comments();
+        return $this->render('@frontend/views/news/view', [
             'model' => $this->findModel($id),
+            'comment'=>$newcomment,
         ]);
     }
 
@@ -88,7 +91,7 @@ class NewsController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
+            return $this->render('@frontend/views/news/update', [
                 'model' => $model,
             ]);
         }
