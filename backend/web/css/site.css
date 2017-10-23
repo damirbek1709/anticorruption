@@ -1,6 +1,7 @@
 html,
 body {
     height: 100%;
+    font-family: "PT Sans", sans-serif;
 }
 
 .wrap {
@@ -175,5 +176,23 @@ a.desc:after {
 
 .news_date {
     color: #757575;
+}
+
+.minor_heading {
+    font-size: 23px;
+    line-height: 30px;
+    margin-bottom: 15px;
+}
+.news_date {
+    color: #757575;
+}
+.news_view_count {
+    color: #9e9e9e;
+    float: right;
+    font-size: 14px;
+}
+.news_text {
+    font-size: 15px;
+    margin-top: 10px;
 }
 
