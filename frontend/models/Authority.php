@@ -155,6 +155,24 @@ class Authority extends \yii\db\ActiveRecord
         return $this->hasMany(Report::className(), ['authority_id' => 'id'])->count();
     }
 
+    function getMainImg()
+    {
+        if ($this->img) {
+            $image = Yii::getAlias("@frontend/web/images/authority/{$this->id}_{$this->img}");
+            return Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $image));
+
+        }
+        else if (is_dir(Yii::getAlias("@frontend/web/images/authority"))) {
+            $images = FileHelper::findFiles(Yii::getAlias("@frontend/web/images/authority/"), [
+                'recursive' => false,
+                'except' => ['.gitignore']
+            ]);
+            return Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $images[0]));
+        } else {
+            return Html::img(Url::base() . "/images/site/blank.png");
+        }
+    }
+
     public function afterSave($insert, $changedAttributes)
     {
         // open image

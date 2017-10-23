@@ -46,6 +46,8 @@ class DocumentController extends Controller
         ]);
     }
 
+
+
     public function actionCategory($id)
     {
         $searchModel = new DocumentSearch();

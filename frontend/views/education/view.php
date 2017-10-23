@@ -2,8 +2,20 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\DetailView;
+use yii\widgets\DetailView;?>
 
+<?
+$cssSlider = Yii::getAlias('@frontend/web')."/js/lightslider/src/css/lightslider.css";
+$cssSlider = str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $cssSlider);
+
+$jsSlider = Yii::getAlias('@frontend/web')."/js/lightslider/src/js/lightslider.js";
+$jsSlider = str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $jsSlider);
+?>
+
+<link rel="stylesheet" href="<?=$cssSlider?>"/>
+<script src="<?=$jsSlider?>"></script>
+
+<?
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Education */
 
@@ -63,3 +75,30 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 </div>
+
+<?php
+$script = <<<SCRIPT
+            $(document).ready(function() {
+                    $("#content-slider").lightSlider({
+                        loop:true,
+                        keyPress:true,
+                        item:1,
+                        slideMargin:0,
+                        adaptiveHeight:true,
+                       
+                    });
+                    
+                     $("#authority-slider").lightSlider({
+                        loop:true,
+                        keyPress:true,
+                        item:1,
+                        slideMargin:0,
+                        adaptiveHeight:true,
+                        pager:false,
+                       
+                    });
+                });
+                
+SCRIPT;
+$this->registerJs($script);
+?>

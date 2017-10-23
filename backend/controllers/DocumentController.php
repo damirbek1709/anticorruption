@@ -3,79 +3,52 @@
 namespace backend\controllers;
 
 use Yii;
-use frontend\models\Education;
-use frontend\models\EducationSearch;
+use frontend\models\Document;
+use frontend\models\DocumentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
-/**
- * EducationController implements the CRUD actions for Education model.
- */
-class EducationController extends Controller
+class DocumentController extends \yii\web\Controller
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * Lists all Education models.
-     * @return mixed
-     */
     public function actionIndex()
     {
-        $searchModel = new EducationSearch();
+        $searchModel = new DocumentSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('@frontend/views/education/list', [
+        return $this->render('@frontend/views/document/list', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
-    /**
-     * Displays a single Education model.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionView($id)
     {
-        return $this->render('@frontend/views/education/view', [
+        return $this->render('@frontend/views/document/view', [
             'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Education model.
+     * Creates a new Document model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Education();
+        $model = new Document();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('@frontend/views/education/create', [
+            return $this->render('@frontend/views/document/create', [
                 'model' => $model,
             ]);
         }
     }
 
     /**
-     * Updates an existing Education model.
+     * Updates an existing Document model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -87,14 +60,14 @@ class EducationController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('@frontend/views/education/update', [
+            return $this->render('@frontend/views/document/update', [
                 'model' => $model,
             ]);
         }
     }
 
     /**
-     * Deletes an existing Education model.
+     * Deletes an existing Document model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,18 +80,19 @@ class EducationController extends Controller
     }
 
     /**
-     * Finds the Education model based on its primary key value.
+     * Finds the Document model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Education the loaded model
+     * @return Document the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Education::findOne($id)) !== null) {
+        if (($model = Document::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }
