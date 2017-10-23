@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use backend\assets\AppAsset;
@@ -19,6 +20,8 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=cyrillic,cyrillic-ext"
+          rel="stylesheet">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -27,8 +30,20 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
+    <div class="container" style="padding: 10px;">
+        <div class="admin_bar">
+            <?php
+            echo Html::a('Обращение о коррупции', ['/report/index'], ['class' => 'admin_menu_item']);
+            echo Html::a('Гос.Органы', ['/authority/index'], ['class' => 'admin_menu_item']);
+            echo Html::a('Новости', ['/news/index'], ['class' => 'admin_menu_item']);
+            echo Html::a('Антикоррупционное образование', ['/education/index'], ['class' => 'admin_menu_item']);
+            echo Html::a('Аналитика', ['/analytics/index'], ['class' => 'admin_menu_item']);
+            echo Html::a('Отчеты', ['/document/index'], ['class' => 'admin_menu_item']);
+            ?>
+        </div>
+    </div>
     <?php
-    NavBar::begin([
+    /*NavBar::begin([
         'brandLabel' => 'My Company',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
@@ -40,20 +55,17 @@ AppAsset::register($this);
         ['label' => 'Гос.Органы', 'url' => ['/authority/index']],
         ['label' => 'Новости', 'url' => ['/news/index']],
     ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/user/security/login']];
-    } else {
-        $menuItems[] = [
-            'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-            'url' => ['/user/security/logout'],
-            'linkOptions' => ['data-method' => 'post']
-        ];
-    }
-    echo Nav::widget([
+    $menuItems[] = [
+        'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+        'url' => ['/user/security/logout'],
+        //'linkOptions' => ['data-method' => 'post']
+    ];
+
+    /*echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
     ]);
-    NavBar::end();
+    NavBar::end()*/;
     ?>
 
     <div class="container">

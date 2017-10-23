@@ -18,9 +18,6 @@ $(window).load(function(){
     //tooltip, popover
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="popover"]').popover();
-
-    var dataZoom = $('#map_index').attr("zoomer");
-    alert(dataZoom);
 });
 
 

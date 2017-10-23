@@ -1214,3 +1214,8 @@ a.desc:after {
     display: none;
 }
 
+
+.auth-icon.odnoklassniki {
+    background-image: url("../images/site/icons.png")!important;
+    background-position: -181px -220px;
+}

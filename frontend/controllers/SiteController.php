@@ -24,6 +24,7 @@ class SiteController extends Controller
 {
 
     public $layout;
+    public $enableCsrfValidation = false;
 
     /**
      * @inheritdoc
@@ -36,7 +37,7 @@ class SiteController extends Controller
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'login', 'map', 'city','remove-image'],
+                        'actions' => ['index', 'login', 'map', 'city'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -180,7 +181,7 @@ class SiteController extends Controller
     {
         $controller = $_POST['controller'];
         $id = $_POST['id'];
-        $name = $_POST['key'];
+        $name = $_POST['name'];
 
         unlink(Yii::getAlias("@webroot/images/{$controller}/{$id}/thumbs/{$name}"));
         unlink(Yii::getAlias("@webroot/images/{$controller}/{$id}/{$name}"));
