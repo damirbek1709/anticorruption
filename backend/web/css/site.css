@@ -14,6 +14,9 @@ body {
 .wrap > .container {
     padding: 15px 15px 20px;
 }
+.admin_align{
+    width: 665px;
+}
 
 .footer {
     height: 60px;
@@ -194,5 +197,36 @@ a.desc:after {
 .news_text {
     font-size: 15px;
     margin-top: 10px;
+}
+.news-view{
+    width: 665px;
+    margin: 0 auto;
+}
+.share_buttons {
+    margin-top: 30px;
+}
+.comments {
+    text-transform: uppercase;
+    font-size: 18px;
+    text-decoration: underline;
+    margin-bottom: 15px;
+    /* margin-top: 40px; */
+}
+.news_category_italic {
+    color: #d80403;
+    font-size: 15px;
+    font-style: italic;
+}
+.date-clock {
+    font-size: 12px;
+    color: #999;
+    margin: 0 3px 0 10px;
+}
+.share_label {
+    display: inline-block;
+    float: left;
+    font-size: 17px;
+    margin-top: 2px;
+    margin-right: 20px;
 }
 

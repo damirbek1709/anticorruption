@@ -1219,3 +1219,13 @@ a.desc:after {
     background-image: url("../images/site/icons.png")!important;
     background-position: -181px -220px;
 }
+.central_block .auth-clients{
+    padding: 0;
+    width: auto;
+    margin: 0 auto;
+    display: table;
+}
+.central_block .auth-clients li:nth-of-type(4){
+    margin-right: 0;
+}
+
