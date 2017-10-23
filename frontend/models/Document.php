@@ -59,9 +59,9 @@ class Document extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'title' => Yii::t('app', 'Title'),
-            'text' => Yii::t('app', 'Text'),
-            'date' => Yii::t('app', 'Date'),
+            'title' => Yii::t('app', 'Заголовок'),
+            'text' => Yii::t('app', 'Текст'),
+            'date' => Yii::t('app', 'Дата'),
             'category_id' => Yii::t('app', 'Категория'),
         ];
     }

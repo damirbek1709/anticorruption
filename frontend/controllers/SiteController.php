@@ -181,7 +181,7 @@ class SiteController extends Controller
     {
         $controller = $_POST['controller'];
         $id = $_POST['id'];
-        $name = $_POST['name'];
+        $name = $_POST['key'];
 
         unlink(Yii::getAlias("@webroot/images/{$controller}/{$id}/thumbs/{$name}"));
         unlink(Yii::getAlias("@webroot/images/{$controller}/{$id}/{$name}"));

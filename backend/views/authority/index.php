@@ -22,7 +22,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'id',
-            'title',
+            [
+                'attribute' => 'title',
+                'contentOptions' => ['style' => 'width:600px; white-space: normal;'],
+            ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 //'template' => '{view}{delete}',

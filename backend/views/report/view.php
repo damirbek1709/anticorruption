@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
     echo Html::endTag('span');
     ?>
     <div class="report-text">
+        <div class="quotes"></div>
         <span class="report-padder">
             <?= $model->text; ?>
             <div class="comment-author" style="font-style: normal;font-family: 'PT Sans',sans-serif;margin-top:10px">
