@@ -8,8 +8,8 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
-    'language'=>'ru',
-    'sourceLanguage'=>'ru-RU',
+    'language' => 'ru',
+    'sourceLanguage' => 'ru-RU',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
@@ -29,37 +29,44 @@ return [
     ],
     'components' => [
         'authClientCollection' => [
-            'class'   => \yii\authclient\Collection::className(),
+            'class' => \yii\authclient\Collection::className(),
             'clients' => [
                 'facebook' => [
-                    'class'        => 'dektrium\user\clients\Facebook',
-                    'clientId'     => '2026864364212005',
+                    'class' => 'dektrium\user\clients\Facebook',
+                    'clientId' => '2026864364212005',
                     'clientSecret' => '29f4870c9076767061dd83b6aa515241',
                 ],
                 'twitter' => [
-                    'class'          => 'dektrium\user\clients\Twitter',
-                    'consumerKey'    => 'AIw8j1pjMcH2QXUAPLaQQJ3SL',
+                    'class' => 'dektrium\user\clients\Twitter',
+                    'consumerKey' => 'AIw8j1pjMcH2QXUAPLaQQJ3SL',
                     'consumerSecret' => '72HJCEZjjNU77TgrELQoskYpxhSuQslXciMolHrF9AW4lfnwbt',
                 ],
 
                 'google' => [
-                    'class'        => 'dektrium\user\clients\Google',
-                    'clientId'     => '170973181296-95l2bfoimt60cgoe7nairr0i0vt7kko7.apps.googleusercontent.com',
+                    'class' => 'dektrium\user\clients\Google',
+                    'clientId' => '170973181296-95l2bfoimt60cgoe7nairr0i0vt7kko7.apps.googleusercontent.com',
                     'clientSecret' => '6RLc8LGSfLtm7NjXoPn8J8ad',
                 ],
+                'odnoklassniki' => [
+                    'class' => 'kotchuprik\authclient\Odnoklassniki',
+                    'applicationKey' => 'CBAJOMOLEBABABABA',
+                    'clientId' => '1256974336',
+                    'clientSecret' => 'E149483E8F467EFDBFDDD4F7',
+                ],
+
                 // here is the list of clients you want to use
                 // you can read more in the "Available clients" section
             ],
         ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
-            'baseUrl'=>''
+            'baseUrl' => ''
         ],
 
         'user' => [
             'identityCookie' => [
-                'name'     => '_frontendIdentity',
-                'path'     => '/',
+                'name' => '_frontendIdentity',
+                'path' => '/',
                 'httpOnly' => true,
             ],
         ],
@@ -67,7 +74,7 @@ return [
             'name' => 'FRONTENDSESSID',
             'cookieParams' => [
                 'httpOnly' => true,
-                'path'     => '/',
+                'path' => '/',
             ],
         ],
 
@@ -100,7 +107,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'contact'=>'site/contact',
+                'contact' => 'site/contact',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',

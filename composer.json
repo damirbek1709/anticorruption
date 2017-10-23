@@ -11,7 +11,9 @@
         "wiki": "http://www.yiiframework.com/wiki/",
         "irc": "irc://irc.freenode.net/yii",
         "source": "https://github.com/yiisoft/yii2"
+
     },
+
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
@@ -28,12 +30,14 @@
         "kartik-v/yii2-widget-rating": "*",
         "kartik-v/yii2-widget-select2": "@dev",
         "dektrium/yii2-user": "^0.9.12",
-        "newerton/yii2-fancybox": "dev-master"
+        "newerton/yii2-fancybox": "dev-master",
+        "kotchuprik/yii2-odnoklassniki-authclient": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
         "yiisoft/yii2-gii": "~2.0.0",
         "yiisoft/yii2-faker": "~2.0.0",
+
 
         "codeception/base": "^2.2.3",
         "codeception/verify": "~0.3.1"
