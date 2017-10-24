@@ -119,7 +119,7 @@ class AccountController extends \yii\rest\ActiveController
 
         if($provider && $provider_user_id){
             $dao=Yii::$app->db;
-            $user_id=false;
+            $user_id=null;
             $has_social=false;
 
             //get user_id if they previously had used social login and got registered
