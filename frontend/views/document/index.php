@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="main_heading">
             <?= $title; ?>
         </div>
-        
+
 
         <?php
         echo ListView::widget([
