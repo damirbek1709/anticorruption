@@ -52,5 +52,4 @@ use yii\helpers\BaseStringHelper;
     </div>
 
 </div>
-<div class="chameleon mobile_more"
-     style="display: table!important;"><?= Html::a('Все обращения', ['/report/index']) ?></div>
+<div class="chameleon mobile_more"><?= Html::a('Все обращения', ['/report/index']) ?></div>
