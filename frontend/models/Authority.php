@@ -188,7 +188,7 @@ class Authority extends \yii\db\ActiveRecord
             ]);
             return Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $images[0]));
         }*/ else {
-            return Html::img(Url::base() . "/images/site/herb.png");
+            return Html::img(Url::base() . "/images/site/herb.png",['style'=>'width:70%']);
         }
     }
     public function afterSave($insert, $changedAttributes)
