@@ -86,6 +86,7 @@ return [
                     'extraPatterns' => [
                         'POST login' => 'login',
                         'POST forgot' => 'forgot',
+                        'POST social' => 'social',
                     ],
                 ],
                 ['class' => 'yii\rest\UrlRule','controller' => 'documents'],
