@@ -295,6 +295,8 @@ class Report extends \yii\db\ActiveRecord
 
         //api
         if($this->images){
+            $dir=Yii::getAlias("@frontend/web/images/report/{$this->id}");
+            $thumbDir = $dir."/thumbs";
             FileHelper::createDirectory($dir);
             FileHelper::createDirectory($thumbDir);
             foreach($this->images as $k=>$image){
