@@ -37,6 +37,7 @@ use yii\helpers\FileHelper;
 class Report extends \yii\db\ActiveRecord
 {
     public $file;
+    public $images = []; //android, ios uploaded images
 
     /**
      * @inheritdoc
@@ -279,19 +280,45 @@ class Report extends \yii\db\ActiveRecord
             FileHelper::createDirectory($thumbDir);
 
             $imagine = Image::getImagine();
-            foreach ($this->file as $file) {
-                $file->saveAs("{$dir}" . DIRECTORY_SEPARATOR . "{$file->baseName}.{$file->extension}");
-                $image = $imagine->open(
-                    Yii::getAlias('@webroot/images/report')
-                    . "/{$this->id}/{$file->baseName}.{$file->extension}", ['quality' => 100]);
+            foreach ($this->file as $k=>$file) {
+                $ts=time();
+                $rand=$this->id."_".$k."_".$ts;
+                $imgName=$rand.".".strtolower($file->extension);
+                $file->saveAs($dir.DIRECTORY_SEPARATOR.$imgName);
+                $image = $imagine->open($dir.DIRECTORY_SEPARATOR.$imgName);
+                $image->thumbnail(new Box(800, 800))->save($dir."/".$imgName);
+                $image->thumbnail(new Box(135, 100))->save($dir."/thumbs/".$imgName, ['quality' => 90]);
 
-                $image->thumbnail(new Box(135, 100))->save(Yii::getAlias('@webroot/images/report/')
-                    .
-                    "{$this->id}/thumbs/{$file->baseName}.{$file->extension}", ['quality' => 100]);
+                Image::thumbnail($dir.'/'.$imgName, 135, 100)->save($dir.'/thumbs/'.$imgName, ['quality' => 90]);
+            }
 
-                Image::thumbnail($dir . '/' . "{$file->baseName}.{$file->extension}", 135, 100)->save($dir . '/thumbs/' . "{$file->baseName}.{$file->extension}", ['quality' => 100]);
+            //api
+            if($this->images){
+                $frontdir=Yii::getAlias('@frontend').'/web/images/report/';
+                $tosave=$frontdir.$this->id;
+                if (!file_exists($tosave)) {
+                    mkdir($tosave);
+                }
+                foreach($this->images as $k=>$image){
+                    $ts=time();
+                    $rand=$this->id."_".$k."_".$ts;
+                    $imgname = $rand.".jpg";
+                    $decoded=base64_decode($image);
+                    imagejpeg(imagecreatefromstring($decoded),$tosave .'/'. $imgname,80);
+                    $this->resizeImage($tosave,$rand);
+                }
             }
         }
+    }
+
+    protected function resizeImage($dir,$imageName){
+        if (Yii::$app->request->serverName=='anticor.loc') {
+            Image::$driver = [Image::DRIVER_GD2];
+        }
+        $imagine=Image::getImagine()->open($dir.'/'.$imageName.'.jpg');
+        $imagine->thumbnail(new Box(800, 800))->save($dir.'/'.$imageName.'.jpg');
+        $imagine->thumbnail(new Box(135, 100))->save($dir.'/thumbs/'.$imageName.'.jpg');
+        //$imagine->thumbnail(new Box(80, 80))->save($dir.'/'.$imageName.'_t.jpg');
     }
 
     public function fields()
