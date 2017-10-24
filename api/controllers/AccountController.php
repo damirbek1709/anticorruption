@@ -18,7 +18,7 @@ class AccountController extends \yii\rest\ActiveController
         $actions = parent::actions();
         //$actions['create']['scenario'] = 'register';
         $actions['update']['scenario'] = 'update';
-        unset($actions['delete'], $actions['create']);
+        unset($actions['delete'], $actions['create'], $actions['index']);
 
         return $actions;
     }
@@ -28,7 +28,7 @@ class AccountController extends \yii\rest\ActiveController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::className(),
-            'except' => ['create', 'login', 'forgot'],
+            'except' => ['create', 'login', 'forgot', 'social'],
         ];
         /*$behaviors['access'] = [
             'class' => AccessControl::className(),
@@ -99,5 +99,94 @@ class AccountController extends \yii\rest\ActiveController
             return ['message'=>'Вам отправлено письмо с инструкциями по смене пароля.'];
         }
         else {return ['message'=>'Пользователь с такой почтой не найден.'];}
+    }
+
+    public function actionSocial()
+    {
+        $post=Yii::$app->request->post();
+        if(isset($post['provider']) && isset($post['puid'])){
+            $provider=$post['provider']; //facebook, twitter, google, odnoklassniki
+            $provider_user_id=$post['puid'];
+        }
+        else{
+            return "error";
+        }
+        $data=Yii::$app->request->post('data');
+        $email=Yii::$app->request->post('email');
+        $social_username=Yii::$app->request->post('username');
+        $username=$social_username;
+        $result=null;
+
+        if($provider && $provider_user_id){
+            $dao=Yii::$app->db;
+            $user_id=null;
+            $has_social=false;
+
+            //get user_id if they previously had used social login and got registered
+            $social_row=$dao->createCommand("SELECT * FROM social_account WHERE provider='{$provider}' && client_id='{$provider_user_id}'")->queryOne();
+            if($social_row){
+                $has_social=true; //already has social account, so no need to create one
+                if($social_row['user_id']){$user_id=$social_row['user_id'];}
+            }
+            if($user_id) //if they have registered then return user data
+            {
+                $result=$this->getUser($user_id);
+            }
+            else //if didn't then register and login
+            {
+                if($email) //if email is provided then check if user with this email has already registered
+                {
+                    $user_exists=$dao->createCommand("SELECT id FROM `user` WHERE email='{$email}'")->queryOne();
+                    if(!empty($user_exists)) //if did then return user
+                    {
+                        $user_id=$user_exists['id'];
+                        $result=$this->getUser($user_id);
+                    }
+                    else //create user
+                    {
+                        $model=new User();
+                        $model->email=$email;
+                        if(!$social_username){$username=$model->generateUsername();}
+                        $model->username=$username;
+                        $model->create();
+                        $result=$model;
+                        $user_id=$model->id;
+                    }
+
+                    if($has_social) //if social_account was created before but didn't have email or user_id
+                    {
+                        if(!empty($social_row['email'])){$upd_email=$social_row['email'];} else{$upd_email=null;}
+                        if($user_id){$upd_user_id=$user_id;} else{$upd_user_id=null;}
+                        if($upd_email || $upd_user_id){
+                            $dao->createCommand("UPDATE social_account SET email='{$upd_email}', user_id='{$upd_user_id}' WHERE id='{$social_row['id']}'")->execute();
+                        }
+                    }
+                }
+                else //if email is not provided then ask email before registering new user
+                {
+                    $result="ask_email";
+                }
+                if(!$has_social){
+                    $dao->createCommand()->insert('social_account', [
+                        'provider' => $provider,
+                        'client_id' => $provider_user_id,
+                        'user_id'=>$user_id,
+                        'data'=>$data,
+                        'email'=>$email,
+                        'username'=>$social_username
+                    ])->execute();
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    protected function getUser($user_id){
+        $model = User::findOne(["id" => $user_id]);
+        $model->last_login_at = Yii::$app->formatter->asTimestamp(date_create());
+        //$model->updateCounters(['logins' => 1]);
+        $model->save(false);
+        return $model;
     }
 }
