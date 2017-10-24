@@ -6,11 +6,7 @@ use kartik\rating\StarRating;
 
 echo Html::beginTag("div", ['class' => 'sidebar_slider_cover','id'=>"mark-{$model->id}"]);
 echo Html::beginTag("div", ['class' => 'sidebar_slider_bg']);
-if ($model->img) {
-    echo Html::a(Html::img(Url::base() . "/images/authority/s_{$model->img}"), ['/authority/view', 'id' => $model->id]);
-} else {
-    echo Html::a(Html::img(Url::base() . "/images/site/herb.png", ['style' => 'width:150px']), ['/authority/view', 'id' => $model->id]);
-}
+echo $model->getMainThumb();
 echo Html::endTag("div");
 echo StarRating::widget([
     'name' => 'rating_2',

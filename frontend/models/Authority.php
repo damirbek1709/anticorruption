@@ -173,6 +173,24 @@ class Authority extends \yii\db\ActiveRecord
         }
     }
 
+
+    function getMainThumb()
+    {
+        if ($this->img) {
+            $image = Yii::getAlias("@frontend/web/images/authority/s_{$this->id}_{$this->img}");
+            return Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $image));
+
+        }
+       /* else if (is_dir(Yii::getAlias("@frontend/web/images/authority"))) {
+            $images = FileHelper::findFiles(Yii::getAlias("@frontend/web/images/authority/"), [
+                'recursive' => false,
+                'except' => ['.gitignore']
+            ]);
+            return Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $images[0]));
+        }*/ else {
+            return Html::img("@frontend/web/images/site/herb.png");
+        }
+    }
     public function afterSave($insert, $changedAttributes)
     {
         // open image

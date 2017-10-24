@@ -47,8 +47,8 @@ AppAsset::register($this);
         <div class="width_limiter">
             <div class="left_top_header">
                 <?= Html::a(Yii::t('app', 'О проекте'), ['/site/about']) ?>
-                <?= Html::a(Yii::t('app', 'Контакты'), ['/site/contact']) ?>
-                <?= Html::a(Yii::t('app', 'Обратная связь'), ['/site/feedback']) ?>
+                <?//= Html::a(Yii::t('app', 'Контакты'), ['/site/contact']) ?>
+                <?//= Html::a(Yii::t('app', 'Обратная связь'), ['/site/feedback']) ?>
                 <?php
                 if (Yii::$app->user->isGuest)
                     echo Html::a(Yii::t('app', 'Вход на сайт'), ['/user/login']);
