@@ -102,8 +102,8 @@ class Education extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         if (count($this->file)) {
-            $dir = Yii::getAlias("@webroot/images/education/{$this->id}");
-            $thumbDir = Yii::getAlias("@webroot/images/education/{$this->id}/thumbs");
+            $dir = Yii::getAlias("@frontend/web/images/education/{$this->id}");
+            $thumbDir = Yii::getAlias("@frontend/web/images/education/{$this->id}/thumbs");
             FileHelper::createDirectory($dir);
             FileHelper::createDirectory($thumbDir);
 
@@ -111,15 +111,15 @@ class Education extends \yii\db\ActiveRecord
             foreach ($this->file as $file) {
                 $file->saveAs("{$dir}" . DIRECTORY_SEPARATOR . "{$file->baseName}.{$file->extension}");
                 $image = $imagine->open(
-                    Yii::getAlias('@webroot/images/education')
+                    Yii::getAlias('@frontend/web/images/education')
                     . "/{$this->id}/{$file->baseName}.{$file->extension}", ['quality' => 100]);
 
-                $image->resize(new Box(440, 270))->save(Yii::getAlias('@webroot/images/education/')
+                $image->resize(new Box(440, 270))->save(Yii::getAlias('@frontend/web/images/education/')
                     ."{$this->id}/". $file->baseName.".".$file->extension, ['quality' => 100]);
 
                 Image::thumbnail($dir . '/' . "{$file->baseName}.{$file->extension}", 440, 270)->save($dir . '/' . "{$file->baseName}.{$file->extension}", ['quality' => 100]);
 
-                $image->resize(new Box(135, 100))->save(Yii::getAlias('@webroot/images/education/')
+                $image->resize(new Box(135, 100))->save(Yii::getAlias('@frontend/web/images/education/')
                     .
                     "{$this->id}/thumbs/{$file->baseName}.{$file->extension}", ['quality' => 100]);
 
@@ -131,8 +131,8 @@ class Education extends \yii\db\ActiveRecord
     function getThumbs()
     {
         $result = [];
-        if (is_dir(Yii::getAlias("@webroot/images/education/{$this->id}"))) {
-            $images = FileHelper::findFiles(Yii::getAlias("@webroot/images/education/{$this->id}/thumbs"), [
+        if (is_dir(Yii::getAlias("@frontend/web/images/education/{$this->id}"))) {
+            $images = FileHelper::findFiles(Yii::getAlias("@frontend/web/images/education/{$this->id}/thumbs"), [
                 'recursive' => false,
                 'except' => ['.gitignore']
             ]);
@@ -154,17 +154,18 @@ class Education extends \yii\db\ActiveRecord
     function getThumbImages()
     {
         $result = [];
-        if (is_dir(Yii::getAlias("@webroot/images/education/{$this->id}"))) {
-            $images = FileHelper::findFiles(Yii::getAlias("@webroot/images/education/{$this->id}/thumbs"), [
+        if (is_dir(Yii::getAlias("@frontend/web/images/education/{$this->id}"))) {
+            $images = FileHelper::findFiles(Yii::getAlias("@frontend/web/images/education/{$this->id}/thumbs"), [
                 'recursive' => false,
                 'except' => ['.gitignore']
             ]);
 
             $index = 0;
             foreach ($images as $image) {
-                $result[] = Html::img(str_replace([Yii::getAlias('@webroot'), DIRECTORY_SEPARATOR], [Yii::getAlias('@web'), '/'], $image));
+                $result[] = Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $image));
+
                 if (basename($image) == $this->img) {
-                    $new_value = Html::img(str_replace([Yii::getAlias('@webroot'), DIRECTORY_SEPARATOR], [Yii::getAlias('@web'), '/'], $image));
+                    $new_value = Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $image));
                     unset($result[$index]);
                     array_unshift($result, $new_value);
                 }
@@ -177,17 +178,17 @@ class Education extends \yii\db\ActiveRecord
     function getImages()
     {
         $result = [];
-        if (is_dir(Yii::getAlias("@webroot/images/education/{$this->id}"))) {
-            $images = FileHelper::findFiles(Yii::getAlias("@webroot/images/education/{$this->id}/"), [
+        if (is_dir(Yii::getAlias("@frontend/web/images/education/{$this->id}"))) {
+            $images = FileHelper::findFiles(Yii::getAlias("@frontend/web/images/education/{$this->id}/"), [
                 'recursive' => false,
                 'except' => ['.gitignore']
             ]);
 
             $index = 0;
             foreach ($images as $image) {
-                $result[] = Html::img(str_replace([Yii::getAlias('@webroot'), DIRECTORY_SEPARATOR], [Yii::getAlias('@web'), '/'], $image));
+                $result[] = Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $image));
                 if (basename($image) == $this->img) {
-                    $new_value = Html::img(str_replace([Yii::getAlias('@webroot'), DIRECTORY_SEPARATOR], [Yii::getAlias('@web'), '/'], $image));
+                    $new_value = Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $image));
                     unset($result[$index]);
                     array_unshift($result, $new_value);
                 }

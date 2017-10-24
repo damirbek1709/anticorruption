@@ -47,8 +47,8 @@ AppAsset::register($this);
         <div class="width_limiter">
             <div class="left_top_header">
                 <?= Html::a(Yii::t('app', 'О проекте'), ['/site/about']) ?>
-                <?= Html::a(Yii::t('app', 'Контакты'), ['/site/contact']) ?>
-                <?= Html::a(Yii::t('app', 'Обратная связь'), ['/site/feedback']) ?>
+                <?//= Html::a(Yii::t('app', 'Контакты'), ['/site/contact']) ?>
+                <?//= Html::a(Yii::t('app', 'Обратная связь'), ['/site/feedback']) ?>
                 <?php
                 if (Yii::$app->user->isGuest)
                     echo Html::a(Yii::t('app', 'Вход на сайт'), ['/user/login']);
@@ -292,7 +292,7 @@ AppAsset::register($this);
 
             <div class="central_block"><?= $content ?></div>
             <div class="right_bar">
-                <?= Html::a(Html::img(\yii\helpers\Url::base() . "/images/site/banner.jpg")); ?>
+                <?= Html::a(Html::img(\yii\helpers\Url::base() . "/images/site/banner.jpg"),['/site/map']); ?>
 
                 <div class="bn-block-col">
                     <div class="bn-block type-2 margin2">
@@ -326,7 +326,7 @@ AppAsset::register($this);
                                     echo Html::beginTag("div", ['class' => 'sidebar_slider_cover']);
                                     echo Html::beginTag("div", ['class' => 'sidebar_slider_bg']);
                                     if ($authority->img) {
-                                        echo Html::a(Html::img(Url::base() . "/images/authority/s_{$authority->img}"), ['/authority/view', 'id' => $authority->id]);
+                                        echo Html::a(Html::img(Url::base() . "/images/authority/s_{$authority->id}_{$authority->img}"), ['/authority/view', 'id' => $authority->id]);
                                     } else {
                                         echo Html::a(Html::img(Url::base() . "/images/site/herb.png", ['style' => 'width:150px']), ['/authority/view', 'id' => $authority->id]);
                                     }
@@ -392,7 +392,7 @@ AppAsset::register($this);
                         }
                         ?>
                         <div class="more"><sup><?= Html::a('...', ['/analytics/index']) ?></sup></div>
-                        <div class="add_opinion"><?= Html::a('Добавить мнение', ['/analytics/create']) ?></div>
+                        <div class="add_opinion"><?//= Html::a('Добавить мнение', ['/analytics/create']) ?></div>
                     </div>
                 </div>
 

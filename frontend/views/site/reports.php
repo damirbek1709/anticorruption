@@ -42,7 +42,9 @@ use yii\helpers\BaseStringHelper;
                 echo Html::tag('div', '', ['class' => 'clear']);
                 echo Html::tag('span', "Сектор корупции: <span class='inner_red'>{$report->department->value}</span>", ['class' => 'news_date']);
                 echo Html::tag('div', '', ['class' => 'clear']);
-                echo Html::tag('span', "Тип обращения: <span class='inner_red'>{$report->type->value}</span>", ['class' => 'news_date']);
+                if ($report->type) {
+                    echo Html::tag('span', "Тип обращения: <span class='inner_red'>{$report->type->value}</span>", ['class' => 'news_date']);
+                }
                 echo Html::endTag('div');
             }
             ?>
@@ -50,4 +52,4 @@ use yii\helpers\BaseStringHelper;
     </div>
 
 </div>
-<div class="chameleon mobile_more" style="display: table!important;"><?=Html::a('Все обращения',['/report/index'])?></div>
+<div class="chameleon mobile_more"><?= Html::a('Все обращения', ['/report/index']) ?></div>

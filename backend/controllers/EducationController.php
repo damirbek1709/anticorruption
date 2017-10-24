@@ -51,7 +51,7 @@ class EducationController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->render('@frontend/views/education/view', [
             'model' => $this->findModel($id),
         ]);
     }

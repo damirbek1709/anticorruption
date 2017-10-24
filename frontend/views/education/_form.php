@@ -60,9 +60,9 @@ use kartik\file\FileInput;
                 foreach ($captionArr as $image) {
                     $savedImagesCaption[] = [
                         "caption" => basename($image),
-                        "url" => "remove-image",
+                        "url" => Yii::$app->urlManagerFrontend->createAbsoluteUrl(['site/remove-image']),
                         'key' => basename($image),
-                        'extra' => ['id' => $model->id],
+                        'extra' => ['id' => $model->id,'controller'=>'education'],
                     ];
                 }
             }
@@ -74,25 +74,25 @@ use kartik\file\FileInput;
                 'initialPreview' => $savedImages,
                 'initialCaption' => '',
                 'uploadAsync' => false,
-                //'deleteUrl'=>'/ads/remove-image',
-                //'data-key'=>[$savedImagesCaption,$model->id],
+                'deleteUrl'=>Yii::$app->urlManagerFrontend->createAbsoluteUrl(['site/remove-image']),
+                'data-key'=>[$savedImagesCaption,$model->id],
                 'initialPreviewConfig' => $savedImagesCaption,
                 'otherActionButtons' => '
                                 <button type="button" class="kv-cust-btn btn btn-xs">
                                     <i class="glyphicon glyphicon-ok"> Основной рисунок</i>
                                 </button>
-                               <button type="button" class="kv-cust-btn btn btn-xs btn-img-remove">
-                                    <i class="glyphicon glyphicon-trash"></i>
-                                </button>
+                                
                                 ',
                 'showCaption' => false,
                 'showRemove' => false,
                 'showUpload' => false,
                 'overwriteInitial' => false,
+
                 'fileActionSettings' => [
                     'showZoom' => false,
+                    'showRemove'=>true,
                     'indicatorNew' => '&nbsp;',
-                    'removeIcon' => '<span class="glyphicon glyphicon-trash" title="Удалить"></span> ',
+                    //'removeIcon' => '<span class="glyphicon glyphicon-trash" title="Удалить"></span> ',
                 ],
             ]
         ]);
@@ -129,7 +129,7 @@ use kartik\file\FileInput;
         if (id > 0) {
             var name = $(this).parents('.file-actions').siblings('.file-footer-caption').attr('title');
             $.ajax({
-                url: "<?=Url::base() . '/education/remove-image'?>",
+                url: "<?=Yii::$app->urlManagerFrontend->createAbsoluteUrl(['site/remove-image']);?>",
                 type: "post",
                 data: {id: id, controller: controller, name: name},
                 cache: false

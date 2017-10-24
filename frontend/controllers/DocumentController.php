@@ -46,6 +46,8 @@ class DocumentController extends Controller
         ]);
     }
 
+
+
     public function actionCategory($id)
     {
         $searchModel = new DocumentSearch();
@@ -56,7 +58,7 @@ class DocumentController extends Controller
         ]);
         $title = Vocabulary::find()->where(['id'=>$id,'key'=>'document_category'])->select('value')->scalar();
 
-        return $this->render('list', [
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'title'=>$title,

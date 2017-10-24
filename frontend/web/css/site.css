@@ -595,12 +595,14 @@ a.desc:after {
 /*---------------------------------------*/
 
 .bn-block.type-2 {
-    padding: 20px 16px 0;
+    padding: 20px 16px 15px;
     border-width: 1px;
     border-style: solid;
     border-color: #d3bbb9;
     border-image: initial;
 }
+
+
 
 .margin2 {
     margin: 25px 0px;
@@ -1063,6 +1065,7 @@ a.desc:after {
     text-align: center;
     overflow: hidden;
     padding-bottom: 10px;
+    min-height: 400px;
 }
 .authority_block:nth-child(3n+2){
     margin: auto 15px;
@@ -1212,5 +1215,20 @@ a.desc:after {
 }
 .chameleon{
     display: none;
+}
+
+
+.auth-icon.odnoklassniki {
+    background-image: url("../images/site/icons.png")!important;
+    background-position: -181px -220px;
+}
+.central_block .auth-clients{
+    padding: 0;
+    width: auto;
+    margin: 0 auto;
+    display: table;
+}
+.central_block .auth-clients li:nth-of-type(4){
+    margin-right: 0;
 }
 

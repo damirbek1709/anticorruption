@@ -6,6 +6,7 @@ use Yii;
 use frontend\models\AuthoritySearch;
 use frontend\models\Authority;
 use yii\data\ActiveDataProvider;
+use frontend\models\Comments;
 
 class AuthorityController extends \yii\web\Controller
 {
@@ -35,6 +36,16 @@ class AuthorityController extends \yii\web\Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
+        $newcomment = new Comments();
+        return $this->render('@frontend/views/authority/view', [
+            'model' => $model,
+            'comment'=>$newcomment,
+        ]);
     }
 
     protected function findModel($id)

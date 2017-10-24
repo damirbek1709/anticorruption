@@ -113,6 +113,13 @@ return [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
+        'urlManagerFrontend' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'class' => 'yii\web\urlManager',
+            'baseUrl' => '/',
+        ],
+
         'assetManager' => [
             'appendTimestamp' => true,
         ],

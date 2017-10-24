@@ -11,11 +11,11 @@ $this->title = Yii::t('app', $title);
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="document-index">
-    <h1><?= Html::encode($this->title) ?></h1>
     <div class="news-index">
         <div class="main_heading">
             <?= $title; ?>
         </div>
+
 
         <?php
         echo ListView::widget([

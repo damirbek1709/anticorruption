@@ -59,16 +59,14 @@ use kartik\datetime\DateTimePicker;
                 'initialPreview' => $savedImages,
                 'initialCaption' => '',
                 'uploadAsync' => false,
-                'deleteUrl'=>'/site/remove-image',
-                'data-key'=>[$savedImagesCaption,$model->id],
+                'deleteUrl'=>Yii::$app->urlManagerFrontend->createAbsoluteUrl(['site/remove-image']),
+                'data-name'=>[$savedImagesCaption,$model->id],
                 'initialPreviewConfig' => $savedImagesCaption,
                 'otherActionButtons' => '
                                 <button type="button" class="kv-cust-btn btn btn-xs">
                                     <i class="glyphicon glyphicon-ok"> Основной рисунок</i>
                                 </button>
-                                <button type="button" class="kv-cust-btn btn btn-xs btn-img-remove">
-                                    <i class="glyphicon glyphicon-trash"></i>
-                                </button>
+                                
                                 ',
                 'showCaption' => false,
                 'showRemove' => false,
@@ -154,7 +152,7 @@ use kartik\datetime\DateTimePicker;
         if(id>0) {
             var name = $(this).parents('.file-actions').siblings('.file-footer-caption').attr('title');
             $.ajax({
-                url: "<?=Url::base() . '/site/remove-image'?>",
+                url: "<?=Yii::$app->urlManagerFrontend->createAbsoluteUrl(['site/remove-image']);?>",
                 type: "post",
                 data: {id: id, controller: controller, name: name},
                 cache: false

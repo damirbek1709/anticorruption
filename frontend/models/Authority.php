@@ -155,6 +155,42 @@ class Authority extends \yii\db\ActiveRecord
         return $this->hasMany(Report::className(), ['authority_id' => 'id'])->count();
     }
 
+    function getMainImg()
+    {
+        if ($this->img) {
+            $image = Yii::getAlias("@frontend/web/images/authority/{$this->id}_{$this->img}");
+            return Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $image));
+
+        }
+        /*else if (is_dir(Yii::getAlias("@frontend/web/images/authority"))) {
+            $images = FileHelper::findFiles(Yii::getAlias("@frontend/web/images/authority/"), [
+                'recursive' => false,
+                'except' => ['.gitignore']
+            ]);
+            return Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $images[0]));
+        }*/ else {
+            return Html::img(Url::base() . "/images/site/herb.png");
+        }
+    }
+
+
+    function getMainThumb()
+    {
+        if ($this->img) {
+            $image = Yii::getAlias("@frontend/web/images/authority/s_{$this->id}_{$this->img}");
+            return Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $image));
+
+        }
+       /* else if (is_dir(Yii::getAlias("@frontend/web/images/authority"))) {
+            $images = FileHelper::findFiles(Yii::getAlias("@frontend/web/images/authority/"), [
+                'recursive' => false,
+                'except' => ['.gitignore']
+            ]);
+            return Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $images[0]));
+        }*/ else {
+            return Html::img(Url::base() . "/images/site/herb.png",['style'=>'width:70%']);
+        }
+    }
     public function afterSave($insert, $changedAttributes)
     {
         // open image
@@ -170,26 +206,26 @@ class Authority extends \yii\db\ActiveRecord
             $imagine = Image::getImagine();
             $this->image->saveAs(
                 Yii::getAlias('@frontend/web/images/authority')
-                . "/{$this->id}-"
+                . "/{$this->id}_"
                 . $this->image->name, ['quality' => 100]);
 
             $image = $imagine->open(
                 Yii::getAlias('@frontend/web/images/authority')
-                . "/{$this->id}-"
+                . "/{$this->id}_"
                 . $this->image->name, ['quality' => 100]);
 
             $image->resize(new Box($image->getSize()->getWidth(), $image->getSize()->getHeight()))
                 ->crop(new Point($x, $y), new Box($width, $height))
                 ->save(Yii::getAlias('@frontend/web/images/authority')
-                    . "/{$this->id}-"
+                    . "/{$this->id}_"
                     . $this->image->name, ['quality' => 100]);
 
             $image->resize(new Box(400, 400))->save(Yii::getAlias('@frontend/web/images/authority')
-                . "/{$this->id}-"
+                . "/{$this->id}_"
                 . $this->image->name, ['quality' => 100]);
 
             $image->resize(new Box(150, 150))->save(Yii::getAlias('@frontend/web/images/authority')
-                . "/s-{$this->id}-".
+                . "/s_{$this->id}_".
                 $this->image->name, ['quality' => 100]);
         }
     }

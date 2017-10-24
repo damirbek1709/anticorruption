@@ -1,29 +1,37 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ListView;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel frontend\models\DocumentSearch */
+/* @var $searchModel frontend\models\EducationSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = $title;
+$this->title = Yii::t('app', 'Отчеты');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="document-index">
-    <div class="news-index">
-        <div class="main_heading">
-            <?= $this->title; ?>
-        </div>
+<div class="education-index">
 
-        <?php
-        echo ListView::widget([
-            'summary' => false,
-            'dataProvider' => $dataProvider,
-            'itemView' => '_item',
-            'itemOptions' => [
-                'class' => 'news_block',
+    <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <p>
+        <?= Html::a(Yii::t('app', 'Добавить отчет'), ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+    <?= GridView::widget([
+        'summary' => false,
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            'id',
+            [
+                'attribute' => 'title',
+                'contentOptions' => ['style' => 'width:600px; white-space: normal;'],
             ],
-            //'options' => ['class' => 'general-apart-list']
-        ]); ?>
-    </div>
+            'date',
+
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
 </div>

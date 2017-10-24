@@ -92,11 +92,11 @@ return [
             ],
         ],
 
-        'urlManagerFrontEnd' => [
-            'class' => 'yii\web\urlManager',
-            'baseUrl' => '/',
+        'urlManagerFrontend' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'class' => 'yii\web\urlManager',
+            'baseUrl' => '/',
         ],
 
     ],

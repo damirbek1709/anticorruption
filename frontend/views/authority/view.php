@@ -37,10 +37,7 @@ $this->title = $model->title;
             </div>
             <?php
             Modal::end();
-            if ($model->img)
-                echo Html::img(Url::base() . "/images/authority/{$model->img}");
-            else
-                echo Html::img(Url::base() . '/images/authority/herb.png');
+                echo $model->getMainImg();
             ?>
             <?php
             echo StarRating::widget([

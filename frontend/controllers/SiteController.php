@@ -24,6 +24,7 @@ class SiteController extends Controller
 {
 
     public $layout;
+    public $enableCsrfValidation = false;
 
     /**
      * @inheritdoc
@@ -36,7 +37,7 @@ class SiteController extends Controller
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'login', 'map', 'city','remove-image'],
+                        'actions' => ['index', 'login', 'map', 'city'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
