@@ -273,9 +273,9 @@ class Report extends \yii\db\ActiveRecord
 
     public function afterSave($insert, $changedAttributes)
     {
+        $dir = Yii::getAlias("@webroot/images/report/{$this->id}");
+        $thumbDir = $dir."/thumbs";
         if (count($this->file)) {
-            $dir = Yii::getAlias("@webroot/images/report/{$this->id}");
-            $thumbDir = Yii::getAlias("@webroot/images/report/{$this->id}/thumbs");
             FileHelper::createDirectory($dir);
             FileHelper::createDirectory($thumbDir);
 
@@ -291,22 +291,19 @@ class Report extends \yii\db\ActiveRecord
 
                 Image::thumbnail($dir.'/'.$imgName, 135, 100)->save($dir.'/thumbs/'.$imgName, ['quality' => 90]);
             }
+        }
 
-            //api
-            if($this->images){
-                $frontdir=Yii::getAlias('@frontend').'/web/images/report/';
-                $tosave=$frontdir.$this->id;
-                if (!file_exists($tosave)) {
-                    mkdir($tosave);
-                }
-                foreach($this->images as $k=>$image){
-                    $ts=time();
-                    $rand=$this->id."_".$k."_".$ts;
-                    $imgname = $rand.".jpg";
-                    $decoded=base64_decode($image);
-                    imagejpeg(imagecreatefromstring($decoded),$tosave .'/'. $imgname,80);
-                    $this->resizeImage($tosave,$rand);
-                }
+        //api
+        if($this->images){
+            FileHelper::createDirectory($dir);
+            FileHelper::createDirectory($thumbDir);
+            foreach($this->images as $k=>$image){
+                $ts=time();
+                $rand=$this->id."_".$k."_".$ts;
+                $imgname = $rand.".jpg";
+                $decoded=base64_decode($image);
+                imagejpeg(imagecreatefromstring($decoded),$dir .'/'. $imgname,80);
+                $this->resizeImage($dir,$rand);
             }
         }
     }
