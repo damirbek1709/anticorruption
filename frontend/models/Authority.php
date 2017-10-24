@@ -162,13 +162,13 @@ class Authority extends \yii\db\ActiveRecord
             return Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $image));
 
         }
-        else if (is_dir(Yii::getAlias("@frontend/web/images/authority"))) {
+        /*else if (is_dir(Yii::getAlias("@frontend/web/images/authority"))) {
             $images = FileHelper::findFiles(Yii::getAlias("@frontend/web/images/authority/"), [
                 'recursive' => false,
                 'except' => ['.gitignore']
             ]);
             return Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $images[0]));
-        } else {
+        }*/ else {
             return Html::img(Url::base() . "/images/site/herb.png");
         }
     }
@@ -188,7 +188,7 @@ class Authority extends \yii\db\ActiveRecord
             ]);
             return Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $images[0]));
         }*/ else {
-            return Html::img("@frontend/web/images/site/herb.png");
+            return Html::img(Url::base() . "/images/site/herb.png");
         }
     }
     public function afterSave($insert, $changedAttributes)
