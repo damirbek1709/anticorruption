@@ -153,9 +153,13 @@ class AccountController extends \yii\rest\ActiveController
                         $user_id=$model->id;
                     }
 
-                    if($has_social && empty($social_row['email'])) //if social_account was created before but didn't have email
+                    if($has_social) //if social_account was created before but didn't have email or user_id
                     {
-                        $dao->createCommand("UPDATE social_account SET email='{$email}' WHERE id='{$social_row['id']}'")->execute();
+                        if(!empty($social_row['email'])){$upd_email=$social_row['email'];} else{$upd_email=null;}
+                        if($user_id){$upd_user_id=$user_id;} else{$upd_user_id=null;}
+                        if($upd_email || $upd_user_id){
+                            $dao->createCommand("UPDATE social_account SET email='{$upd_email}', user_id='{$upd_user_id}' WHERE id='{$social_row['id']}'")->execute();
+                        }
                     }
                 }
                 else //if email is not provided then ask email before registering new user
