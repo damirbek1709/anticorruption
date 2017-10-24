@@ -310,4 +310,8 @@ a.desc:after {
 .tabs-authority{
     display: none;
 }
+.nav-backend .dropdown-menu > .active > a{
+    background-color: #fff;
+    color: #000;
+}
 

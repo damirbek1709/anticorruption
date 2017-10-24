@@ -38,16 +38,84 @@ AppAsset::register($this);
 
 <div class="wrap">
     <div class="container" style="padding: 10px;">
-        <div class="admin_bar">
-            <?php
-            echo Html::a('Обращение о коррупции', ['/report/index'], ['class' => 'admin_menu_item']);
-            echo Html::a('Гос.Органы', ['/authority/index'], ['class' => 'admin_menu_item']);
-            echo Html::a('Новости', ['/news/index'], ['class' => 'admin_menu_item']);
-            echo Html::a('Антикоррупционное образование', ['/education/index'], ['class' => 'admin_menu_item']);
-            echo Html::a('Аналитика', ['/analytics/index'], ['class' => 'admin_menu_item']);
-            echo Html::a('Отчеты', ['/document/index'], ['class' => 'admin_menu_item']);
-            ?>
-        </div>
+        <?php
+        NavBar::begin([
+            'brandLabel' => '',
+            'brandUrl' => Yii::$app->homeUrl,
+            'options' => [
+                'class' => 'navbar-inverse',
+            ],
+        ]);
+        $menuItems = [
+            [
+                'label' => Yii::t('app', 'Обращения о коррупции'),
+                'items' => [
+                    ['label' => Yii::t('app', 'Обращения'), 'url' => ['/report/category'],
+                        'linkOptions' => [
+                            'data-method' => 'post',
+                            'data-params' => ['id' => 134]
+                        ],
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Коррупционные схемы'), 'url' => ['/report/category'],
+                        'linkOptions' => [
+                            'data-method' => 'post',
+                            'data-params' => ['id' => 137]
+                        ],
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Коррупционная сводка'), 'url' => ['/report/category'],
+                        'linkOptions' => [
+                            'data-method' => 'post',
+                            'data-params' => ['id' => 135]
+                        ],],
+                    [
+                        'label' => Yii::t('app', 'Мне интересно знать, Откуда?'), 'url' => ['/report/category'],
+                        'linkOptions' => [
+                            'data-method' => 'post',
+                            'data-params' => ['id' => 138]
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'label' => Yii::t('app', 'Госорганы'),
+                'url' => ['/authority/index']
+            ],
+            [
+                'label' => Yii::t('app', 'Новости'),
+                'items' => [
+                    ['label' => Yii::t('app', 'Новостная лента'), 'url' => ['/news/category', 'id' => 133]],
+                    ['label' => Yii::t('app', 'Сводка коррупционных преступлений'), 'url' => ['/news/category', 'id' => 132]],
+                    ['label' => Yii::t('app', 'Достижения'), 'url' => ['/news/category', 'id' => 130]],
+                    ['label' => Yii::t('app', 'Пресс релизы госорганов'), 'url' => ['/news/category', 'id' => 131]],
+                ],
+            ],
+            [
+                'label' => Yii::t('app', 'Антикоррупционное образование'),
+                'url' => ['/education/index']
+            ],
+            [
+                'label' => Yii::t('app', 'Аналитика'),
+                'url' => ['/analytics/index']
+            ],
+            [
+                'label' => Yii::t('app', 'Отчеты'),
+                'url' => ['/document/index']
+            ],
+        ];
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-left nav-backend'],
+            'items' => $menuItems,
+        ]);
+        NavBar::end();
+        /*echo Html::a('Обращения о коррупции', ['/report/index'], ['class' => 'admin_menu_item']);
+        echo Html::a('Гос.Органы', ['/authority/index'], ['class' => 'admin_menu_item']);
+        echo Html::a('Новости', ['/news/index'], ['class' => 'admin_menu_item']);
+        echo Html::a('Антикоррупционное образование', ['/education/index'], ['class' => 'admin_menu_item']);
+        echo Html::a('Аналитика', ['/analytics/index'], ['class' => 'admin_menu_item']);
+        echo Html::a('Отчеты', ['/document/index'], ['class' => 'admin_menu_item']);*/
+        ?>
     </div>
     <?php
     /*NavBar::begin([
