@@ -392,7 +392,7 @@ AppAsset::register($this);
                         }
                         ?>
                         <div class="more"><sup><?= Html::a('...', ['/analytics/index']) ?></sup></div>
-                        <div class="add_opinion"><?= Html::a('Добавить мнение', ['/analytics/create']) ?></div>
+                        <div class="add_opinion"><?//= Html::a('Добавить мнение', ['/analytics/create']) ?></div>
                     </div>
                 </div>
 
