@@ -104,11 +104,16 @@ class AccountController extends \yii\rest\ActiveController
     public function actionSocial()
     {
         $post=Yii::$app->request->post();
-        $provider=$post['provider']; //facebook, twitter, google, odnoklassniki
-        $provider_user_id=$post['puid'];
-        $data=$post['data'];
-        $email=$post['email'];
-        $social_username=$post['username'];
+        if(isset($post['provider']) && isset($post['puid'])){
+            $provider=$post['provider']; //facebook, twitter, google, odnoklassniki
+            $provider_user_id=$post['puid'];
+        }
+        else{
+            return "error";
+        }
+        $data=Yii::$app->request->post('data');
+        $email=Yii::$app->request->post('email');
+        $social_username=Yii::$app->request->post('username');
         $username=$social_username;
         $result=null;
 
