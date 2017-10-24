@@ -292,7 +292,7 @@ AppAsset::register($this);
 
             <div class="central_block"><?= $content ?></div>
             <div class="right_bar">
-                <?= Html::a(Html::img(\yii\helpers\Url::base() . "/images/site/banner.jpg")); ?>
+                <?= Html::a(Html::img(\yii\helpers\Url::base() . "/images/site/banner.jpg"),['/site/map']); ?>
 
                 <div class="bn-block-col">
                     <div class="bn-block type-2 margin2">
