@@ -602,6 +602,8 @@ a.desc:after {
     border-image: initial;
 }
 
+
+
 .margin2 {
     margin: 25px 0px;
 }
@@ -1063,6 +1065,7 @@ a.desc:after {
     text-align: center;
     overflow: hidden;
     padding-bottom: 10px;
+    min-height: 400px;
 }
 .authority_block:nth-child(3n+2){
     margin: auto 15px;
