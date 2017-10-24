@@ -1065,7 +1065,7 @@ a.desc:after {
     text-align: center;
     overflow: hidden;
     padding-bottom: 10px;
-    min-height: 400px;
+    min-height: 405px;
 }
 .authority_block:nth-child(3n+2){
     margin: auto 15px;
