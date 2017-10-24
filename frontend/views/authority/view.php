@@ -37,7 +37,6 @@ $this->title = $model->title;
             </div>
             <?php
             Modal::end();
-            if ($model->img)
                 echo $model->getMainImg();
             ?>
             <?php

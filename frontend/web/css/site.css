@@ -595,7 +595,7 @@ a.desc:after {
 /*---------------------------------------*/
 
 .bn-block.type-2 {
-    padding: 20px 16px 0;
+    padding: 20px 16px 15px;
     border-width: 1px;
     border-style: solid;
     border-color: #d3bbb9;
