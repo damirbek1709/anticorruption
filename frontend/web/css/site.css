@@ -307,9 +307,8 @@ a.desc:after {
 }
 
 .news_title:hover {
-    text-decoration: none;
+    text-decoration: underline;
     color: #000;
-    border-bottom: 1px solid #000;
 }
 
 .news_date {
@@ -854,6 +853,16 @@ a.desc:after {
     height: 120px;
 }
 
+.comment_icon{
+    background-image: url(../images/site/icons.png);
+    width: 24px;
+    height: 22px;
+    display: inline-block;
+    background-position: -133px -160px;
+    float: left;
+    margin-right: 5px;
+}
+
 .send-comment {
     border-radius: 0;
     background-color: #b90302;
@@ -1231,4 +1240,6 @@ a.desc:after {
 .central_block .auth-clients li:nth-of-type(4){
     margin-right: 0;
 }
+.news-title-cover{
 
+}

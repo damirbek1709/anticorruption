@@ -74,7 +74,11 @@ class ReportController extends Controller
     public function actionIndex()
     {
         $searchModel = new ReportSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => ReportSearch::find()->where(['status' => 1]),
+            'sort' => ['defaultOrder' => ['date' => SORT_DESC]],
+        ]);
+
 
         return $this->render('index', [
             'searchModel' => $searchModel,

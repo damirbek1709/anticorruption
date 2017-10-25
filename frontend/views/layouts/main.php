@@ -15,6 +15,8 @@ use kartik\rating\StarRating;
 use frontend\models\News;
 use frontend\models\Authority;
 use frontend\models\Analytics;
+use yii\bootstrap\Modal;
+use frontend\models\Report;
 
 AppAsset::register($this);
 ?>
@@ -77,11 +79,12 @@ AppAsset::register($this);
             <div class="report_header">
                 <?php
                 $separator = ' ';
+                $report_count = Report::find()->where(['status'=>1])->count();
                 $formated_num = preg_replace('/(?<=\d)\x' . bin2hex($separator[0]) . '(?=\d)/',
                     $separator,
-                    number_format(12967, 0, '.', $separator));
+                    number_format($report_count, 0, '.', $separator));
                 ?>
-                <?= Html::tag('div', $formated_num . ' ' . Yii::t('app', 'обращений о коррупции'), ['class' => 'report_number']); ?>
+                <?= Html::tag('div', Yii::t('app', 'Сообщений о коррупции:'). ' ' .$formated_num , ['class' => 'report_number']); ?>
                 <?
                 echo Html::beginTag('button', ['class' => 'button_transparent']);
                 echo Html::a(Yii::t('app', 'Сообщить о коррупции'), ['/report/create'], ['class' => 'report_label']);
@@ -192,10 +195,10 @@ AppAsset::register($this);
                     </div>
                 </div>
                 <div class="l_report_block">
-                    <?= Html::a(Yii::t('app', 'Исследования'), ['#'], ['class' => 'report_link']); ?>
-                    <?= Html::a(Yii::t('app', 'Отчеты госорганов'), ['#'], ['class' => 'report_link']); ?>
-                    <?= Html::a(Yii::t('app', 'Международное сотрудничество'), ['#'], ['class' => 'report_link']); ?>
-                    <?= Html::a(Yii::t('app', 'Декларация о доходах'), ['#'], ['class' => 'report_link']); ?>
+                    <?= Html::a(Yii::t('app', 'Исследования'), ['/document/category', 'id' => 146], ['class' => 'report_link']); ?>
+                    <?= Html::a(Yii::t('app', 'Отчеты госорганов'), ['/document/category', 'id' => 147], ['class' => 'report_link']); ?>
+                    <?= Html::a(Yii::t('app', 'Международное сотрудничество'), ['/document/category', 'id' => 148], ['class' => 'report_link']); ?>
+                    <?= Html::a(Yii::t('app', 'Декларация о доходах'), ['/document/category', 'id' => 149], ['class' => 'report_link']); ?>
                 </div>
 
                 <div class="l_corruption_block">
@@ -313,10 +316,32 @@ AppAsset::register($this);
                     </div>
                 </div>
                 <div class="sidebar_authority">
+                    <?php
+                    Modal::begin([
+                        'header' => '<h2>Пожалуйста, авторизуйтесь</h2>',
+                        'headerOptions' => ['id' => 'modalHeader'],
+                        'id' => 'modal',
+                        'size' => 'modal-md',
+                        //keeps from closing modal with esc key or by clicking out of the modal.
+                        // user must click cancel or X to close
+                        'clientOptions' => ['backdrop' => 'static', 'keyboard' => FALSE]
+                    ]);?>
+
+                    <div id="modalContent">
+                        <div class="main-heading">
+                            <div style="font-size: 15px">
+                                Для того чтобы проголосовать вам необходимо <?php echo Html::a('авторизоваться',['/user/login'],['style'=>'color:#d80403']);?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                    Modal::end();
+                    ?>
                     <div class="authority_heading">
                         Оцени гос.орган
                     </div>
                     <div class="demo">
+
                         <div class="item-1">
                             <ul id="authority-slider" class="authority-slider">
                                 <?php
@@ -363,7 +388,13 @@ AppAsset::register($this);
                                              $.ajax({
                                             url: \"/site/rating\",
                                             type: \"post\",
-                                            data: {value:value,id:$authority->id}            
+                                            data: {value:value,id:$authority->id},
+                                            success: function(response){
+                                                if(response==false)
+                                                {                                                
+                                                    $('#modal').modal('show')
+                                                }
+                                            }           
                                             });             
                                              }"],
                                     ]);

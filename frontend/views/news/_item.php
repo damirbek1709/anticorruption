@@ -18,6 +18,7 @@ echo Html::tag('div', '', ['class' => 'clear']);
 echo Html::a($model->title, ['/news/view', 'id' => $model->id], ['class' => 'news_title']);
 echo Html::tag('div', $model->description, ['class' => 'news_description']);
 echo Html::a($model->category->value, ['/news/category', 'id' => $model->category->id], ['class' => 'news_category_link']);
-echo Html::tag('span', 'Комментариев()', ['class' => 'news_coment_span']);
+echo Html::tag('span', "<span class='comment_icon'></span> {$model->commentsCount}", ['class' => 'news_coment_span']);
+
 echo Html::endTag('div');
 ?>

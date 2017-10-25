@@ -18,25 +18,6 @@ $this->title = $model->title;
     <div class="authority-logo">
         <div class="rating-authority-bg">
             <?php
-            Modal::begin([
-                'header' => '<h2>Пожалуйста, авторизуйтесь</h2>',
-                'headerOptions' => ['id' => 'modalHeader'],
-                'id' => 'modal',
-                'size' => 'modal-md',
-                //keeps from closing modal with esc key or by clicking out of the modal.
-                // user must click cancel or X to close
-                'clientOptions' => ['backdrop' => 'static', 'keyboard' => FALSE]
-            ]);?>
-            <div id="modalContent">
-                <div class="main-heading">
-                    <div style="font-size: 15px">
-                        Для того чтобы проголосовать вам необходимо <?php echo Html::a('авторизоваться',['/user/login'],['style'=>'color:#d80403']);?>
-                    </div>
-                </div>
-
-            </div>
-            <?php
-            Modal::end();
                 echo $model->getMainImg();
             ?>
             <?php

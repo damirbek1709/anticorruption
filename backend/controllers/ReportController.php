@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use frontend\models\Vocabulary;
 use Yii;
 use frontend\models\Report;
 use frontend\models\Comments;
@@ -159,6 +160,26 @@ class ReportController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionCategory()
+    {
+        $searchModel = new ReportSearch();
+        $request = Yii::$app->getRequest();
+        $id =  $request->post('id');
+        $dataProvider = new ActiveDataProvider([
+            'query' => ReportSearch::find()->where(['type_id' => $id]),
+            'sort' => ['defaultOrder' => ['date' => SORT_DESC]],
+        ]);
+
+        $title = Vocabulary::findOne($id);
+        $title = $title->value;
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'title'=>$title
+        ]);
     }
 
     /**

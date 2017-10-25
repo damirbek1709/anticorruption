@@ -9,7 +9,9 @@ use frontend\models\NewsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
+use frontend\models\Vocabulary;
 
 /**
  * NewsController implements the CRUD actions for News model.
@@ -29,6 +31,23 @@ class NewsController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function actionCategory($id)
+    {
+        //$request = Yii::$app->getRequest();
+        //$id =  $request->post('id');
+        $dataProvider = new ActiveDataProvider([
+            'query' => NewsSearch::find()->where(['category_id' => $id]),
+            'sort' => ['defaultOrder' => ['date' => SORT_DESC]],
+        ]);
+
+        $title = Vocabulary::find()->select(['value'])->where(['id'=>$id])->scalar();
+
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+            'news_title'=>$title
+        ]);
     }
 
     /**
@@ -77,6 +96,8 @@ class NewsController extends Controller
             ]);
         }
     }
+
+
 
     /**
      * Updates an existing News model.
