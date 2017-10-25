@@ -286,10 +286,10 @@ class Report extends \yii\db\ActiveRecord
                 $imgName=$rand.".".strtolower($file->extension);
                 $file->saveAs($dir.DIRECTORY_SEPARATOR.$imgName);
                 $image = $imagine->open($dir.DIRECTORY_SEPARATOR.$imgName);
-                $image->thumbnail(new Box(800, 800))->save($dir."/".$imgName);
-                $image->thumbnail(new Box(135, 100))->save($dir."/thumbs/".$imgName, ['quality' => 90]);
+                $image->thumbnail(new Box(1200, 1200))->save($dir."/".$imgName);
+                $image->thumbnail(new Box(120, 120))->save($dir."/thumbs/".$imgName, ['quality' => 95]);
 
-                Image::thumbnail($dir.'/'.$imgName, 135, 100)->save($dir.'/thumbs/'.$imgName, ['quality' => 90]);
+                //Image::thumbnail($dir.'/'.$imgName, 135, 100)->save($dir.'/thumbs/'.$imgName, ['quality' => 90]);
             }
         }
 
@@ -304,7 +304,7 @@ class Report extends \yii\db\ActiveRecord
                 $rand=$this->id."_".$k."_".$ts;
                 $imgname = $rand.".jpg";
                 $decoded=base64_decode($image);
-                imagejpeg(imagecreatefromstring($decoded),$dir .'/'. $imgname,80);
+                imagejpeg(imagecreatefromstring($decoded),$dir .'/'. $imgname,95);
                 $this->resizeImage($dir,$rand);
             }
         }
@@ -315,8 +315,8 @@ class Report extends \yii\db\ActiveRecord
             Image::$driver = [Image::DRIVER_GD2];
         }
         $imagine=Image::getImagine()->open($dir.'/'.$imageName.'.jpg');
-        $imagine->thumbnail(new Box(800, 800))->save($dir.'/'.$imageName.'.jpg');
-        $imagine->thumbnail(new Box(135, 100))->save($dir.'/thumbs/'.$imageName.'.jpg');
+        $imagine->thumbnail(new Box(1200, 1200))->save($dir.'/'.$imageName.'.jpg');
+        $imagine->thumbnail(new Box(120, 120))->save($dir.'/thumbs/'.$imageName.'.jpg');
         //$imagine->thumbnail(new Box(80, 80))->save($dir.'/'.$imageName.'_t.jpg');
     }
 
