@@ -88,6 +88,9 @@ class ReportController extends \yii\rest\ActiveController
     public function actionView($id)
     {
         $model = Report::find()->where(['id'=>$id])->with('authority', 'department', 'city', 'comments','type')->asArray()->one();
+        $count=$model['views']+1;
+        Yii::$app->db->createCommand("UPDATE report SET views='{$count}' WHERE id='{$id}'")->execute();
+        //$model->updateCounters(['views' => 1]);
         /*unset($model['form_id'],$model['location_id']);*/
 
         //images

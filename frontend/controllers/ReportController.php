@@ -151,8 +151,7 @@ class ReportController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $model->views++;
-        $model->save();
+        $model->updateCounters(['views' => 1]);
         $newcomment = new Comments();
         return $this->render('view', [
             'model' => $model,

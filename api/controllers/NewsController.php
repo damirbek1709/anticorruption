@@ -56,6 +56,8 @@ class NewsController extends \yii\rest\ActiveController
     public function actionView($id)
     {
         $model = News::find()->where(['id'=>$id])->with('category', 'comments')->asArray()->one();
+        $count=$model['views']+1;
+        Yii::$app->db->createCommand("UPDATE news SET views='{$count}' WHERE id='{$id}'")->execute();
         /*unset($model['form_id'],$model['location_id']);*/
         return $model;
     }
