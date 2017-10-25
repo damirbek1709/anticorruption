@@ -101,8 +101,7 @@ class NewsController extends Controller
     {
         $this->layout = $this->deviceCheck();
         $model = $this->findModel($id);
-        $model->views++;
-        $model->save();
+        $model->updateCounters(['views' => 1]);
         $newcomment = new Comments();
         return $this->render('view', [
             'model' => $model,

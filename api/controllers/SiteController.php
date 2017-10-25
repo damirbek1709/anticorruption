@@ -95,4 +95,9 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
+    public function actionTest(){
+        $neymar=explode(" ","asdf fff");
+        var_dump($neymar);
+    }
 }
