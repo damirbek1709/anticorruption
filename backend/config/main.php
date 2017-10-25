@@ -9,6 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
+    'defaultRoute' => 'authority/index',
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
@@ -43,6 +44,7 @@ return [
                 'path' => '/admin',
             ],
         ],
+
         // Configuration Session Backend [Yii2-User] //
         'session' => [
             'name' => 'BACKENDSESSID',

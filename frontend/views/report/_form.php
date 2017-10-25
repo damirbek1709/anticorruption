@@ -79,7 +79,10 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
             'options' => ['placeholder' => 'Выберите время дату и время'],
             //'convertFormat' => true,
             'pluginOptions' => [
+                //'minView' => 0,
+                'minuteStep'=>30,
                 //'format' => 'd-M-Y g:i A',
+                'format' => 'yyyy-m-dd HH:ii',
                 //'startDate' => '01-Mar-2017 12:00 AM',
                 'todayHighlight' => true
             ]

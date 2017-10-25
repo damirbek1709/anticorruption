@@ -53,8 +53,8 @@ class Report extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'authority_id', 'category_id', 'text', 'city_id','user_id'], 'required'],
-            [['category_id', 'lon', 'author', 'lat', 'city_id', 'text', 'anonymous', 'email', 'contact', 'type_id','images'], 'safe'],
+            [['title', 'authority_id', 'category_id', 'text', 'city_id','user_id','type_id'], 'required'],
+            [['category_id', 'lon', 'author', 'lat', 'city_id', 'text', 'anonymous', 'email', 'contact','images'], 'safe'],
             //[['email'], 'email'],
             [['date','status'], 'safe'],
             [['views', 'authority_id', 'category_id', 'city_id', 'anonymous', 'type_id'], 'integer'],
@@ -99,6 +99,7 @@ class Report extends \yii\db\ActiveRecord
             'lon' => Yii::t('app', 'Lon'),
             'lat' => Yii::t('app', 'Lat'),
             'city_id' => Yii::t('app', 'Город'),
+            'type_id' => Yii::t('app', 'Тип обращения'),
             'text' => Yii::t('app', 'Текст'),
             'anonymous' => Yii::t('app', 'Анонимное сообщение'),
             'email' => Yii::t('app', 'Электронная почта'),

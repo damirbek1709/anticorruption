@@ -39,8 +39,11 @@ AppAsset::register($this);
 <div class="wrap">
     <div class="container" style="padding: 10px;">
         <?php
+        $logo = Yii::getAlias("@frontend/web/images/site/herb.png");
+        $logo =  Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $logo));
+
         NavBar::begin([
-            'brandLabel' => '',
+            'brandLabel' => $logo,
             'brandUrl' => Yii::$app->homeUrl,
             'options' => [
                 'class' => 'navbar-inverse',
@@ -48,6 +51,11 @@ AppAsset::register($this);
         ]);
         $menuItems = [
             [
+                'label' => Yii::t('app', 'Госорганы'),
+                'url' => ['/authority/index']
+            ],
+            [
+
                 'label' => Yii::t('app', 'Обращения о коррупции'),
                 'items' => [
                     ['label' => Yii::t('app', 'Обращения'), 'url' => ['/report/category'],
@@ -77,10 +85,6 @@ AppAsset::register($this);
                         ],
                     ],
                 ],
-            ],
-            [
-                'label' => Yii::t('app', 'Госорганы'),
-                'url' => ['/authority/index']
             ],
             [
                 'label' => Yii::t('app', 'Новости'),
