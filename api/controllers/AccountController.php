@@ -114,7 +114,7 @@ class AccountController extends \yii\rest\ActiveController
         $data=Yii::$app->request->post('data');
         $email=Yii::$app->request->post('email');
         $social_username=Yii::$app->request->post('username');
-        $username=$social_username;
+        $name=Yii::$app->request->post('name');
         $result=null;
 
         if($provider && $provider_user_id){
@@ -146,8 +146,7 @@ class AccountController extends \yii\rest\ActiveController
                     {
                         $model=new User();
                         $model->email=$email;
-                        if(!$social_username){$username=$model->generateUsername();}
-                        $model->username=$username;
+                        $model->username=$this->generateUsername($model,$social_username,$name,$email);
                         $model->create();
                         $result=$model;
                         $user_id=$model->id;
@@ -180,6 +179,54 @@ class AccountController extends \yii\rest\ActiveController
         }
 
         return $result;
+    }
+
+    protected function cyrToLat($text){
+        $cyr = [
+            'а','б','в','г','д','е','ё','ж','з','и','й','к','л','м','н','о','п',
+            'р','с','т','у','ф','х','ц','ч','ш','щ','ъ','ы','ь','э','ю','я',
+            'А','Б','В','Г','Д','Е','Ё','Ж','З','И','Й','К','Л','М','Н','О','П',
+            'Р','С','Т','У','Ф','Х','Ц','Ч','Ш','Щ','Ъ','Ы','Ь','Э','Ю','Я'
+        ];
+        $lat = [
+            'a','b','v','g','d','e','io','zh','z','i','y','k','l','m','n','o','p',
+            'r','s','t','u','f','h','ts','ch','sh','sht','a','i','y','e','yu','ya',
+            'A','B','V','G','D','E','Io','Zh','Z','I','Y','K','L','M','N','O','P',
+            'R','S','T','U','F','H','Ts','Ch','Sh','Sht','A','I','Y','E','Yu','Ya'
+        ];
+        return str_replace($cyr, $lat, $text);
+        
+    }
+    
+    protected function generateUsername(User $model,$social_username,$name, $email){
+        $any_name="user";
+        if($social_username){
+            $any_name=$social_username;
+            if($model->validate($social_username)){return $social_username;}
+        }
+        if($name){
+            $name=$this->cyrToLat($name);
+            $neymar=explode(" ",$name);
+            $any_name=$neymar[0];
+            if($model->validate($neymar[0])){ return $neymar[0];}
+            if(isset($neymar[1])){if($model->validate($neymar[1])){ return $neymar[1];}}
+            if(isset($neymar[1])){
+                $name=str_replace(" ","",$name);
+                if($model->validate($name)){ return $name;}}
+        }
+        if($email){
+            $ename=explode("@",$email);
+            if(!empty($ename[0])){
+                $any_name=$ename[0];
+                if($model->validate($ename[0])){
+                    return $ename[0];
+                }
+            }
+        }
+
+        $rand=rand(1,1000);
+        return $any_name.$rand;
+
     }
 
     protected function getUser($user_id){
