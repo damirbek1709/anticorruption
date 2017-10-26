@@ -34,7 +34,7 @@ class ReportController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['view','update','category','delete'],
+                        'actions' => ['view','update','category','delete','index'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -54,6 +54,7 @@ class ReportController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'title'=>'Все обращения'
         ]);
     }
 
