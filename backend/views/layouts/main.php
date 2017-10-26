@@ -56,7 +56,6 @@ AppAsset::register($this);
                     'url' => ['/authority/index']
                 ],
                 [
-
                     'label' => Yii::t('app', 'Обращения о коррупции'),
                     'items' => [
                         ['label' => Yii::t('app', 'Все'), 'url' => ['/report/index']],
