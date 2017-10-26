@@ -39,7 +39,7 @@ class AnalyticsController extends Controller
                         'actions' => ['view'],
                         'roles' => ['?','@'],
                         'matchCallback' => function ($rule, $action) {
-                            if (Yii::$app->user->identity->isAdmin || $this->isUserAuthor()) {
+                            if ($this->isApproved()) {
                                 return true;
                             }
                             return false;
@@ -48,14 +48,20 @@ class AnalyticsController extends Controller
 
                     [
                         'allow' => true,
-                        'actions' => ['update', 'delete'],
+                        'actions' => ['update', 'delete','view'],
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
-                            if (Yii::$app->user->identity->isAdmin || $this->isUserAuthor()) {
+                            if ((!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin )|| $this->isUserAuthor()) {
                                 return true;
                             }
                             return false;
                         }
+                    ],
+
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'roles' => ['@'],
                     ],
 
                     [
@@ -71,6 +77,11 @@ class AnalyticsController extends Controller
     protected function isUserAuthor()
     {
         return $this->findModel(Yii::$app->request->get('id'))->author_id == Yii::$app->user->id;
+    }
+
+    protected function isApproved()
+    {
+        return $this->findModel(Yii::$app->request->get('id'))->status == 1;
     }
 
     /**
