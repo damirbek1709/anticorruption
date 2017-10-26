@@ -162,11 +162,9 @@ class ReportController extends Controller
         }
     }
 
-    public function actionCategory()
+    public function actionCategory($id)
     {
         $searchModel = new ReportSearch();
-        $request = Yii::$app->getRequest();
-        $id =  $request->post('id');
         $dataProvider = new ActiveDataProvider([
             'query' => ReportSearch::find()->where(['type_id' => $id]),
             'sort' => ['defaultOrder' => ['date' => SORT_DESC]],

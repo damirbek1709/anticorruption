@@ -25,9 +25,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'date',
             [
+                'attribute' => 'status',
+                'value' => function ($model) {
+                    if($model->status==1){
+                        return "Активен";
+                    }
+                    else{
+                        return "Не активен";
+                    }
+                }
+            ],
+            [
                 'class' => 'yii\grid\ActionColumn',
                 //'template' => '{view}{delete}',
-                ],
+            ],
         ],
     ]); ?>
 </div>

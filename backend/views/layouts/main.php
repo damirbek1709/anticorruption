@@ -40,7 +40,7 @@ AppAsset::register($this);
     <div class="container" style="padding: 10px;">
         <?php
         $logo = Yii::getAlias("@frontend/web/images/site/herb.png");
-        $logo =  Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $logo));
+        $logo = Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $logo));
 
         NavBar::begin([
             'brandLabel' => $logo,
@@ -58,31 +58,14 @@ AppAsset::register($this);
 
                 'label' => Yii::t('app', 'Обращения о коррупции'),
                 'items' => [
-                    ['label' => Yii::t('app', 'Обращения'), 'url' => ['/report/category'],
-                        'linkOptions' => [
-                            'data-method' => 'post',
-                            'data-params' => ['id' => 134]
-                        ],
+                    ['label' => Yii::t('app', 'Обращения'), 'url' => ['/report/category', 'id' => 134]],
+                    [
+                        'label' => Yii::t('app', 'Коррупционные схемы'), 'url' => ['/report/category', 'id' => 137]
                     ],
                     [
-                        'label' => Yii::t('app', 'Коррупционные схемы'), 'url' => ['/report/category'],
-                        'linkOptions' => [
-                            'data-method' => 'post',
-                            'data-params' => ['id' => 137]
-                        ],
-                    ],
+                        'label' => Yii::t('app', 'Коррупционная сводка'), 'url' => ['/report/category', 'id' => 135]],
                     [
-                        'label' => Yii::t('app', 'Коррупционная сводка'), 'url' => ['/report/category'],
-                        'linkOptions' => [
-                            'data-method' => 'post',
-                            'data-params' => ['id' => 135]
-                        ],],
-                    [
-                        'label' => Yii::t('app', 'Мне интересно знать, Откуда?'), 'url' => ['/report/category'],
-                        'linkOptions' => [
-                            'data-method' => 'post',
-                            'data-params' => ['id' => 138]
-                        ],
+                        'label' => Yii::t('app', 'Мне интересно знать, Откуда?'), 'url' => ['/report/category', 'id' => 138]
                     ],
                 ],
             ],
@@ -106,6 +89,22 @@ AppAsset::register($this);
             [
                 'label' => Yii::t('app', 'Отчеты'),
                 'url' => ['/document/index']
+            ],
+            [
+                'label' => Yii::t('app', 'Страницы'),
+                'url' => ['/page/index']
+            ],
+
+            [
+                'label' => Yii::t('app', 'Комментарии'),
+                'url' => ['/comments/index']
+            ],
+
+            [
+                'label' => Yii::t('app', 'Еще'),
+                'items' => [
+                    ['label' => Yii::t('app', 'Пользователи'), 'url' => ['/user/admin']]
+                ],
             ],
         ];
         echo Nav::widget([

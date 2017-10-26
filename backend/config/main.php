@@ -12,6 +12,7 @@ return [
     'defaultRoute' => 'authority/index',
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+    'language'=>'ru-RU',
     'modules' => [
         'user' => [
             'class' => 'dektrium\user\Module',
@@ -42,6 +43,14 @@ return [
             'csrfCookie' => [
                 'httpOnly' => true,
                 'path' => '/admin',
+            ],
+        ],
+
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@dektrium/user/views' => '@backend/views/user'
+                ],
             ],
         ],
 

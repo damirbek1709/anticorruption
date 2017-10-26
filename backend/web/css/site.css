@@ -321,4 +321,8 @@ a.desc:after {
 .navbar-brand{
     padding: 5px 10px!important;
 }
+.gallery-view-img {
+    margin: 0 10px 10px 0;
+    display: inline-block;
+}
 

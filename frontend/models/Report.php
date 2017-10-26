@@ -53,16 +53,18 @@ class Report extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'authority_id', 'category_id', 'text', 'city_id','user_id','type_id'], 'required'],
-            [['category_id', 'lon', 'author', 'lat', 'city_id', 'text', 'anonymous', 'email', 'contact','images'], 'safe'],
+            [['title', 'authority_id', 'category_id', 'text', 'city_id', 'user_id', 'type_id'], 'required'],
+            [['category_id', 'lon', 'author', 'lat', 'city_id', 'text', 'anonymous', 'email', 'contact', 'images'], 'safe'],
             //[['email'], 'email'],
-            [['date','status'], 'safe'],
+            [['date', 'status'], 'safe'],
             [['views', 'authority_id', 'category_id', 'city_id', 'anonymous', 'type_id'], 'integer'],
             [['lon', 'lat'], 'number'],
             [['text'], 'string'],
             [['title', 'author', 'email', 'contact'], 'string', 'max' => 255],
 
-            [['author'], 'required', 'when' => function ($model) { return $model->anonymous == '0';},
+            [['author'], 'required', 'when' => function ($model) {
+                return $model->anonymous == '0';
+            },
                 'whenClient' => "function (attribute, value) {return $('#report-anonymous').val() === '0';}"],
         ];
     }
@@ -106,7 +108,8 @@ class Report extends \yii\db\ActiveRecord
             'contact' => Yii::t('app', 'Контакты'),
             'imageFile' => Yii::t('app', 'Image File'),
             'imageFiles' => Yii::t('app', 'Фотографии'),
-            'file'=>'Фотографии',
+            'file' => 'Фотографии',
+            'status'=>'Статус',
         ];
     }
 
@@ -136,8 +139,9 @@ class Report extends \yii\db\ActiveRecord
         return $new_arr;
     }
 
-    public static function getSingleDrop($key){
-        return ArrayHelper::map(Vocabulary::find()->where(['key' => $key])->all(),'id', 'value');
+    public static function getSingleDrop($key)
+    {
+        return ArrayHelper::map(Vocabulary::find()->where(['key' => $key])->all(), 'id', 'value');
     }
 
 
@@ -169,12 +173,12 @@ class Report extends \yii\db\ActiveRecord
     function getImages()
     {
         $result = [];
-        if (is_dir(Yii::getAlias("@webroot/images/report/{$this->id}"))) {
-            $images = FileHelper::findFiles(Yii::getAlias("@webroot/images/report/{$this->id}"), [
+        if (is_dir(Yii::getAlias("@frontend/web/images/report/{$this->id}"))) {
+            $images = FileHelper::findFiles(Yii::getAlias("@frontend/web/images/report/{$this->id}"), [
                 'recursive' => false,
                 'except' => ['.gitignore'],
             ]);
-            $thumbs = FileHelper::findFiles(Yii::getAlias("@webroot/images/report/{$this->id}/thumbs"), [
+            $thumbs = FileHelper::findFiles(Yii::getAlias("@frontend/web/images/report/{$this->id}/thumbs"), [
                 'recursive' => false,
                 'except' => ['.gitignore'],
             ]);
@@ -182,18 +186,17 @@ class Report extends \yii\db\ActiveRecord
             $thumbResult = [];
 
             foreach ($images as $image) {
-                $result[] = str_replace([Yii::getAlias('@webroot'), DIRECTORY_SEPARATOR], [Yii::getAlias('@web'), '/'], $image);
+                $result[] = str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $image);
             }
 
             foreach ($thumbs as $thumb) {
-                $thumbResult[] = str_replace([Yii::getAlias('@webroot'), DIRECTORY_SEPARATOR], [Yii::getAlias('@web'), '/'], $thumb);
+                $thumbResult[] = str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $thumb);
             }
-            $result =  array_combine($thumbResult, $result);
+            $result = array_combine($thumbResult, $result);
         }
 
         return $result;
     }
-
 
 
     /**
@@ -220,19 +223,18 @@ class Report extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         //depend table holds timestamp of last table modification. it's for api
-        if($this->isNewRecord && !$this->date){
+        if ($this->isNewRecord && !$this->date) {
             $this->date = date("Y-m-d H:i:s");
         }
-        $dao=Yii::$app->db;
-        $voc=$dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='report'")->queryOne();
-        if(!$voc){
+        $dao = Yii::$app->db;
+        $voc = $dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='report'")->queryOne();
+        if (!$voc) {
             $dao->createCommand()->insert('depend', [
-                'table_name'=>'news',
-                'last_update' =>time(),
+                'table_name' => 'news',
+                'last_update' => time(),
             ])->execute();
-        }
-        else{
-            $dao->createCommand()->update('depend', ['last_update' =>time()], 'table_name="report"')->execute();
+        } else {
+            $dao->createCommand()->update('depend', ['last_update' => time()], 'table_name="report"')->execute();
         }
 
         $this->file = UploadedFile::getInstances($this, 'file');
@@ -258,15 +260,15 @@ class Report extends \yii\db\ActiveRecord
         return $result;
     }
 
-    public function afterDelete(){
+    public function afterDelete()
+    {
         parent::afterDelete();
-        $webroot=Yii::getAlias('@webroot');
-        $model_name=Yii::$app->controller->id;
-        if(is_dir($dir=$webroot."/images/report/".$this->id)){
+        $webroot = Yii::getAlias('@webroot');
+        $model_name = Yii::$app->controller->id;
+        if (is_dir($dir = $webroot . "/images/report/" . $this->id)) {
             $scaned_images = scandir($dir, 1);
-            foreach($scaned_images as $file )
-            {
-                if(is_file($dir.'/'.$file)) @unlink($dir.'/'.$file);
+            foreach ($scaned_images as $file) {
+                if (is_file($dir . '/' . $file)) @unlink($dir . '/' . $file);
             }
             @rmdir($dir);
         }
@@ -275,74 +277,75 @@ class Report extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         $dir = Yii::getAlias("@webroot/images/report/{$this->id}");
-        $thumbDir = $dir."/thumbs";
+        $thumbDir = $dir . "/thumbs";
         if (count($this->file)) {
             FileHelper::createDirectory($dir);
             FileHelper::createDirectory($thumbDir);
 
             $imagine = Image::getImagine();
-            foreach ($this->file as $k=>$file) {
-                $ts=time();
-                $rand=$this->id."_".$k."_".$ts;
-                $imgName=$rand.".".strtolower($file->extension);
-                $file->saveAs($dir.DIRECTORY_SEPARATOR.$imgName);
-                $image = $imagine->open($dir.DIRECTORY_SEPARATOR.$imgName);
-                $image->thumbnail(new Box(1200, 1200))->save($dir."/".$imgName);
-                $image->thumbnail(new Box(120, 120))->save($dir."/thumbs/".$imgName, ['quality' => 95]);
+            foreach ($this->file as $k => $file) {
+                $ts = time();
+                $rand = $this->id . "_" . $k . "_" . $ts;
+                $imgName = $rand . "." . strtolower($file->extension);
+                $file->saveAs($dir . DIRECTORY_SEPARATOR . $imgName);
+                $image = $imagine->open($dir . DIRECTORY_SEPARATOR . $imgName);
+                $image->thumbnail(new Box(1200, 1200))->save($dir . "/" . $imgName);
+                $image->thumbnail(new Box(120, 120))->save($dir . "/thumbs/" . $imgName, ['quality' => 95]);
 
                 //Image::thumbnail($dir.'/'.$imgName, 135, 100)->save($dir.'/thumbs/'.$imgName, ['quality' => 90]);
             }
         }
 
         //api
-        if($this->images){
-            $dir=Yii::getAlias("@frontend/web/images/report/{$this->id}");
-            $thumbDir = $dir."/thumbs";
+        if ($this->images) {
+            $dir = Yii::getAlias("@frontend/web/images/report/{$this->id}");
+            $thumbDir = $dir . "/thumbs";
             FileHelper::createDirectory($dir);
             FileHelper::createDirectory($thumbDir);
-            foreach($this->images as $k=>$image){
-                $ts=time();
-                $rand=$this->id."_".$k."_".$ts;
-                $imgname = $rand.".jpg";
-                $decoded=base64_decode($image);
-                imagejpeg(imagecreatefromstring($decoded),$dir .'/'. $imgname,95);
-                $this->resizeImage($dir,$rand);
+            foreach ($this->images as $k => $image) {
+                $ts = time();
+                $rand = $this->id . "_" . $k . "_" . $ts;
+                $imgname = $rand . ".jpg";
+                $decoded = base64_decode($image);
+                imagejpeg(imagecreatefromstring($decoded), $dir . '/' . $imgname, 95);
+                $this->resizeImage($dir, $rand);
             }
         }
     }
 
-    protected function resizeImage($dir,$imageName){
-        if (Yii::$app->request->serverName=='anticor.loc') {
+    protected function resizeImage($dir, $imageName)
+    {
+        if (Yii::$app->request->serverName == 'anticor.loc') {
             Image::$driver = [Image::DRIVER_GD2];
         }
-        $imagine=Image::getImagine()->open($dir.'/'.$imageName.'.jpg');
-        $imagine->thumbnail(new Box(1200, 1200))->save($dir.'/'.$imageName.'.jpg');
-        $imagine->thumbnail(new Box(120, 120))->save($dir.'/thumbs/'.$imageName.'.jpg');
+        $imagine = Image::getImagine()->open($dir . '/' . $imageName . '.jpg');
+        $imagine->thumbnail(new Box(1200, 1200))->save($dir . '/' . $imageName . '.jpg');
+        $imagine->thumbnail(new Box(120, 120))->save($dir . '/thumbs/' . $imageName . '.jpg');
         //$imagine->thumbnail(new Box(80, 80))->save($dir.'/'.$imageName.'_t.jpg');
     }
 
     public function fields()
     {
         return [
-            'id','title','text','date','lon','lat',
-            'anonymous','author','email','contact','views',
-            'comments_count'=>function($model) {
+            'id', 'title', 'text', 'date', 'lon', 'lat',
+            'anonymous', 'author', 'email', 'contact', 'views',
+            'comments_count' => function ($model) {
                 return $model->commentsCount;
             },
             'authority_id',
-            'authority_title' => function($model) {
+            'authority_title' => function ($model) {
                 return $model->authority->title;
             },
             'category_id',
-            'category_title' => function($model) {
+            'category_title' => function ($model) {
                 return $model->department->value;
             },
             'city_id',
-            'city_title' => function($model) {
+            'city_title' => function ($model) {
                 return $model->city->value;
             },
             'type_id',
-            'type_title' => function($model) {
+            'type_title' => function ($model) {
                 return $model->type->value;
             }
         ];

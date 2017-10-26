@@ -10,6 +10,39 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Report */
 
+echo newerton\fancybox\FancyBox::widget([
+    'target' => 'a[rel=fancybox]',
+    'helpers' => true,
+    'mouse' => true,
+    'config' => [
+        'maxWidth' => '90%',
+        'maxHeight' => '90%',
+        'playSpeed' => 7000,
+        'padding' => 0,
+        'fitToView' => false,
+        'width' => '70%',
+        'height' => '70%',
+        'autoSize' => false,
+        'closeClick' => false,
+        'openEffect' => 'elastic',
+        'closeEffect' => 'elastic',
+        'prevEffect' => 'elastic',
+        'nextEffect' => 'elastic',
+        'closeBtn' => false,
+        'openOpacity' => true,
+        'helpers' => [
+            'title' => ['type' => 'float'],
+            'buttons' => [],
+            'thumbs' => ['width' => 68, 'height' => 50],
+            'overlay' => [
+                'css' => [
+                    'background' => 'rgba(0, 0, 0, 0.8)'
+                ]
+            ]
+        ],
+    ]
+]);
+
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Reports'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -34,6 +67,15 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </span>
     </div>
+
+    <div class="clear"></div>
+    <?php $images = $model->getImages();
+    foreach ($images as $key => $val) {
+        echo Html::beginTag('span', ['data-thumb' => $key]);
+        echo Html::a(Html::img($key), $val, ['class' => 'gallery-view-img', 'rel' => 'fancybox']);
+        echo Html::endTag('span');
+    }
+    ?>
     <div class="report-cats">
         <div class="cat-row">
             <span><?= Yii::t('app', 'Гос.орган: ') ?></span>
@@ -59,78 +101,45 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="clear" style="margin-top: 20px;"></div>
 
     <?php
+    if ($model->lat) {
+        echo Html::tag('div', '', ['id'=>'map','class' => 'map']);
+        echo Html::hiddenInput('lat', $model->lat, ['class' => 'report_lat']);
+        echo Html::hiddenInput('lon', $model->lon, ['class' => 'report_lon']);
+    }
+    echo Html::tag('div', '', ['class' => 'clear', 'style' => 'margin-top:20px']);
     if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin) {
         if ($model->status == 0) {
-            echo Html::tag('span', 'Одобрить', ['class' => 'btn-moderate btn btn-success','data-status'=>1]);
-        }
-        else{
-            echo Html::tag('span', 'Блокировать', ['class' => 'btn-moderate btn btn-danger','data-status'=>0]);
+            echo Html::tag('span', 'Одобрить', ['class' => 'btn-moderate btn btn-success', 'data-status' => 1]);
+        } else {
+            echo Html::tag('span', 'Блокировать', ['class' => 'btn-moderate btn btn-danger', 'data-status' => 0]);
         }
     }
     ?>
-
-    <div id="map"></div>
-    <script>
-
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 6,
-                center: {lat: 41.2044, lng: 74.7661}
-            });
-
-            // Create an array of alphabetical characters used to label the markers.
-            var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-            // Add some markers to the map.
-            // Note: The code uses the JavaScript Array.prototype.map() method to
-            // create an array of markers based on a given "locations" array.
-            // The map() method here has nothing to do with the Google Maps API.
-            var markers = locations.map(function (location, i) {
-                return new google.maps.Marker({
-                    position: location,
-                    label: labels[i % labels.length]
-                });
-            });
-
-            // Add a marker clusterer to manage the markers.
-            var markerCluster = new MarkerClusterer(map, markers,
-                {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-        }
-
-        var locations = [
-            {lat: <?=$model->lat;?>, lng: <?=$model->lon;?>},
-        ]
-    </script>
-    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
-    </script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDyJXbc-D_sxlQgbxS6fa-ImOsz1dyyQs&callback=initMap">
-    </script>
 
 
 </div>
 
 <script type="text/javascript">
 
-    $('body').on('click','.btn-moderate',function () {
+    $('body').on('click', '.btn-moderate', function () {
         var status = $(this).attr('data-status');
         var thisOne = $(this);
         $.ajax({
-            url: '/report/status',
+            url: "<?=Yii::$app->urlManagerFrontend->createAbsoluteUrl(['report/status']);?>",
             type: 'post',
-            data: {id:<?=$model->id?>,status:status},
+            data: {id:<?=$model->id?>, status: status, _csrf: yii.getCsrfToken()},
             success: function (response) {
                 if (response == 1) {
                     alert("Обращение одобрено и опубликовано  на сайте");
                     thisOne.removeClass('btn-success').addClass('btn-danger');
                     thisOne.text("Блокировать");
-                    thisOne.attr('data-status',0);
+                    thisOne.attr('data-status', 0);
                 }
                 else {
                     alert("Обращение заблокировано");
                     thisOne.removeClass('btn-danger').addClass('btn-success');
                     thisOne.text("Одобрить");
-                    thisOne.attr('data-status',1);
+                    thisOne.attr('data-status', 1);
                 }
             }
         });
