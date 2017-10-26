@@ -30,7 +30,7 @@ use yii\helpers\ArrayHelper;
         'settings' => [
             'lang' => 'ru',
             'minHeight' => 200,
-            'fileUpload' => Url::to(['/site/file-upload']),
+            'fileUpload' => Yii::$app->urlManagerFrontend->createAbsoluteUrl('/site/file-upload'),
             'plugins' => [
                 'clips',
                 'fullscreen',

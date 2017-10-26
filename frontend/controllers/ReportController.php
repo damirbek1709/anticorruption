@@ -34,7 +34,7 @@ class ReportController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index','get-locations','view','authority','sector','city','type'],
+                        'actions' => ['index','get-locations','authority','sector','city','type'],
                         'roles' => ['?', '@','admin']
                     ],
                     [
@@ -42,6 +42,31 @@ class ReportController extends Controller
                         'actions' => ['create'],
                         'roles' => ['@','admin']
                     ],
+
+                    [
+                        'allow' => true,
+                        'actions' => ['view'],
+                        'roles' => ['?','@'],
+                        'matchCallback' => function ($rule, $action) {
+                            if (Yii::$app->user->identity->isAdmin || $this->isApproved()) {
+                                return true;
+                            }
+                            return false;
+                        }
+                    ],
+
+                    [
+                        'allow' => true,
+                        'actions' => ['view'],
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            if (Yii::$app->user->identity->isAdmin || $this->isUserAuthor()) {
+                                return true;
+                            }
+                            return false;
+                        }
+                    ],
+
                     [
                         'allow' => true,
                         'actions' => ['update','delete'],
@@ -53,10 +78,11 @@ class ReportController extends Controller
                             return false;
                         }
                     ],
+
                     [
                         'allow' => true,
                         'actions' => ['update','status'],
-                        'roles' => ['?', '@','admin'],
+                        'roles' => ['admin'],
                         'matchCallback' => function ($rule, $action) {
                             if (Yii::$app->user->identity->isAdmin || $this->isUserAuthor() || $this->isApproved()) {
                                 return true;

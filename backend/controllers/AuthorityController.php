@@ -7,9 +7,31 @@ use frontend\models\AuthoritySearch;
 use frontend\models\Authority;
 use yii\data\ActiveDataProvider;
 use frontend\models\Comments;
+use yii\filters\AccessControl;
+use dektrium\user\filters\AccessRule;
 
 class AuthorityController extends \yii\web\Controller
 {
+    public function behaviors()
+    {
+        return [
+
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['view','update','index'],
+                        'roles' => ['admin'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
         $searchModel = new AuthoritySearch();

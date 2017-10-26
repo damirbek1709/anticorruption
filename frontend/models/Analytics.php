@@ -48,8 +48,8 @@ class Analytics extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'date', 'status', 'text', 'author_id'], 'safe'],
-            [['date'], 'safe'],
+            [['title', 'date', 'text', 'author_id'], 'safe'],
+            [['date','status'], 'safe'],
             [['status', 'author_id'], 'integer'],
             [['text'], 'string'],
             [['title'], 'string', 'max' => 255],
@@ -66,6 +66,7 @@ class Analytics extends \yii\db\ActiveRecord
             'title' => Yii::t('app', 'Заголовок'),
             'date' => Yii::t('app', 'Дата'),
             'text' => Yii::t('app', 'Текст'),
+            'author_id' => Yii::t('app', 'Автор'),
         ];
     }
 

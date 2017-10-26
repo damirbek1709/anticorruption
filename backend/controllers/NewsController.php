@@ -12,6 +12,8 @@ use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 use frontend\models\Vocabulary;
+use yii\filters\AccessControl;
+use dektrium\user\filters\AccessRule;
 
 /**
  * NewsController implements the CRUD actions for News model.
@@ -24,10 +26,18 @@ class NewsController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
+
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['view','update','create','delete','category'],
+                        'roles' => ['admin'],
+                    ],
                 ],
             ],
         ];

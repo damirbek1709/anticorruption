@@ -20,13 +20,56 @@ class AnalyticsController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
+
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index'],
+                        'roles' => ['?', '@'],
+                    ],
+
+                    [
+                        'allow' => true,
+                        'actions' => ['view'],
+                        'roles' => ['?','@'],
+                        'matchCallback' => function ($rule, $action) {
+                            if (Yii::$app->user->identity->isAdmin || $this->isUserAuthor()) {
+                                return true;
+                            }
+                            return false;
+                        }
+                    ],
+
+                    [
+                        'allow' => true,
+                        'actions' => ['update', 'delete'],
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            if (Yii::$app->user->identity->isAdmin || $this->isUserAuthor()) {
+                                return true;
+                            }
+                            return false;
+                        }
+                    ],
+
+                    [
+                        'allow' => true,
+                        'actions' => ['create', 'update', 'delete'],
+                        'roles' => ['admin'],
+                    ],
                 ],
             ],
         ];
+    }
+
+    protected function isUserAuthor()
+    {
+        return $this->findModel(Yii::$app->request->get('id'))->user_id == Yii::$app->user->id;
     }
 
     /**

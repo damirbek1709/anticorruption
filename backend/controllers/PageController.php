@@ -4,9 +4,30 @@ namespace backend\controllers;
 use Yii;
 use frontend\models\PageSearch;
 use frontend\models\Page;
-
+use yii\filters\AccessControl;
+use dektrium\user\filters\AccessRule;
 class PageController extends \yii\web\Controller
 {
+    public function behaviors()
+    {
+        return [
+
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['view','update','index'],
+                        'roles' => ['admin'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
         $searchModel = new PageSearch();

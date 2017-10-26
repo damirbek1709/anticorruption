@@ -4,9 +4,31 @@ namespace backend\controllers;
 use Yii;
 use frontend\models\CommentsSearch;
 use frontend\models\Comments;
+use yii\filters\AccessControl;
+use dektrium\user\filters\AccessRule;
 
 class CommentsController extends \yii\web\Controller
 {
+    public function behaviors()
+    {
+        return [
+
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index','remove','delete','edit'],
+                        'roles' => ['admin'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
         $searchModel = new CommentsSearch();
@@ -45,6 +67,22 @@ class CommentsController extends \yii\web\Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionRemove(){
+        $request = Yii::$app->getRequest();
+        $id = $request->post('id');
+        $model = Comments::findOne($id);
+        $model->delete();
+    }
+
+    public function actionEdit(){
+        $request = Yii::$app->getRequest();
+        $id = $request->post('id');
+        $text = $request->post('text');
+        $model = Comments::findOne($id);
+        $model->text = $text;
+        $model->save();
     }
 
 }
