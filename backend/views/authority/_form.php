@@ -20,12 +20,23 @@ use vova07\imperavi\Widget;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
+    <?php if(!$model->isNewRecord && $model->img):?>
+    <div class="form-group">
+        <label>Текущая эмблема</label>
+        <div class="clear"></div>
+        <?php
+        $logo = Yii::getAlias("@frontend/web/images/authority/s_{$model->id}_{$model->img}");
+        echo Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $logo));
+        ?>
+    </div>
+    <?php endif;?>
+
     <label class="upload-label">Загрузить эмблему</label>
     <?
     echo \uitrick\yii2\widget\upload\crop\UploadCrop::widget([
         'form' => $form, 'model' => $model, 'attribute' => 'image',
         'imageOptions' => [
-                'class'=>'new-image'
+            'class' => 'new-image'
         ],
         'jcropOptions' => [
             'minCropBoxWidth' => 60,
@@ -64,7 +75,7 @@ use vova07\imperavi\Widget;
                 5 => 'Very Good',
             ],
         ]
-    ]); */?>
+    ]); */ ?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Добавить') : Yii::t('app', 'Сохранить'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
