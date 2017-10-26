@@ -180,8 +180,7 @@ class ReportController extends Controller
             'sort' => ['defaultOrder' => ['date' => SORT_DESC]],
         ]);
 
-        $title = Vocabulary::findOne($id);
-        $title = $title->value;
+        $title = Vocabulary::find()->select(['value'])->where(['id'=>$id])->scalar();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
