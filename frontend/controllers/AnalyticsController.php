@@ -8,7 +8,8 @@ use frontend\models\AnalyticsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
+use dektrium\user\filters\AccessRule;
 /**
  * AnalyticsController implements the CRUD actions for Analytics model.
  */
