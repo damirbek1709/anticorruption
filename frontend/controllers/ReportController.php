@@ -48,7 +48,7 @@ class ReportController extends Controller
                         'actions' => ['view'],
                         'roles' => ['?','@'],
                         'matchCallback' => function ($rule, $action) {
-                            if (Yii::$app->user->identity->isAdmin || $this->isApproved()) {
+                            if ($this->isApproved()) {
                                 return true;
                             }
                             return false;
