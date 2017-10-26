@@ -59,6 +59,7 @@ AppAsset::register($this);
 
                     'label' => Yii::t('app', 'Обращения о коррупции'),
                     'items' => [
+                        ['label' => Yii::t('app', 'Все'), 'url' => ['/report/index']],
                         ['label' => Yii::t('app', 'Обращения'), 'url' => ['/report/category', 'id' => 134]],
                         [
                             'label' => Yii::t('app', 'Коррупционные схемы'), 'url' => ['/report/category', 'id' => 137]
