@@ -70,7 +70,7 @@ class AnalyticsController extends Controller
 
     protected function isUserAuthor()
     {
-        return $this->findModel(Yii::$app->request->get('id'))->user_id == Yii::$app->user->id;
+        return $this->findModel(Yii::$app->request->get('id'))->author_id == Yii::$app->user->id;
     }
 
     /**
