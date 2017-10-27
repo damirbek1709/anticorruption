@@ -145,6 +145,11 @@ class Authority extends \yii\db\ActiveRecord
         return $rating;
     }
 
+    public static function getRateCount($id){
+        $query = (new Query())->from('rating')->where(['authority_id'=>$id]);
+        return $query->count();
+    }
+
     public function getRatingCount()
     {
         return $this->hasMany(Rating::className(), ['authority_id' => 'id'])->count();
