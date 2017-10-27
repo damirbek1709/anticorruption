@@ -15,6 +15,8 @@ class m170912_074149_comments extends Migration
             'text' =>$this->text(),
             'news_id' => $this->integer('11')->defaultValue(0),
             'category_id' => $this->integer('11')->defaultValue(0),
+            'user_id' => $this->integer('11')->defaultValue(0),
+            'status' => $this->tinyInt('11')->defaultValue(0),
         ],$tableOptions);
         $this->createIndex('idx_com_ctg', 'comments', 'category_id');
         $this->createIndex('idx_com_news', 'comments', 'news_id');*/

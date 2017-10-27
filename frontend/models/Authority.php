@@ -152,7 +152,7 @@ class Authority extends \yii\db\ActiveRecord
 
     public function getReportCount()
     {
-        return $this->hasMany(Report::className(), ['authority_id' => 'id'])->count();
+        return $this->hasMany(Report::className(), ['authority_id' => 'id'])->where(['status'=>1])->count();
     }
 
     function getMainImg()

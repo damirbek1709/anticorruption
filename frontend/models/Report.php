@@ -343,7 +343,8 @@ class Report extends \yii\db\ActiveRecord
             'type_id',
             'type_title' => function($model) {
                 return $model->type->value;
-            }
+            },
+            'status'
         ];
     }
 

@@ -26,10 +26,37 @@ class ReportController extends \yii\rest\ActiveController
         return $actions;
     }
 
+    /*public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' => HttpBearerAuth::className(),
+            //'except' => ['index', 'view', 'depend'],
+        ];
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'rules' => [
+                [
+                    'allow' => true,
+                    'actions' => [
+                        'options','login'
+                    ],
+                ],
+                [
+                    'allow' => true,
+                    'roles' => [
+                        'admin',
+                    ],
+                ],
+            ],
+        ];
+        return $behaviors;
+    }*/
 
     public function prepareDataProvider()
     {
         // prepare and return a data provider for the "index" action
+
         $request=\Yii::$app->request->get();
         $text='';$user_id=""; $authority_id="";$category_id="";
         $type_id="";$city_id="";$anonymous="";
@@ -55,11 +82,21 @@ class ReportController extends \yii\rest\ActiveController
             $anonymous=$request['anonymous'];
         }
         $query =Report::find();
+        $auth_token=Yii::$app->request->get('auth_key');
+        if($auth_token){
+            $user=Yii::$app->db->createCommand("SELECT id FROM `user` WHERE auth_key='{$auth_token}'")->queryOne();
+        }
+        if(!empty($user['id'])){
+            $query->where(['user_id'=>$user['id']]);
+        }
+        else{
+            $query->where(['status'=>1]);
+            $query->andFilterWhere(['user_id'=> $user_id]);
+        }
 
 
         //$query->filterWhere(['incident_verified'=>$verified]);
         $query->andFilterWhere(['or',['like','title',$text],['like','text',$text]]);
-        $query->andFilterWhere(['user_id'=> $user_id]);
         $query->andFilterWhere(['authority_id'=> $authority_id]);
         $query->andFilterWhere(['category_id'=> $category_id]);
         $query->andFilterWhere(['type_id'=> $type_id]);
@@ -87,29 +124,42 @@ class ReportController extends \yii\rest\ActiveController
 
     public function actionView($id)
     {
-        $model = Report::find()->where(['id'=>$id])->with('authority', 'department', 'city', 'comments','type')->asArray()->one();
-        $count=$model['views']+1;
-        Yii::$app->db->createCommand("UPDATE report SET views='{$count}' WHERE id='{$id}'")->execute();
-        //$model->updateCounters(['views' => 1]);
-        /*unset($model['form_id'],$model['location_id']);*/
-
-        //images
-        $alias=Yii::getAlias("@frontend");
-        $dir=$alias."/web/images/report/".$id;
-        $imgs=[];
-        if(is_dir($dir)){
-            $imgs=scandir($dir);
-            foreach($imgs as $k=>$img){
-                if(in_array($img,['.','..'])){
-                    unset($imgs[$k]);
-                }
-                elseif(strpos($img,'thumbs')!==false){
-                    unset($imgs[$k]);
-                }
-            }
-            $imgs = array_values($imgs);
+        $auth_token=Yii::$app->request->get('auth_key');
+        if($auth_token){
+            $user=Yii::$app->db->createCommand("SELECT id FROM `user` WHERE auth_key='{$auth_token}'")->queryOne();
         }
-        $model['images']=$imgs;
+        if(!empty($user['id'])){
+            $where=['id'=>$id,'user_id'=>$user['id']];
+        }
+        else{
+            $where=['id'=>$id,'status'=>1];
+        }
+        $model = Report::find()->where($where)->with('authority', 'department', 'city', 'comments','type')->asArray()->one();
+        if($model)
+        {
+            $count=$model['views']+1;
+            Yii::$app->db->createCommand("UPDATE report SET views='{$count}' WHERE id='{$id}'")->execute();
+            //$model->updateCounters(['views' => 1]);
+            /*unset($model['form_id'],$model['location_id']);*/
+
+            //images
+            $alias=Yii::getAlias("@frontend");
+            $dir=$alias."/web/images/report/".$id;
+            $imgs=[];
+            if(is_dir($dir)){
+                $imgs=scandir($dir);
+                foreach($imgs as $k=>$img){
+                    if(in_array($img,['.','..'])){
+                        unset($imgs[$k]);
+                    }
+                    elseif(strpos($img,'thumbs')!==false){
+                        unset($imgs[$k]);
+                    }
+                }
+                $imgs = array_values($imgs);
+            }
+            $model['images']=$imgs;
+        }
 
         return $model;
     }

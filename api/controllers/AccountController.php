@@ -19,18 +19,19 @@ class AccountController extends \yii\rest\ActiveController
         //$actions['create']['scenario'] = 'register';
         $actions['update']['scenario'] = 'update';
         unset($actions['delete'], $actions['create'], $actions['index']);
+        unset($actions['view']); //use my own below
 
         return $actions;
     }
 
-    public function behaviors()
+    /*public function behaviors()
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::className(),
             'except' => ['create', 'login', 'forgot', 'social'],
         ];
-        /*$behaviors['access'] = [
+        $behaviors['access'] = [
             'class' => AccessControl::className(),
             'rules' => [
                 [
@@ -46,9 +47,9 @@ class AccountController extends \yii\rest\ActiveController
                     ],
                 ],
             ],
-        ];*/
+        ];
         return $behaviors;
-    }
+    }*/
 
     public function actionLogin()
     {
@@ -99,6 +100,28 @@ class AccountController extends \yii\rest\ActiveController
             return ['message'=>'Вам отправлено письмо с инструкциями по смене пароля.'];
         }
         else {return ['message'=>'Пользователь с такой почтой не найден.'];}
+    }
+
+    public function actionView($id)
+    {
+        $user=[];
+        $dao=Yii::$app->db;
+        $row=$dao->createCommand("SELECT * FROM `user` WHERE id='{$id}'")->queryOne();
+        if($row){
+            $user['id']=$row['id'];
+            $user['username']=$row['username'];
+            $auth_token=Yii::$app->request->get('auth_key');
+            if($auth_token && $auth_token==$row['auth_key']){
+                $where="user_id='{$id}'";
+            }
+            else{
+                $where="user_id='{$id}' AND `status`=1";
+            }
+
+            $user['reports']= count($dao->createCommand("SELECT id FROM report WHERE {$where}")->queryAll());
+            $user['comments']= count($dao->createCommand("SELECT id FROM comments WHERE {$where}")->queryAll());
+        }
+        return $user;
     }
 
     public function actionSocial()

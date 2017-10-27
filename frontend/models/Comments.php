@@ -10,6 +10,8 @@ use Yii;
  * This is the model class for table "comments".
  *
  * @property integer $id
+ * @property integer $user_id
+ * @property integer $status
  * @property string $name
  * @property string $title
  * @property string $date
@@ -49,7 +51,7 @@ class Comments extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'email', 'text'], 'required'],
-            [['date','news_id','category_id','report_id'], 'safe'],
+            [['date','news_id','category_id','report_id','user_id','status'], 'safe'],
             [['text'], 'string'],
             [['name', 'email'], 'string', 'max' => 255],
         ];
@@ -66,6 +68,8 @@ class Comments extends \yii\db\ActiveRecord
             'date' => Yii::t('app', 'Date'),
             'email' => Yii::t('app', 'Email'),
             'text' => Yii::t('app', 'Text'),
+            'user_id' => Yii::t('app', 'User'),
+            'status' => Yii::t('app', 'Status'),
         ];
     }
 

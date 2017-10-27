@@ -78,7 +78,7 @@ class AuthorityController extends \yii\rest\ActiveController
     {
         $model = Authority::find()->where(['id'=>$id])->with('comments')->asArray()->one();
         $model['rating']=Authority::getRating($id);
-        $model['reports']= count(Yii::$app->db->createCommand("SELECT id FROM report WHERE authority_id='{$id}'")->queryAll());
+        $model['reports']= count(Yii::$app->db->createCommand("SELECT id FROM report WHERE authority_id='{$id}' AND `status`=1")->queryAll());
         /*unset($model['form_id'],$model['location_id']);*/
         return $model;
     }
