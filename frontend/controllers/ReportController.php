@@ -18,6 +18,8 @@ use yii\filters\AccessRule;
  */
 class ReportController extends Controller
 {
+
+    public $enableCsrfValidation;
     /**
      * @inheritdoc
      */
@@ -32,7 +34,7 @@ class ReportController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index','get-locations','view','authority','sector','city','type'],
+                        'actions' => ['index','get-locations','authority','sector','city','type'],
                         'roles' => ['?', '@','admin']
                     ],
                     [
@@ -40,6 +42,31 @@ class ReportController extends Controller
                         'actions' => ['create'],
                         'roles' => ['@','admin']
                     ],
+
+                    [
+                        'allow' => true,
+                        'actions' => ['view'],
+                        'roles' => ['?','@'],
+                        'matchCallback' => function ($rule, $action) {
+                            if ($this->isApproved()) {
+                                return true;
+                            }
+                            return false;
+                        }
+                    ],
+
+                    [
+                        'allow' => true,
+                        'actions' => ['view'],
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            if (Yii::$app->user->identity->isAdmin || $this->isUserAuthor()) {
+                                return true;
+                            }
+                            return false;
+                        }
+                    ],
+
                     [
                         'allow' => true,
                         'actions' => ['update','delete'],
@@ -51,10 +78,11 @@ class ReportController extends Controller
                             return false;
                         }
                     ],
+
                     [
                         'allow' => true,
-                        'actions' => ['update'],
-                        'roles' => ['?', '@','admin'],
+                        'actions' => ['update','status'],
+                        'roles' => ['admin'],
                         'matchCallback' => function ($rule, $action) {
                             if (Yii::$app->user->identity->isAdmin || $this->isUserAuthor() || $this->isApproved()) {
                                 return true;
@@ -240,6 +268,7 @@ class ReportController extends Controller
 
     public function actionStatus()
     {
+        $this->enableCsrfValidation = false;
         $request = Yii::$app->getRequest();
         $id = $request->post('id');
         $status = $request->post('status');

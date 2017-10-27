@@ -65,9 +65,6 @@ $lkup=ArrayHelper::map($lookups,'key','value');
         )->label(false);
     ?>
 
-
-
-
      <div class="form-group">
         <? echo '<label>Дата и время</label>';
         echo DateTimePicker::widget([
@@ -92,6 +89,8 @@ $lkup=ArrayHelper::map($lookups,'key','value');
              ArrayHelper::map(Vocabulary::find()->asArray()->where(['key'=>'report_category'])->all(), 'id', 'value')
          );*/
     ?>
+
+
 
     <?php
     echo $form->field($model, 'city_id')->widget(Select2::classname(), [

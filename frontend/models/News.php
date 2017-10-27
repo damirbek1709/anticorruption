@@ -191,16 +191,17 @@ class News extends \yii\db\ActiveRecord
     function getImages()
     {
         $result = [];
-        if (is_dir(Yii::getAlias("@webroot/images/news/{$this->id}"))) {
-            $images = FileHelper::findFiles(Yii::getAlias("@webroot/images/news/{$this->id}/"), [
+        if (is_dir(Yii::getAlias("@frontend/web/images/news/{$this->id}"))) {
+            $images = FileHelper::findFiles(Yii::getAlias("@frontend/web/images/news/{$this->id}/"), [
                 'recursive' => false,
                 'except' => ['.gitignore']
             ]);
+
             $index = 0;
             foreach ($images as $image) {
-                $result[] = Html::img(str_replace([Yii::getAlias('@webroot'), DIRECTORY_SEPARATOR], [Yii::getAlias('@web'), '/'], $image));
+                $result[] = Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $image));
                 if (basename($image) == $this->img) {
-                    $new_value = Html::img(str_replace([Yii::getAlias('@webroot'), DIRECTORY_SEPARATOR], [Yii::getAlias('@web'), '/'], $image));
+                    $new_value = Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $image));
                     unset($result[$index]);
                     array_unshift($result, $new_value);
                 }

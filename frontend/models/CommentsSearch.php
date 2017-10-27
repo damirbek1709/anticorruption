@@ -64,7 +64,6 @@ class CommentsSearch extends Comments
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'text', $this->text]);
 

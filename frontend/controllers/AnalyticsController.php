@@ -8,7 +8,8 @@ use frontend\models\AnalyticsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
+use dektrium\user\filters\AccessRule;
 /**
  * AnalyticsController implements the CRUD actions for Analytics model.
  */
@@ -20,13 +21,67 @@ class AnalyticsController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
+
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index'],
+                        'roles' => ['?', '@'],
+                    ],
+
+                    [
+                        'allow' => true,
+                        'actions' => ['view'],
+                        'roles' => ['?','@'],
+                        'matchCallback' => function ($rule, $action) {
+                            if ($this->isApproved()) {
+                                return true;
+                            }
+                            return false;
+                        }
+                    ],
+
+                    [
+                        'allow' => true,
+                        'actions' => ['update', 'delete','view'],
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            if ((!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin )|| $this->isUserAuthor()) {
+                                return true;
+                            }
+                            return false;
+                        }
+                    ],
+
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'roles' => ['@'],
+                    ],
+
+                    [
+                        'allow' => true,
+                        'actions' => ['create', 'update', 'delete'],
+                        'roles' => ['admin'],
+                    ],
                 ],
             ],
         ];
+    }
+
+    protected function isUserAuthor()
+    {
+        return $this->findModel(Yii::$app->request->get('id'))->author_id == Yii::$app->user->id;
+    }
+
+    protected function isApproved()
+    {
+        return $this->findModel(Yii::$app->request->get('id'))->status == 1;
     }
 
     /**

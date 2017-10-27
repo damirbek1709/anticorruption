@@ -5,6 +5,9 @@ use yii\db\ActiveRecord;
 use yii\behaviors\AttributeBehavior;
 
 use Yii;
+use frontend\models\Report;
+use frontend\models\News;
+use frontend\models\Authority;
 
 /**
  * This is the model class for table "comments".
@@ -20,6 +23,7 @@ use Yii;
  */
 class Comments extends \yii\db\ActiveRecord
 {
+    public $material;
     /**
      * @inheritdoc
      */
@@ -52,9 +56,20 @@ class Comments extends \yii\db\ActiveRecord
         return [
             [['name', 'email', 'text'], 'required'],
             [['date','news_id','category_id','report_id','user_id','status'], 'safe'],
+            [['email'], 'email'],
             [['text'], 'string'],
             [['name', 'email'], 'string', 'max' => 255],
         ];
+    }
+
+    public function getReport(){
+        return $this->hasOne(Report::className(), ['id' => 'report_id']);
+    }
+    public function getNews(){
+        return $this->hasOne(News::className(), ['id' => 'news_id']);
+    }
+    public function getAuthority(){
+        return $this->hasOne(Authority::className(), ['id' => 'category_id']);
     }
 
     /**
@@ -64,12 +79,13 @@ class Comments extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'date' => Yii::t('app', 'Date'),
-            'email' => Yii::t('app', 'Email'),
-            'text' => Yii::t('app', 'Text'),
             'user_id' => Yii::t('app', 'User'),
             'status' => Yii::t('app', 'Status'),
+            'name' => Yii::t('app', 'Имя автора'),
+            'date' => Yii::t('app', 'Дата'),
+            'email' => Yii::t('app', 'E-mail'),
+            'text' => Yii::t('app', 'Текст'),
+            'material'=>'Материал'
         ];
     }
 

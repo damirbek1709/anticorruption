@@ -8,6 +8,8 @@ use frontend\models\AnalyticsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use dektrium\user\filters\AccessRule;
 
 /**
  * AnalyticsController implements the CRUD actions for Analytics model.
@@ -20,10 +22,18 @@ class AnalyticsController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
+
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index','delete','update','create','view'],
+                        'roles' => ['admin'],
+                    ],
                 ],
             ],
         ];
@@ -51,7 +61,7 @@ class AnalyticsController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->render('@frontend/views/analytics/view', [
             'model' => $this->findModel($id),
         ]);
     }

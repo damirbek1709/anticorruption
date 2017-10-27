@@ -144,6 +144,7 @@ $(window).load(function(){
         console.log("changed");
         var city_id=$(this).val();
         var coord=getCityCoord(city_id);
+
         console.log(coord);
         newLocation(coord[0],coord[1]);
         newZoom(13);

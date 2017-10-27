@@ -9,8 +9,10 @@ $params = array_merge(
 return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
+    'defaultRoute' => 'authority/index',
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+    'language'=>'ru-RU',
     'modules' => [
         'user' => [
             'class' => 'dektrium\user\Module',
@@ -43,6 +45,15 @@ return [
                 'path' => '/admin',
             ],
         ],
+
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@dektrium/user/views' => '@backend/views/user'
+                ],
+            ],
+        ],
+
         // Configuration Session Backend [Yii2-User] //
         'session' => [
             'name' => 'BACKENDSESSID',

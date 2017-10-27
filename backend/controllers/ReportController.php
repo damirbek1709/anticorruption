@@ -11,6 +11,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
+use dektrium\user\filters\AccessRule;
 
 /**
  * ReportController implements the CRUD actions for Report model.
@@ -23,10 +25,18 @@ class ReportController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
+
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['view','update','category','delete','index'],
+                        'roles' => ['admin'],
+                    ],
                 ],
             ],
         ];
@@ -44,6 +54,7 @@ class ReportController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'title'=>'Все обращения'
         ]);
     }
 
@@ -162,18 +173,15 @@ class ReportController extends Controller
         }
     }
 
-    public function actionCategory()
+    public function actionCategory($id)
     {
         $searchModel = new ReportSearch();
-        $request = Yii::$app->getRequest();
-        $id =  $request->post('id');
         $dataProvider = new ActiveDataProvider([
             'query' => ReportSearch::find()->where(['type_id' => $id]),
             'sort' => ['defaultOrder' => ['date' => SORT_DESC]],
         ]);
 
-        $title = Vocabulary::findOne($id);
-        $title = $title->value;
+        $title = Vocabulary::find()->select(['value'])->where(['id'=>$id])->scalar();
 
         return $this->render('index', [
             'searchModel' => $searchModel,

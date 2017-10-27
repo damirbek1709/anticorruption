@@ -9,9 +9,31 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
+use dektrium\user\filters\AccessRule;
 
 class DocumentController extends \yii\web\Controller
 {
+    public function behaviors()
+    {
+        return [
+
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index','delete','update','create','view'],
+                        'roles' => ['admin'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
         $searchModel = new DocumentSearch();

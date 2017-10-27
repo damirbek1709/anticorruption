@@ -12,8 +12,9 @@ body {
 }
 
 .wrap > .container {
-    padding: 15px 15px 20px;
+    padding: 0px 15px 15px 20px;
 }
+
 .admin_align{
     width: 665px;
 }
@@ -313,5 +314,18 @@ a.desc:after {
 .nav-backend .dropdown-menu > .active > a{
     background-color: #fff;
     color: #000;
+}
+.navbar-brand img{
+    width: 40px;
+}
+.navbar-brand{
+    padding: 5px 10px!important;
+}
+.gallery-view-img {
+    margin: 0 10px 10px 0;
+    display: inline-block;
+}
+.chameleon_backend{
+    display: none;
 }
 

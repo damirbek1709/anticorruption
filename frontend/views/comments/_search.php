@@ -19,8 +19,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'title') ?>
-
     <?= $form->field($model, 'date') ?>
 
     <?= $form->field($model, 'email') ?>
