@@ -264,7 +264,7 @@ class AccountController extends \yii\rest\ActiveController
     {
         $user_id=Yii::$app->user->id;
         $username=Yii::$app->request->post("username");
-        $result=["username"=>["Ошибка id: ".$user_id." username:".$username]];
+        $result=["username"=>["Ошибка"]];
         if($username && $user_id){
             $model = User::findOne(["id" => $user_id]);
             $model->username = $username;

@@ -54,12 +54,12 @@ class News extends \yii\db\ActiveRecord
 
     public function getComments()
     {
-        return $this->hasMany(Comments::className(), ['news_id' => 'id'])->orderBy(['date' => SORT_ASC]);
+        return $this->hasMany(Comments::className(), ['news_id' => 'id'])->where(['status'=>1])->orderBy(['date' => SORT_ASC]);
     }
 
     public function getCommentsCount()
     {
-        return $this->hasMany(Comments::className(), ['news_id' => 'id'])->count();
+        return $this->hasMany(Comments::className(), ['news_id' => 'id'])->where(['status'=>1])->count();
     }
 
     /**
