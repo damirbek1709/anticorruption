@@ -264,11 +264,11 @@ class AccountController extends \yii\rest\ActiveController
     {
         $user_id=Yii::$app->user->id;
         $username=Yii::$app->request->post("username");
-        $result=["username"=>["fail"]];
+        $result=["username"=>["Ошибка"]];
         if($username && $user_id){
             $model = User::findOne(["id" => $user_id]);
             $model->username = $username;
-            if($model->save()){$result=["username"=>["success"]];}
+            if($model->save()){$result=["success"=>[true]];}
             else{$result=$model->errors;}
         }
         return $result;
