@@ -19,19 +19,19 @@ class AccountController extends \yii\rest\ActiveController
         //$actions['create']['scenario'] = 'register';
         $actions['update']['scenario'] = 'update';
         unset($actions['delete'], $actions['create'], $actions['index']);
-        unset($actions['view']); //use my own below
+        unset($actions['view'],$actions['update']); //use my own below
 
         return $actions;
     }
 
-    /*public function behaviors()
+    public function behaviors()
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::className(),
-            'except' => ['create', 'login', 'forgot', 'social'],
+            'only' => ['update'],
         ];
-        $behaviors['access'] = [
+        /*$behaviors['access'] = [
             'class' => AccessControl::className(),
             'rules' => [
                 [
@@ -47,9 +47,9 @@ class AccountController extends \yii\rest\ActiveController
                     ],
                 ],
             ],
-        ];
+        ];*/
         return $behaviors;
-    }*/
+    }
 
     public function actionLogin()
     {
@@ -258,5 +258,19 @@ class AccountController extends \yii\rest\ActiveController
         //$model->updateCounters(['logins' => 1]);
         $model->save(false);
         return $model;
+    }
+
+    public function actionUpdate($id)
+    {
+        $user_id=Yii::$app->user->id;
+        $username=Yii::$app->request->post("username");
+        $result=["username"=>["fail"]];
+        if($username && $user_id){
+            $model = User::findOne(["id" => $user_id]);
+            $model->username = $username;
+            if($model->save()){$result=["username"=>["success"]];}
+            else{$result=$model->errors;}
+        }
+        return $result;
     }
 }
