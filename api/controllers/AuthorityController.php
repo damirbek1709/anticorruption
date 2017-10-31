@@ -19,7 +19,7 @@ class AuthorityController extends \yii\rest\ActiveController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::className(),
-            'only' => ['rate'],
+            'only' => ['rate','userrate'],
         ];
         /*$behaviors['access'] = [
             'class' => AccessControl::className(),
