@@ -89,7 +89,7 @@ class AuthorityController extends \yii\rest\ActiveController
         if($user_id=Yii::$app->user->id){
             $request = Yii::$app->getRequest();
             $id =  $request->post('id');
-            $value =  $request->post('value');
+            $value = (int) $request->post('value');
             $msg="user found ";
 
             $model=Rating::find()->where(['user_id'=>$user_id, 'authority_id'=>$id])->one();
@@ -99,7 +99,7 @@ class AuthorityController extends \yii\rest\ActiveController
                     $model->rating=$value;
                     $model->save();
                     if($model->hasErrors()){
-                        $msg.="upd err: ".$model->getErrors();
+                        $msg.="upd error";
                     }
                     else{
                         $msg.=" rating updated ";
@@ -113,7 +113,7 @@ class AuthorityController extends \yii\rest\ActiveController
                 $model->user_id = $user_id;
                 $model->save();
                 if($model->hasErrors()){
-                    $msg.="save err: ".$model->getErrors();
+                    $msg.="save error ";
                 }
                 else{
                     $msg.=" rating created ";
