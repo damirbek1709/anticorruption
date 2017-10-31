@@ -90,12 +90,20 @@ class AuthorityController extends \yii\rest\ActiveController
             $request = Yii::$app->getRequest();
             $id =  $request->post('id');
             $value =  $request->post('value');
+            $msg="user found ";
 
             $model=Rating::find()->where(['user_id'=>$user_id, 'authority_id'=>$id])->one();
             if($model){
+                $msg.=" model found ";
                 if($model->rating!=$value){
                     $model->rating=$value;
                     $model->save();
+                    if($model->hasErrors()){
+                        $msg.="upd err: ".$model->getErrors();
+                    }
+                    else{
+                        $msg.=" rating updated ";
+                    }
                 }
             }
             else{
@@ -104,13 +112,19 @@ class AuthorityController extends \yii\rest\ActiveController
                 $model->authority_id = $id;
                 $model->user_id = $user_id;
                 $model->save();
+                if($model->hasErrors()){
+                    $msg.="save err: ".$model->getErrors();
+                }
+                else{
+                    $msg.=" rating created ";
+                }
             }
             $query = (new Query())->from('rating')->where(['authority_id'=>$id]);
             if($query->count()==0)
-                $rating = 0;
+            {$rating = 0; $msg.=" count 0 ";}
             else
                 $rating = round($query->sum('rating') / $query->count());
-            return ['id'=>$model->id,'new_rating'=>$rating];
+            return ['id'=>$model->id,'new_rating'=>$rating, 'msg'=>$msg];
         }
         else{
             return 0;
