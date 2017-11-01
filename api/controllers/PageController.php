@@ -42,4 +42,11 @@ class PageController extends \yii\rest\ActiveController
         $model = Page::find()->where(['id'=>$id])->one();
         return $model;
     }
+
+    //compare maxId on depend table
+    public function actionDepend()
+    {
+        $row=Yii::$app->db->createCommand("SELECT * FROM depend WHERE `table_name`='page'")->queryOne();
+        return (int)$row['last_update'];
+    }
 }
