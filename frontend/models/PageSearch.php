@@ -29,6 +29,11 @@ class PageSearch extends Page
         return Model::scenarios();
     }
 
+    function afterFind()
+    {
+        $this->translate(Yii::$app->language);
+    }
+
     /**
      * Creates data provider instance with search query applied
      *

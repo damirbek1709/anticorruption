@@ -2,8 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use kartik\rating\StarRating;
-use vova07\imperavi\Widget;
+use yii\bootstrap\Tabs;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Authority */
@@ -17,8 +16,31 @@ use vova07\imperavi\Widget;
             'enctype' => 'multipart/form-data'
         ]]); ?>
 
+    <?php
+    echo Tabs::widget([
+        'items' => [
+            [
+                'label' => 'Контент на русском',
+                'content' => $this->render('content', ['model' => $model, 'language' => '','form'=>$form]),
+            ],
+            [
+                'label' => 'Контент на кыргызском',
+                'content' => $this->render('content', ['model' => $model,'language'=>'_ky','form'=>$form]),
+                'options' => ['tag' => 'div'],
+            ],
+            [
+                'label' => 'Контент на английском',
+                'content' => $this->render('content', ['model' => $model,'language'=>'_en','form'=>$form]),
+                'options' => ['tag' => 'div'],
+            ],
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+        ],
+        'options' => ['tag' => 'div'],
+        'itemOptions' => ['tag' => 'div'],
+        'headerOptions' => ['class' => 'my-class'],
+        'clientOptions' => ['collapsible' => false],
+    ]);
+    ?>
 
     <?php if(!$model->isNewRecord && $model->img):?>
     <div class="form-group">
@@ -47,19 +69,6 @@ use vova07\imperavi\Widget;
         ],
     ]);
     ?>
-
-    <?=
-    $form->field($model, 'text')->widget(Widget::className(), [
-        'settings' => [
-            'lang' => 'ru',
-            'minHeight' => 200,
-            'plugins' => [
-                'clips',
-                'fullscreen'
-            ]
-        ]
-    ]); ?>
-
 
     <?php /*echo $form->field($model, 'rating')->widget(StarRating::classname(), [
         'pluginOptions' => [

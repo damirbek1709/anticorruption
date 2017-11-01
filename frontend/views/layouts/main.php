@@ -17,6 +17,7 @@ use frontend\models\Authority;
 use frontend\models\Analytics;
 use yii\bootstrap\Modal;
 use frontend\models\Report;
+use yii\helpers\ArrayHelper;
 
 AppAsset::register($this);
 ?>
@@ -49,16 +50,27 @@ AppAsset::register($this);
         <div class="width_limiter">
             <div class="left_top_header">
                 <?= Html::a(Yii::t('app', 'О проекте'), ['/site/about']) ?>
-                <?//= Html::a(Yii::t('app', 'Контакты'), ['/site/contact']) ?>
-                <?//= Html::a(Yii::t('app', 'Обратная связь'), ['/site/feedback']) ?>
+                <? //= Html::a(Yii::t('app', 'Контакты'), ['/site/contact']) ?>
+                <? //= Html::a(Yii::t('app', 'Обратная связь'), ['/site/feedback']) ?>
                 <?php
-                if (Yii::$app->user->isGuest)
+                if (Yii::$app->user->isGuest) {
                     echo Html::a(Yii::t('app', 'Вход на сайт'), ['/user/login']);
-                else {
+                    echo Html::a(Yii::t('app', 'Регистрация'), ['/user/register']);
+                } else {
                     echo Html::a(Yii::t('app', 'Выход'), ['/user/logout'], ['data-method' => 'post']);
                 }
+
+                $languageArr = [
+                    'ky' => Html::a('<span class="ky">Кыргызча</span>', '?language=ky'),
+                    'ru' => Html::a('<span class="ru">Русский</span>', '?language=ru'),
+                    'en' => Html::a('<span class="rus">English</span>', '?language=en')
+                ] ?>
+
+                <?
+                foreach ($languageArr as $key => $val) {
+                    echo $val;
+                }
                 ?>
-                <?= Html::a(Yii::t('app', 'Регистрация'), ['/user/register']) ?>
             </div>
 
 
@@ -79,12 +91,12 @@ AppAsset::register($this);
             <div class="report_header">
                 <?php
                 $separator = ' ';
-                $report_count = Report::find()->where(['status'=>1])->count();
+                $report_count = Report::find()->where(['status' => 1])->count();
                 $formated_num = preg_replace('/(?<=\d)\x' . bin2hex($separator[0]) . '(?=\d)/',
                     $separator,
                     number_format($report_count, 0, '.', $separator));
                 ?>
-                <?= Html::tag('div', Yii::t('app', 'Сообщений о коррупции:'). ' ' .$formated_num , ['class' => 'report_number']); ?>
+                <?= Html::tag('div', Yii::t('app', 'Сообщений о коррупции:') . ' ' . $formated_num, ['class' => 'report_number']); ?>
                 <?
                 echo Html::beginTag('button', ['class' => 'button_transparent']);
                 echo Html::a(Yii::t('app', 'Сообщить о коррупции'), ['/report/create'], ['class' => 'report_label']);
@@ -295,7 +307,7 @@ AppAsset::register($this);
 
             <div class="central_block"><?= $content ?></div>
             <div class="right_bar">
-                <?= Html::a(Html::img(\yii\helpers\Url::base() . "/images/site/banner.jpg"),['/site/map']); ?>
+                <?= Html::a(Html::img(\yii\helpers\Url::base() . "/images/site/banner.jpg"), ['/site/map']); ?>
 
                 <div class="bn-block-col">
                     <div class="bn-block type-2 margin2">
@@ -325,12 +337,13 @@ AppAsset::register($this);
                         //keeps from closing modal with esc key or by clicking out of the modal.
                         // user must click cancel or X to close
                         'clientOptions' => ['backdrop' => 'static', 'keyboard' => FALSE]
-                    ]);?>
+                    ]); ?>
 
                     <div id="modalContent">
                         <div class="main-heading">
                             <div style="font-size: 15px">
-                                Для того чтобы проголосовать вам необходимо <?php echo Html::a('авторизоваться',['/user/login'],['style'=>'color:#d80403']);?>
+                                Для того чтобы проголосовать вам
+                                необходимо <?php echo Html::a('авторизоваться', ['/user/login'], ['style' => 'color:#d80403']); ?>
                             </div>
                         </div>
                     </div>
@@ -423,7 +436,7 @@ AppAsset::register($this);
                         }
                         ?>
                         <div class="more"><sup><?= Html::a('...', ['/analytics/index']) ?></sup></div>
-                        <div class="add_opinion"><?//= Html::a('Добавить мнение', ['/analytics/create']) ?></div>
+                        <div class="add_opinion"><?= Html::a('Добавить мнение', ['/analytics/create']) ?></div>
                     </div>
                 </div>
 

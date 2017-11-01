@@ -47,15 +47,15 @@ AppAsset::register($this);
                 <?= Html::a(Yii::t('app', 'Контакты'), ['/site/contact']) ?>
                 <?= Html::a(Yii::t('app', 'Обратная связь'), ['/site/feedback']) ?>
                 <?php
-                if (Yii::$app->user->isGuest)
+                if (Yii::$app->user->isGuest) {
                     echo Html::a(Yii::t('app', 'Вход на сайт'), ['/user/login']);
+                    echo Html::a(Yii::t('app', 'Регистрация'), ['/user/register']);
+                }
                 else {
                     echo Html::a(Yii::t('app', 'Выход'), ['/user/logout'], ['data-method' => 'post']);
                 }
                 ?>
-                <?= Html::a(Yii::t('app', 'Регистрация'), ['/user/register']) ?>
             </div>
-
 
             <div class="right_top_header">
                 <?= Html::a(Html::tag('span', ''), 'http://store.apple.com', ['class' => 'apple_icon']); ?>

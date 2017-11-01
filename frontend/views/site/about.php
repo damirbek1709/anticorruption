@@ -3,14 +3,14 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use frontend\models\Page;
 
-$this->title = 'About';
+$model = Page::findOne(5);
+$model->translate(Yii::$app->language);
+$this->title = $model->title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-about">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>This is the About page. You may modify the following file to customize its content:</p>
-
-    <code><?= __FILE__ ?></code>
+    <div class="main_heading mobile_ribbon"><?=Yii::t('app',$this->title);?></div>
+    <div class="news_text"><?=$model->text;?></div>
 </div>

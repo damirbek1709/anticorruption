@@ -78,6 +78,40 @@ class Authority extends \yii\db\ActiveRecord
         return $this->hasMany(Comments::className(), ['category_id' => 'id'])->count();
     }
 
+    function afterFind()
+    {
+        if ($this->scenario == 'search') {
+            $this->translate(Yii::$app->language);
+        }
+    }
+
+    function translate($language)
+    {
+        switch ($language) {
+            case "en":
+                if ($this->title_en) {
+                    $this->text = $this->{"text_en"};
+                    $this->title = $this->{"title_en"};
+                } else {
+                    $this->title = $this->{"title"};
+                    $this->text = $this->{"text"};
+                }
+                break;
+            case "ky":
+                if ($this->title_ky != null) {
+                    $this->text = $this->{"text_ky"};
+                    $this->title = $this->{"title_ky"};
+                } else {
+                    $this->title = $this->{"title"};
+                    $this->text = $this->{"text"};
+                }
+                break;
+            default:
+                $this->text = $this->{"text"};
+                $this->title = $this->{"title"};
+        }
+    }
+
 
     /*public function behaviors()
     {
@@ -102,11 +136,15 @@ class Authority extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'title' => Yii::t('app', 'Гос.орган'),
-            'text' => Yii::t('app', 'Текст о гос.органе'),
+            'title' => Yii::t('app', 'Госорган'),
+            'text' => Yii::t('app', 'Текст о госоргане'),
             'rating' => Yii::t('app', 'Рейтинг'),
             'votes' => Yii::t('app', 'Кол-во голосов'),
             'img' => Yii::t('app', 'Рисунок'),
+            'title_ky'=>Yii::t('app', 'Госорган на кыргызском'),
+            'text_ky'=>Yii::t('app', 'Текст о госоргане на кыргызском'),
+            'title_en' => Yii::t('app', 'Заголовок на английском'),
+            'text_en' => Yii::t('app', 'Текст на английском'),
         ];
     }
 

@@ -21,7 +21,7 @@ $jsSlider = str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], [
 
 <? $this->title = $model->title;?>
 <div class="news-view mobile_padder">
-    <div class="minor_heading"><?= Html::encode($this->title) ?></div>
+    <div class="minor_heading"><?= $this->title; ?></div>
     <?
     echo Html::tag('span', Yii::$app->formatter->asDate($model->date), ['class' => 'news_date']);
     echo Html::tag('span', '', ['class' => 'glyphicon glyphicon-time date-clock']);
@@ -116,8 +116,8 @@ $jsSlider = str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], [
             } else {
                 echo $form->field($comment, 'name')->hiddenInput(['value' => Yii::$app->user->identity->username])->label(false);
                 echo $form->field($comment, 'email')->hiddenInput(['value' => Yii::$app->user->identity->email])->label(false);
-            }
-            echo $form->field($comment, 'category_id')->hiddenInput(['value' => 2])->label(false); ?>
+            }?>
+
             <?= $form->field($comment, 'news_id')->hiddenInput(['value' => $model->id])->label(false); ?>
 
 

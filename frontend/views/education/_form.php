@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 use vova07\imperavi\Widget;
 use kartik\datetime\DateTimePicker;
 use kartik\file\FileInput;
+use yii\bootstrap\Tabs;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Analytics */
@@ -16,21 +17,35 @@ use kartik\file\FileInput;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+    <?php
+    echo Tabs::widget([
+        'items' => [
+            [
+                'label' => 'Контент на русском',
+                'content' => $this->render('content', ['model' => $model, 'language' => '','form'=>$form]),
+            ],
+            [
+                'label' => 'Контент на кыргызском',
+                'content' => $this->render('content', ['model' => $model,'language'=>'_ky','form'=>$form]),
+                'options' => ['tag' => 'div'],
+            ],
+            [
+                'label' => 'Контент на английском',
+                'content' => $this->render('content', ['model' => $model,'language'=>'_en','form'=>$form]),
+                'options' => ['tag' => 'div'],
+            ],
+
+        ],
+        'options' => ['tag' => 'div'],
+        'itemOptions' => ['tag' => 'div'],
+        'headerOptions' => ['class' => 'my-class'],
+        'clientOptions' => ['collapsible' => false],
+    ]);
+    ?>
 
     <?= $form->field($model, 'img')->hiddenInput(['value' => $model->img ? $moddel->img : '', 'class' => 'education-main-img'])->label(false); ?>
 
-    <?=
-    $form->field($model, 'text')->widget(Widget::className(), [
-        'settings' => [
-            'lang' => 'ru',
-            'minHeight' => 200,
-            'plugins' => [
-                'clips',
-                'fullscreen'
-            ]
-        ]
-    ]); ?>
+
 
     <div class="form-group">
         <? echo '<label>Дата и время</label>';

@@ -9,7 +9,7 @@ use yii\widgets\ListView;
 $this->title = Yii::t('app', 'Антикоррупционное образование');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="education-index">
+<div class="education-index mobile_padder">
     <div class="main_heading"><?= Html::encode($this->title) ?></div>
     <?php
     echo ListView::widget([

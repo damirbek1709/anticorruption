@@ -23,9 +23,9 @@ $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Educations'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="news-view">
+<div class="news-view mobile_padder">
 
-    <div class="minor_heading"><?= Html::encode($this->title) ?></div>
+    <div class="minor_heading"><?= $this->title; ?></div>
     <?
     echo Html::tag('span', Yii::$app->formatter->asDate($model->date), ['class' => 'news_date']);
     echo Html::tag('span', '', ['class' => 'glyphicon glyphicon-time date-clock']);

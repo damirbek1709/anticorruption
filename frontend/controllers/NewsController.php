@@ -73,6 +73,7 @@ class NewsController extends Controller
                 'pageSize' => 12,
             ],
         ]);
+        
 
         $title = Vocabulary::find()->select(['value'])->where(['id'=>$id])->scalar();
 
@@ -101,6 +102,7 @@ class NewsController extends Controller
     {
         $this->layout = $this->deviceCheck();
         $model = $this->findModel($id);
+        $model->translate(Yii::$app->language);
         $model->updateCounters(['views' => 1]);
         $newcomment = new Comments();
         return $this->render('view', [

@@ -22,6 +22,12 @@ class DocumentSearch extends Document
         ];
     }
 
+
+    function afterFind()
+    {
+        $this->translate(Yii::$app->language);
+    }
+
     /**
      * @inheritdoc
      */

@@ -69,7 +69,7 @@ class News extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'description', 'text'], 'required'],
-            [['category_id', 'views', 'date', 'main_news', 'img'], 'safe'],
+            [['category_id', 'views', 'date', 'main_news', 'img', 'text_ky', 'title_ky', 'description_ky', 'text_en', 'title_en', 'description_en'], 'safe'],
             [['text'], 'string'],
             [['title'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 600],
@@ -93,6 +93,12 @@ class News extends \yii\db\ActiveRecord
             'date' => Yii::t('app', 'Дата'),
             'main_news' => Yii::t('app', 'Главная новость'),
             'file' => Yii::t('app', 'Фото'),
+            'title_ky'=>Yii::t('app', 'Заголовок на кыргызском'),
+            'text_ky'=>Yii::t('app', 'Текст на кыргызском'),
+            'description_ky' => Yii::t('app', 'Короткое описание на кыргызском'),
+            'description_en' => Yii::t('app', 'Короткое описание на английском'),
+            'title_en' => Yii::t('app', 'Заголовок на английском'),
+            'text_en' => Yii::t('app', 'Текст на английском'),
         ];
     }
 
@@ -209,6 +215,45 @@ class News extends \yii\db\ActiveRecord
             }
         }
         return $result;
+    }
+
+    function afterFind()
+    {
+        if ($this->scenario == 'search') {
+            $this->translate(Yii::$app->language);
+        }
+    }
+
+    function translate($language)
+    {
+        switch ($language) {
+            case "en":
+                if ($this->title_en && $this->description_en) {
+                    $this->text = $this->{"text_en"};
+                    $this->title = $this->{"title_en"};
+                    $this->description = $this->{"description_en"};
+                } else {
+                    $this->title = $this->{"title"} . "<span style=color:black> (This material is not availabe in English yet)</span>";
+                    $this->text = $this->{"text"};
+                    $this->description = $this->{"description"};
+                }
+                break;
+            case "ky":
+                if ($this->title_ky != null && $this->description_ky) {
+                    $this->text = $this->{"text_ky"};
+                    $this->title = $this->{"title_ky"};
+                    $this->description = $this->{"description_ky"};
+                } else {
+                    $this->title = $this->{"title"} . "<span style=color:black> (Кыргыз тилинде бул материал азырынча жеткиликтүү эмес)</span>";
+                    $this->text = "";
+                    $this->description = $this->{"description"};
+                }
+                break;
+            default:
+                $this->text = $this->{"text"};
+                $this->title = $this->{"title"};
+                $this->description = $this->{"description"};
+        }
     }
 
     public function afterSave($insert, $changedAttributes)

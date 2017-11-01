@@ -1,14 +1,13 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
+use yii\bootstrap\Tabs;
 use yii\widgets\ActiveForm;
 use kartik\file\FileInput;
-use vova07\imperavi\Widget;
-use app\models\Category;
-use bupy7\cropbox\CropboxWidget;
 use kartik\datetime\DateTimePicker;
+use app\models\Category;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 
 /* @var $this yii\web\View */
@@ -22,12 +21,38 @@ use kartik\datetime\DateTimePicker;
             'enctype' => 'multipart/form-data'
         ]]); ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'img')->hiddenInput(['value' => $model->img ? $model->img : '','class'=>'news-main-img'])->label(false); ?>
-    <?= $form->field($model, 'description')->textArea(['maxlength' => true]) ?>
+    <?php
+    echo Tabs::widget([
+        'items' => [
+            [
+                'label' => 'Контент на русском',
+                'content' => $this->render('content', ['model' => $model, 'language' => '','form'=>$form]),
+            ],
+            [
+                'label' => 'Контент на кыргызском',
+                'content' => $this->render('content', ['model' => $model,'language'=>'_ky','form'=>$form]),
+                'options' => ['tag' => 'div'],
+            ],
+            [
+                'label' => 'Контент на английском',
+                'content' => $this->render('content', ['model' => $model,'language'=>'_en','form'=>$form]),
+                'options' => ['tag' => 'div'],
+            ],
+
+        ],
+        'options' => ['tag' => 'div'],
+        'itemOptions' => ['tag' => 'div'],
+        'headerOptions' => ['class' => 'my-class'],
+        'clientOptions' => ['collapsible' => false],
+    ]);
+    ?>
+
     <?= $form->field($model, 'category_id')->dropDownList(
         ArrayHelper::map(\frontend\models\Vocabulary::find()->where(['key'=>'news_category'])->all(), 'id', 'value')
     ); ?>
+
+
+    <?= $form->field($model, 'img')->hiddenInput(['value' => $model->img ? $model->img : '','class'=>'news-main-img'])->label(false); ?>
 
 
     <div class="img-drop" style="font-family: Arial,sans-serif">
@@ -85,17 +110,6 @@ use kartik\datetime\DateTimePicker;
     </div>
 
 
-    <?=
-    $form->field($model, 'text')->widget(Widget::className(), [
-        'settings' => [
-            'lang' => 'ru',
-            'minHeight' => 200,
-            'plugins' => [
-                'clips',
-                'fullscreen'
-            ]
-        ]
-    ]); ?>
 
     <div class="form-group">
         <? echo '<label>Установите дату и время</label>';

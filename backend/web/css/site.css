@@ -329,3 +329,11 @@ a.desc:after {
     display: none;
 }
 
+.authority-form .tab-content, .news-form .tab-content, .analytics-form .tab-content, .page-form .tab-content{
+    padding: 20px;
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+

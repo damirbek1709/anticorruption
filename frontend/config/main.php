@@ -8,10 +8,14 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
-    'language' => 'ru-RU',
-    'sourceLanguage' => 'ru-RU',
+    'language' => 'ru',
+   /* 'language' => 'ru-RU',
+    'sourceLanguage' => 'ru-RU',*/
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+        'languageSwitcher',
+    ],
     'controllerNamespace' => 'frontend\controllers',
     'modules' => [
         // Configuration Yii2-User Frontend //
@@ -28,6 +32,9 @@ return [
         ],
     ],
     'components' => [
+        'languageSwitcher' => [
+            'class' => 'frontend\components\languageSwitcher',
+        ],
         'authClientCollection' => [
             'class' => \yii\authclient\Collection::className(),
             'clients' => [

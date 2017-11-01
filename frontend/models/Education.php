@@ -38,7 +38,8 @@ class Education extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'date', 'text', 'img'], 'safe'],
+            [['title', 'text'], 'required'],
+            [['date', 'img', 'title_ky', 'text_ky','title_en', 'text_en'], 'safe'],
             [['date'], 'safe'],
             [['text'], 'string'],
             [['title', 'img'], 'string', 'max' => 255],
@@ -72,7 +73,45 @@ class Education extends \yii\db\ActiveRecord
             'date' => Yii::t('app', 'Дата'),
             'text' => Yii::t('app', 'Текст'),
             'file'=> Yii::t('app', 'Изображения'),
+            'title_ky'=>Yii::t('app', 'Заголовок на кыргызском'),
+            'text_ky'=>Yii::t('app', 'Текст на кыргызском'),
+            'title_en' => Yii::t('app', 'Заголовок на английском'),
+            'text_en' => Yii::t('app', 'Текст на английском'),
         ];
+    }
+
+    function afterFind()
+    {
+        if ($this->scenario == 'search') {
+            $this->translate(Yii::$app->language);
+        }
+    }
+
+    function translate($language)
+    {
+        switch ($language) {
+            case "en":
+                if ($this->title_en && $this->description_en) {
+                    $this->text = $this->{"text_en"};
+                    $this->title = $this->{"title_en"};
+                } else {
+                    $this->title = $this->{"title"} . "<span style=color:black> (This material is not availabe in English yet)</span>";
+                    $this->text = $this->{"text"};
+                }
+                break;
+            case "ky":
+                if ($this->title_ky != null && $this->description_ky) {
+                    $this->text = $this->{"text_ky"};
+                    $this->title = $this->{"title_ky"};
+                } else {
+                    $this->title = $this->{"title"} . "<span style=color:black> (Кыргыз тилинде бул материал азырынча жеткиликтүү эмес)</span>";
+                    $this->text = $this->{"text"};
+                }
+                break;
+            default:
+                $this->text = $this->{"text"};
+                $this->title = $this->{"title"};
+        }
     }
 
     public function beforeSave($insert)

@@ -19,7 +19,7 @@ use yii\helpers\BaseStringHelper;
             <h3 class="h3"> Сообщения о коррупции</h3>
         </div>
         <div class="mobile_padder" style="padding-bottom: 0">
-            <?php $reports = Report::find()->where(['status'=>1])->orderBy(['date' => SORT_DESC])->limit(3)->all();
+            <?php $reports = Report::find()->where(['status' => 1])->orderBy(['date' => SORT_DESC])->limit(3)->all();
             foreach ($reports as $report) {
                 echo Html::beginTag('div', ['class' => 'report_block']);
                 if ($report->author) {
@@ -50,6 +50,8 @@ use yii\helpers\BaseStringHelper;
             ?>
         </div>
     </div>
-
 </div>
-<div class="chameleon mobile_more"><?= Html::a('Все обращения', ['/report/index']) ?></div>
+<div class="mobile_padder">
+    <div class="chameleon mobile_more"><?= Html::a('Все обращения', ['/report/index']) ?></div>
+</div>
+
