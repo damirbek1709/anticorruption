@@ -17,7 +17,7 @@ class VocabularyController extends \yii\rest\ActiveController
         $actions = parent::actions();
 
         // disable the "delete" and "create" actions
-        unset($actions['delete']);
+        unset($actions['delete'], $actions['create'], $actions['update']);
 
         // customize the data provider preparation with the "prepareDataProvider()" method
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];

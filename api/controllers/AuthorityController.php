@@ -19,7 +19,7 @@ class AuthorityController extends \yii\rest\ActiveController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::className(),
-            'except' => ['index', 'view', 'depend'],
+            'only' => ['rate','userrate'],
         ];
         /*$behaviors['access'] = [
             'class' => AccessControl::className(),
@@ -46,7 +46,7 @@ class AuthorityController extends \yii\rest\ActiveController
         $actions = parent::actions();
 
         // disable the "delete" and "create" actions
-        unset($actions['delete'], $actions['create']);
+        unset($actions['delete'], $actions['create'], $actions['update']);
 
         // customize the data provider preparation with the "prepareDataProvider()" method
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
@@ -78,7 +78,8 @@ class AuthorityController extends \yii\rest\ActiveController
     {
         $model = Authority::find()->where(['id'=>$id])->with('comments')->asArray()->one();
         $model['rating']=Authority::getRating($id);
-        $model['reports']= count(Yii::$app->db->createCommand("SELECT id FROM report WHERE authority_id='{$id}'")->queryAll());
+        $model['votes']=Authority::getRateCount($id);
+        $model['reports']= count(Yii::$app->db->createCommand("SELECT id FROM report WHERE authority_id='{$id}' AND `status`=1")->queryAll());
         /*unset($model['form_id'],$model['location_id']);*/
         return $model;
     }
@@ -88,14 +89,21 @@ class AuthorityController extends \yii\rest\ActiveController
         if($user_id=Yii::$app->user->id){
             $request = Yii::$app->getRequest();
             $id =  $request->post('id');
-            $value =  $request->post('value');
-            $value=$value*2;
+            $value = (int) $request->post('value');
+            $msg="user found ";
 
             $model=Rating::find()->where(['user_id'=>$user_id, 'authority_id'=>$id])->one();
             if($model){
+                $msg.=" model found ";
                 if($model->rating!=$value){
                     $model->rating=$value;
                     $model->save();
+                    if($model->hasErrors()){
+                        $msg.="upd error";
+                    }
+                    else{
+                        $msg.=" rating updated ";
+                    }
                 }
             }
             else{
@@ -104,13 +112,19 @@ class AuthorityController extends \yii\rest\ActiveController
                 $model->authority_id = $id;
                 $model->user_id = $user_id;
                 $model->save();
+                if($model->hasErrors()){
+                    $msg.="save error ";
+                }
+                else{
+                    $msg.=" rating created ";
+                }
             }
             $query = (new Query())->from('rating')->where(['authority_id'=>$id]);
             if($query->count()==0)
-                $rating = 0;
+            {$rating = 0; $msg.=" count 0 ";}
             else
                 $rating = round($query->sum('rating') / $query->count());
-            return ['id'=>$model->id,'new_rating'=>$rating];
+            return ['id'=>$model->id,'new_rating'=>$rating, 'msg'=>$msg];
         }
         else{
             return 0;

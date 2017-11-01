@@ -19,6 +19,7 @@ class AccountController extends \yii\rest\ActiveController
         //$actions['create']['scenario'] = 'register';
         $actions['update']['scenario'] = 'update';
         unset($actions['delete'], $actions['create'], $actions['index']);
+        unset($actions['view'],$actions['update']); //use my own below
 
         return $actions;
     }
@@ -28,7 +29,7 @@ class AccountController extends \yii\rest\ActiveController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::className(),
-            'except' => ['create', 'login', 'forgot', 'social'],
+            'only' => ['update'],
         ];
         /*$behaviors['access'] = [
             'class' => AccessControl::className(),
@@ -99,6 +100,28 @@ class AccountController extends \yii\rest\ActiveController
             return ['message'=>'Вам отправлено письмо с инструкциями по смене пароля.'];
         }
         else {return ['message'=>'Пользователь с такой почтой не найден.'];}
+    }
+
+    public function actionView($id)
+    {
+        $user=[];
+        $dao=Yii::$app->db;
+        $row=$dao->createCommand("SELECT * FROM `user` WHERE id='{$id}'")->queryOne();
+        if($row){
+            $user['id']=$row['id'];
+            $user['username']=$row['username'];
+            $auth_token=Yii::$app->request->get('auth_key');
+            if($auth_token && $auth_token==$row['auth_key']){
+                $where="user_id='{$id}'";
+            }
+            else{
+                $where="user_id='{$id}' AND `status`=1";
+            }
+
+            $user['reports']= count($dao->createCommand("SELECT id FROM report WHERE {$where}")->queryAll());
+            $user['comments']= count($dao->createCommand("SELECT id FROM comments WHERE {$where}")->queryAll());
+        }
+        return $user;
     }
 
     public function actionSocial()
@@ -235,5 +258,19 @@ class AccountController extends \yii\rest\ActiveController
         //$model->updateCounters(['logins' => 1]);
         $model->save(false);
         return $model;
+    }
+
+    public function actionUpdate($id)
+    {
+        $user_id=Yii::$app->user->id;
+        $username=Yii::$app->request->post("username");
+        $result=["username"=>["Ошибка"]];
+        if($username && $user_id){
+            $model = User::findOne(["id" => $user_id]);
+            $model->username = $username;
+            if($model->save()){$result=["success"=>[true]];}
+            else{$result=$model->errors;}
+        }
+        return $result;
     }
 }

@@ -18,7 +18,7 @@ class EducationController extends \yii\rest\ActiveController
 
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
         // disable the "delete" and "create" actions
-        unset($actions['delete'], $actions['create']);
+        unset($actions['delete'], $actions['create'], $actions['update']);
 
         return $actions;
     }

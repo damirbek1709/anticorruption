@@ -162,12 +162,12 @@ class Report extends \yii\db\ActiveRecord
 
     public function getComments()
     {
-        return $this->hasMany(Comments::className(), ['report_id' => 'id'])->orderBy(['date' => SORT_ASC]);
+        return $this->hasMany(Comments::className(), ['report_id' => 'id'])->where(['status'=>1])->orderBy(['date' => SORT_ASC]);
     }
 
     public function getCommentsCount()
     {
-        return $this->hasMany(Comments::className(), ['report_id' => 'id'])->count();
+        return $this->hasMany(Comments::className(), ['report_id' => 'id'])->where(['status'=>1])->count();
     }
 
     function getImages()
@@ -347,7 +347,8 @@ class Report extends \yii\db\ActiveRecord
             'type_id',
             'type_title' => function ($model) {
                 return $model->type->value;
-            }
+            },
+            'status'
         ];
     }
 

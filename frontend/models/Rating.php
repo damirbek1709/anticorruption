@@ -45,4 +45,21 @@ class Rating extends \yii\db\ActiveRecord
             'user_id' => Yii::t('app', 'User'),
         ];
     }
+
+    public function beforeSave($insert)
+    {
+        //depend table holds timestamp of last table modification. it's for api
+        $dao=Yii::$app->db;
+        $voc=$dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='authority'")->queryOne();
+        if(!$voc){
+            $dao->createCommand()->insert('depend', [
+                'table_name'=>'authority',
+                'last_update' =>time(),
+            ])->execute();
+        }
+        else{
+            $dao->createCommand()->update('depend', ['last_update' =>time()], 'table_name="authority"')->execute();
+        }
+        return parent::beforeSave($insert);
+    }
 }

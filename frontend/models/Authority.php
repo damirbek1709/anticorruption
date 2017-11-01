@@ -60,7 +60,7 @@ class Authority extends \yii\db\ActiveRecord
 
     public function getComments()
     {
-        return $this->hasMany(Comments::className(), ['category_id' => 'id'])->orderBy(['date' => SORT_ASC]);
+        return $this->hasMany(Comments::className(), ['category_id' => 'id'])->where(['status'=>1])->orderBy(['date' => SORT_ASC]);
     }
 
     public function getReports()
@@ -75,7 +75,7 @@ class Authority extends \yii\db\ActiveRecord
 
     public function getCommentsCount()
     {
-        return $this->hasMany(Comments::className(), ['category_id' => 'id'])->count();
+        return $this->hasMany(Comments::className(), ['category_id' => 'id'])->where(['status'=>1])->count();
     }
 
     function afterFind()
@@ -183,6 +183,11 @@ class Authority extends \yii\db\ActiveRecord
         return $rating;
     }
 
+    public static function getRateCount($id){
+        $query = (new Query())->from('rating')->where(['authority_id'=>$id]);
+        return $query->count();
+    }
+
     public function getRatingCount()
     {
         return $this->hasMany(Rating::className(), ['authority_id' => 'id'])->count();
@@ -190,7 +195,7 @@ class Authority extends \yii\db\ActiveRecord
 
     public function getReportCount()
     {
-        return $this->hasMany(Report::className(), ['authority_id' => 'id'])->count();
+        return $this->hasMany(Report::className(), ['authority_id' => 'id'])->where(['status'=>1])->count();
     }
 
     function getMainImg()
