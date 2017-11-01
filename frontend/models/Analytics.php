@@ -80,7 +80,9 @@ class Analytics extends \yii\db\ActiveRecord
         return [
             'id','title','text','date','author_id',
             'author_name' => function($model) {
-                return $model->author->username;
+                if(!empty($model->author) && !empty($model->author->username)){$username=$model->author->username;}
+                else{$username="";}
+                return $username;
             }
         ];
     }

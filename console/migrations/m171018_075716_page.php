@@ -11,6 +11,11 @@ class m171018_075716_page extends Migration
             'id' => $this->primaryKey(),
             'title' =>$this->string('255')->notNull(),
             'text' =>$this->text(),
+            'title_ky' =>$this->string('255')->notNull(),
+            'text_ky' =>$this->text(),
+            'title_en' =>$this->string('255')->notNull(),
+            'text_en' =>$this->text(),
+            'description' =>$this->string('20')->notNull(),
         ],$tableOptions);
 
     }
