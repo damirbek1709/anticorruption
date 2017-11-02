@@ -21,13 +21,16 @@ class DocumentsController extends \yii\rest\ActiveController
 
         // customize the data provider preparation with the "prepareDataProvider()" method
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
-        //unset($actions['view']); //use my own below
+        unset($actions['view']); //use my own below
 
         return $actions;
     }
 
     public function prepareDataProvider()
     {
+        if($lang=Yii::$app->request->get('lang')){
+            Yii::$app->language=$lang;
+        }
         // prepare and return a data provider for the "index" action
         $request=\Yii::$app->request->get();
         $ctg='';$text='';
@@ -47,10 +50,19 @@ class DocumentsController extends \yii\rest\ActiveController
         return new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 25,
+                'pageSize' => 15,
             ],
             'sort'=> ['defaultOrder' => ['date'=>SORT_DESC]]
         ]);
+    }
+
+
+    public function actionView($id)
+    {
+        if($lang=Yii::$app->request->get('lang')){
+            Yii::$app->language=$lang;
+        }
+        return Document::find()->where(['id'=>$id])->one();
     }
 
     //compare maxId on depend table

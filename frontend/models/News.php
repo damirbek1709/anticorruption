@@ -286,4 +286,41 @@ class News extends \yii\db\ActiveRecord
             }
         }
     }
+
+    //for api
+    public function fields()
+    {
+        $lang=Yii::$app->language;
+        $fields = [
+            'id',
+            'title' => function ($model) use($lang){
+                if($lang=='ky'){if($model->title_ky){$model->title=$model->title_ky;}}
+                else if($lang=='en'){if($model->title_en){$model->title=$model->title_en;}}
+                return $model->title;
+            },
+            'description' => function ($model) use($lang){
+                if($lang=='ky'){if($model->description_ky){$model->description=$model->description_ky;}}
+                else if($lang=='en'){if($model->description_en){$model->description=$model->description_en;}}
+                return $model->description;
+            },
+            'text' => function ($model) use($lang){
+                if($lang=='ky'){if($model->text_ky){$model->text=$model->text_ky;}}
+                else if($lang=='en'){if($model->text_en){$model->text=$model->text_en;}}
+                return $model->text;
+            },
+            'img','views','date','main_news','category_id'
+        ];
+        if(Yii::$app->controller->action->id=="index"){
+            $fields['category_title']= function ($model) {
+                $value="";
+                if(!empty($model->category)&& !empty($model->category->value)){$value=$model->category->value;}
+                return $value;
+            };
+        }
+        else if(Yii::$app->controller->action->id=="view"){
+            $fields[]='comments';
+            $fields[]='category';
+        }
+        return $fields;
+    }
 }

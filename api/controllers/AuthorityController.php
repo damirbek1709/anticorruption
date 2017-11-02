@@ -57,31 +57,19 @@ class AuthorityController extends \yii\rest\ActiveController
 
     public function prepareDataProvider()
     {
-        //$select='id,title,parent,image';
-        $models=Authority::find()->all();
-        $items=[];
-        foreach($models as $k=>$model){
-            $items[$k]['id']=$model->id;
-            $items[$k]['title']=$model->title;
-            $items[$k]['text']=$model->text;
-            $items[$k]['img']=$model->img;
-            $items[$k]['parent_id']=$model->category_id;
-            $items[$k]['rating']=Authority::getRating($model->id);
-            $items[$k]['comments']=$model->commentsCount;
-            $items[$k]['reports']=$model->reportCount;
+        if($lang=Yii::$app->request->get('lang')){
+            Yii::$app->language=$lang;
         }
-        return $items;
+        return Authority::find()->all();
     }
 
 
     public function actionView($id)
     {
-        $model = Authority::find()->where(['id'=>$id])->with('comments')->asArray()->one();
-        $model['rating']=Authority::getRating($id);
-        $model['votes']=Authority::getRateCount($id);
-        $model['reports']= count(Yii::$app->db->createCommand("SELECT id FROM report WHERE authority_id='{$id}' AND `status`=1")->queryAll());
-        /*unset($model['form_id'],$model['location_id']);*/
-        return $model;
+        if($lang=Yii::$app->request->get('lang')){
+            Yii::$app->language=$lang;
+        }
+        return Authority::find()->where(['id'=>$id])->one();
     }
 
     public function actionRate()

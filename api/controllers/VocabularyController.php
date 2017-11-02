@@ -21,16 +21,27 @@ class VocabularyController extends \yii\rest\ActiveController
 
         // customize the data provider preparation with the "prepareDataProvider()" method
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
-        //unset($actions['view']); //use my own below
+        unset($actions['view']); //use my own below
 
         return $actions;
     }
 
     public function prepareDataProvider()
     {
-        $query =Vocabulary::find()->orderBy(['ordered_id'=>"ASC"])->asArray()->all();
+        if($lang=Yii::$app->request->get('lang')){
+            Yii::$app->language=$lang;
+        }
+        $query =Vocabulary::find()->orderBy(['ordered_id'=>"ASC"])->all();
 
         return $query;
+    }
+
+    public function actionView($id)
+    {
+        if($lang=Yii::$app->request->get('lang')){
+            Yii::$app->language=$lang;
+        }
+        return Vocabulary::find()->where(['id'=>$id])->one();
     }
 
     //compare maxId on depend table

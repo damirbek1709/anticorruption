@@ -18,7 +18,7 @@ class EducationController extends \yii\rest\ActiveController
 
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
         // disable the "delete" and "create" actions
-        unset($actions['delete'], $actions['create'], $actions['update']);
+        unset($actions['delete'], $actions['create'], $actions['update'], $actions['view']);
 
         return $actions;
     }
@@ -27,6 +27,9 @@ class EducationController extends \yii\rest\ActiveController
 
     public function prepareDataProvider()
     {
+        if($lang=Yii::$app->request->get('lang')){
+            Yii::$app->language=$lang;
+        }
         // prepare and return a data provider for the "index" action
         $request=\Yii::$app->request->get();
         $text='';
@@ -41,9 +44,17 @@ class EducationController extends \yii\rest\ActiveController
         return new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 25,
+                'pageSize' => 15,
             ],
             'sort'=> ['defaultOrder' => ['date'=>SORT_DESC]]
         ]);
+    }
+
+    public function actionView($id)
+    {
+        if($lang=Yii::$app->request->get('lang')){
+            Yii::$app->language=$lang;
+        }
+        return Education::find()->where(['id'=>$id])->one();
     }
 }

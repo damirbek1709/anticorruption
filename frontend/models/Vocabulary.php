@@ -32,7 +32,7 @@ class Vocabulary extends \yii\db\ActiveRecord
             [['key', 'value', 'ordered_id', 'parent'], 'required'],
             [['ordered_id', 'parent'], 'integer'],
             [['key'], 'string', 'max' => 255],
-            [['value'], 'string', 'max' => 500],
+            [['value','value_ky','value_en'], 'string', 'max' => 500],
         ];
     }
 
@@ -175,5 +175,22 @@ class Vocabulary extends \yii\db\ActiveRecord
             $dao->createCommand()->update('depend', ['last_update' =>time()], 'table_name="vocabulary"')->execute();
         }
         return parent::beforeSave($insert);
+    }
+
+
+    //for api
+    public function fields()
+    {
+        $lang=Yii::$app->language;
+        $fields = [
+            'id','key',
+            'value' => function ($model) use($lang){
+                if($lang=='ky'){if($model->value_ky){$model->value=$model->value_ky;}}
+                else if($lang=='en'){if($model->value_en){$model->value=$model->value_en;}}
+                return $model->value;
+            },
+            'ordered_id','parent',
+        ];
+        return $fields;
     }
 }

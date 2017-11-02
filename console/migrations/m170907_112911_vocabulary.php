@@ -13,6 +13,8 @@ class m170907_112911_vocabulary extends Migration
             'value' =>$this->string('500')->notNull(),
             'ordered_id' => $this->integer('11')->notNull()->defaultValue(0),
             'parent' => $this->integer('5')->defaultValue(0),
+            /*'value_ky' =>$this->string('500')->notNull(),
+            'value_en' =>$this->string('500')->notNull(),*/
         ],$tableOptions);
     }
 

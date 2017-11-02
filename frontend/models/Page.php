@@ -99,7 +99,7 @@ class Page extends \yii\db\ActiveRecord
             },
             'text' => function ($model) use($lang){
                 if($lang=='ky'){if($model->text_ky){$model->text=$model->text_ky;}}
-                else if($lang=='en'){if($model->text_en){$model->title=$model->text_en;}}
+                else if($lang=='en'){if($model->text_en){$model->text=$model->text_en;}}
                 return $model->text;
             },
             'description'
