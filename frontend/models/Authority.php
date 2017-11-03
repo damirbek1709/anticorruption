@@ -296,11 +296,11 @@ class Authority extends \yii\db\ActiveRecord
             'rating' => function ($model){
                 return Authority::getRating($model->id);
             },
+            'reports'=> function ($model) {
+                return $model->reportCount;
+            }
         ];
         if(Yii::$app->controller->action->id=="index"){
-            $fields['reports']= function ($model) {
-                return $model->reportCount;
-            };
             $fields['comments']= function ($model) {
                 return $model->commentsCount;
             };
