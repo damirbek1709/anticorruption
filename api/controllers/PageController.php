@@ -18,15 +18,35 @@ class PageController extends \yii\rest\ActiveController
 
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
         // disable the "delete" and "create" actions
-        unset($actions['delete'], $actions['create'], $actions['update']);
+        unset($actions['delete'], $actions['create'], $actions['update'],$actions['view']);
 
         return $actions;
     }
 
     public function prepareDataProvider()
     {
-        $query =Page::find()->where(['app'=>1])->asArray()->all();
+        if($lang=Yii::$app->request->get('lang')){
+            Yii::$app->language=$lang;
+        }
+        $query =Page::find()->all();
+        //$query['suka']="pidar";
 
         return $query;
+    }
+
+    public function actionView($id)
+    {
+        if($lang=Yii::$app->request->get('lang')){
+            Yii::$app->language=$lang;
+        }
+        $model = Page::find()->where(['id'=>$id])->one();
+        return $model;
+    }
+
+    //compare maxId on depend table
+    public function actionDepend()
+    {
+        $row=Yii::$app->db->createCommand("SELECT * FROM depend WHERE `table_name`='page'")->queryOne();
+        return (int)$row['last_update'];
     }
 }

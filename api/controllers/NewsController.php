@@ -28,6 +28,9 @@ class NewsController extends \yii\rest\ActiveController
 
     public function prepareDataProvider()
     {
+        if($lang=Yii::$app->request->get('lang')){
+            Yii::$app->language=$lang;
+        }
         // prepare and return a data provider for the "index" action
         $request=\Yii::$app->request->get();
         $ctg='';$text='';
@@ -47,7 +50,7 @@ class NewsController extends \yii\rest\ActiveController
         return new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 25,
+                'pageSize' => 15,
             ],
             'sort'=> ['defaultOrder' => ['date'=>SORT_DESC]]
         ]);
@@ -55,9 +58,13 @@ class NewsController extends \yii\rest\ActiveController
 
     public function actionView($id)
     {
-        $model = News::find()->where(['id'=>$id])->with('category', 'comments')->asArray()->one();
-        $count=$model['views']+1;
-        Yii::$app->db->createCommand("UPDATE news SET views='{$count}' WHERE id='{$id}'")->execute();
+        if($lang=Yii::$app->request->get('lang')){
+            Yii::$app->language=$lang;
+        }
+        $model = News::find()->where(['id'=>$id])->one();
+        $model->updateCounters(['views' => 1]);
+        //$count=$model['views']+1;
+        //Yii::$app->db->createCommand("UPDATE news SET views='{$count}' WHERE id='{$id}'")->execute();
         /*unset($model['form_id'],$model['location_id']);*/
         return $model;
     }

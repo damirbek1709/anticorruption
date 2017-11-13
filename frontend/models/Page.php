@@ -8,6 +8,11 @@ use Yii;
  * @property integer $id
  * @property string $title
  * @property string $text
+ * @property string $title_ky
+ * @property string $text_ky
+ * @property string $title_en
+ * @property string $text_en
+ * @property string $description
  */
 class Page extends \yii\db\ActiveRecord
 {
@@ -26,7 +31,7 @@ class Page extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'text'], 'required'],
-            [['title_ky', 'text_ky','title_en', 'text_en'], 'safe'],
+            [['title_ky', 'text_ky','title_en', 'text_en','description'], 'safe'],
             [['text'], 'string'],
             [['title'], 'string', 'max' => 255],
         ];
@@ -80,5 +85,40 @@ class Page extends \yii\db\ActiveRecord
                 $this->text = $this->{"text"};
                 $this->title = $this->{"title"};
         }
+    }
+
+    public function fields()
+    {
+        $lang=Yii::$app->language;
+        return [
+            'id',
+            'title' => function ($model) use($lang){
+                if($lang=='ky'){if($model->title_ky){$model->title=$model->title_ky;}}
+                else if($lang=='en'){if($model->title_en){$model->title=$model->title_en;}}
+                return $model->title;
+            },
+            'text' => function ($model) use($lang){
+                if($lang=='ky'){if($model->text_ky){$model->text=$model->text_ky;}}
+                else if($lang=='en'){if($model->text_en){$model->text=$model->text_en;}}
+                return $model->text;
+            },
+            'description'
+        ];
+    }
+
+    public function beforeSave($insert)
+    {
+        //depend table holds timestamp of last table modification. it's for api
+        $dao = Yii::$app->db;
+        $voc = $dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='page'")->queryOne();
+        if (!$voc) {
+            $dao->createCommand()->insert('depend', [
+                'table_name' => 'page',
+                'last_update' => time(),
+            ])->execute();
+        } else {
+            $dao->createCommand()->update('depend', ['last_update' => time()], 'table_name="page"')->execute();
+        }
+        return parent::beforeSave($insert);
     }
 }

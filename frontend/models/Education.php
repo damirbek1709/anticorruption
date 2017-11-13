@@ -236,4 +236,26 @@ class Education extends \yii\db\ActiveRecord
         }
         return $result;
     }
+    
+    //for api
+    public function fields()
+    {
+        $lang=Yii::$app->language;
+        $fields = [
+            'id',
+            'title' => function ($model) use($lang){
+                if($lang=='ky'){if($model->title_ky){$model->title=$model->title_ky;}}
+                else if($lang=='en'){if($model->title_en){$model->title=$model->title_en;}}
+                return $model->title;
+            },
+            'text' => function ($model) use($lang){
+                if($lang=='ky'){if($model->text_ky){$model->text=$model->text_ky;}}
+                else if($lang=='en'){if($model->text_en){$model->text=$model->text_en;}}
+                return $model->text;
+            },
+            'img',
+            'date',
+        ];
+        return $fields;
+    }
 }

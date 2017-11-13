@@ -13,6 +13,10 @@ class m171016_074944_document extends Migration
             'text' =>$this->text(),
             'category_id' => $this->integer('10')->notNull(),
             'date' => $this->date()->notNull(),
+            /*'title_ky' =>$this->string('255')->notNull(),
+            'text_ky' =>$this->text(),
+            'title_en' =>$this->string('255')->notNull(),
+            'text_en' =>$this->text(),*/
         ],$tableOptions);
 
     }

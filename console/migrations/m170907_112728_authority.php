@@ -12,9 +12,11 @@ class m170907_112728_authority extends Migration
             'title' =>$this->string('255')->notNull(),
             'text' =>$this->text(),
             'img' =>$this->string('255')->notNull(),
-            'votes' => $this->integer('11')->defaultValue(0),
-            'rating' => $this->integer('11')->defaultValue(0),
             'category_id' => $this->integer('11')->defaultValue(0),
+            /*'title_ky' =>$this->string('255')->notNull(),
+            'text_ky' =>$this->text(),
+            'title_en' =>$this->string('255')->notNull(),
+            'text_en' =>$this->text(),*/
         ],$tableOptions);
     }
 

@@ -103,4 +103,42 @@ class Document extends \yii\db\ActiveRecord
             'category_id' => Yii::t('app', 'Категория'),
         ];
     }
+
+
+    public function getCategory()
+    {
+        return $this->hasOne(Vocabulary::className(), ['id' => 'category_id']);
+    }
+
+
+    //for api
+    public function fields()
+    {
+        $lang=Yii::$app->language;
+        $fields = [
+            'id',
+            'title' => function ($model) use($lang){
+                if($lang=='ky'){if($model->title_ky){$model->title=$model->title_ky;}}
+                else if($lang=='en'){if($model->title_en){$model->title=$model->title_en;}}
+                return $model->title;
+            },
+            'text' => function ($model) use($lang){
+                if($lang=='ky'){if($model->text_ky){$model->text=$model->text_ky;}}
+                else if($lang=='en'){if($model->text_en){$model->text=$model->text_en;}}
+                return $model->text;
+            },
+            'category_id',
+            'category_title' => function ($model) use($lang){
+                $title="";
+                if(!empty($model->category)){
+                    if(!empty($model->category->value)){$title=$model->category->value;}
+                    if($lang=='ky'){if(!empty($model->category->value_ky)){$title=$model->category->value_ky;}}
+                    else if($lang=='en'){if(!empty($model->category->value_en)){$title=$model->category->value_en;}}
+                }
+                return $title;
+            },
+            'date',
+        ];
+        return $fields;
+    }
 }

@@ -54,7 +54,7 @@ class Authority extends \yii\db\ActiveRecord
                 'extensions' => ['jpg', 'jpeg', 'png', 'gif'],
                 'mimeTypes' => ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif'],
             ],
-            ['crop_info', 'safe'],
+            [['crop_info','title_ky', 'text_ky','title_en', 'text_en'], 'safe'],
         ];
     }
 
@@ -271,5 +271,46 @@ class Authority extends \yii\db\ActiveRecord
                 . "/s_{$this->id}_".
                 $this->image->name, ['quality' => 100]);
         }
+    }
+
+    //for api
+    public function fields()
+    {
+        $lang=Yii::$app->language;
+        $fields = [
+            'id',
+            'title' => function ($model) use($lang){
+                if($lang=='ky'){if($model->title_ky){$model->title=$model->title_ky;}}
+                else if($lang=='en'){if($model->title_en){$model->title=$model->title_en;}}
+                return $model->title;
+            },
+            'text' => function ($model) use($lang){
+                if($lang=='ky'){if($model->text_ky){$model->text=$model->text_ky;}}
+                else if($lang=='en'){if($model->text_en){$model->text=$model->text_en;}}
+                return $model->text;
+            },
+            'img',
+            'parent_id' => function ($model){
+                return $model->category_id;
+            },
+            'rating' => function ($model){
+                return Authority::getRating($model->id);
+            },
+            'reports'=> function ($model) {
+                return $model->reportCount;
+            }
+        ];
+        if(Yii::$app->controller->action->id=="index"){
+            $fields['comments']= function ($model) {
+                return $model->commentsCount;
+            };
+        }
+        else if(Yii::$app->controller->action->id=="view"){
+            $fields['votes']= function ($model) {
+                return Authority::getRateCount($model->id);
+            };
+            $fields[]='comments';
+        }
+        return $fields;
     }
 }
