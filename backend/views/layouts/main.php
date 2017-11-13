@@ -79,14 +79,20 @@ AppAsset::register($this);
                         ['label' => Yii::t('app', 'Пресс релизы госорганов'), 'url' => ['/news/category', 'id' => 131]],
                     ],
                 ],
+
+                [
+                    'label' => Yii::t('app', 'Антикоррупционная политика'),
+                    'items' => [
+                        ['label' => Yii::t('app', 'Нормативно-правовые акты'), 'url' => ['/politics/category', 'id' => 150]],
+                        ['label' => Yii::t('app', 'Международное сотрудничество'), 'url' => ['/politics/category', 'id' => 151]],
+
+                    ],
+                ],
                 [
                     'label' => Yii::t('app', 'Антикоррупционное образование'),
                     'url' => ['/education/index']
                 ],
-                [
-                    'label' => Yii::t('app', 'Аналитика'),
-                    'url' => ['/analytics/index']
-                ],
+
                 [
                     'label' => Yii::t('app', 'Отчеты'),
                     'url' => ['/document/index']
@@ -95,6 +101,11 @@ AppAsset::register($this);
                 [
                     'label' => Yii::t('app', 'Еще'),
                     'items' => [
+
+                        [
+                            'label' => Yii::t('app', 'Аналитика'),
+                            'url' => ['/analytics/index']
+                        ],
                         ['label' => Yii::t('app', 'Пользователи'), 'url' => ['/user/admin']],
                         [
                             'label' => Yii::t('app', 'Страницы'),

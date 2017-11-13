@@ -73,7 +73,6 @@ class NewsController extends Controller
                 'pageSize' => 12,
             ],
         ]);
-        
 
         $title = Vocabulary::find()->select(['value'])->where(['id'=>$id])->scalar();
 

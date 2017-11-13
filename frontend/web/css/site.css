@@ -364,7 +364,7 @@ a.desc:after {
 }
 
 .top-menu .navbar-nav > li {
-    margin: 0 20px;
+    margin: 0 5px;
 }
 
 .top-menu .navbar-nav > li:nth-child(1) {

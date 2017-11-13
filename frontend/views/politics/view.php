@@ -36,7 +36,7 @@ $this->title = $model->title;
             })();</script>
         <div class="pluso" data-background="none;"
              data-options="medium,square,line,horizontal,counter,sepcounter=1,theme=14"
-             data-services="facebook,vkontakte,odnoklassniki,twitter" data-url="http://anticorruption.kg/document/<?=$model->id?>"
+             data-services="facebook,vkontakte,odnoklassniki,twitter" data-url="http://anticorruption.kg/politics/<?=$model->id?>"
              data-title="Антикоррупционный портал Кыргызской Республики">
         </div>
     </div>
