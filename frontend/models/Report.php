@@ -57,7 +57,7 @@ class Report extends \yii\db\ActiveRecord
             [['category_id', 'lon', 'author', 'lat', 'city_id', 'text', 'anonymous', 'email', 'contact', 'images'], 'safe'],
             //[['email'], 'email'], //<-- why commented out? (temir)
             [['date', 'status'], 'safe'],
-            [['views', 'authority_id', 'category_id', 'city_id', 'anonymous', 'type_id'], 'integer'],
+            [['views', 'authority_id', 'category_id', 'city_id', 'anonymous', 'type_id','user_id'], 'integer'],
             [['lon', 'lat'], 'number'],
             [['text'], 'string'],
             [['title', 'author', 'email', 'contact'], 'string', 'max' => 255],
