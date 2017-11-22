@@ -40,6 +40,9 @@ body {
     color: #c55;
     font-style: italic;
 }
+.news_text table tr, .news_text table td{
+    border: 1px solid #ccc;
+}
 
 /* add sorting icons to gridview sort links */
 a.asc:after, a.desc:after {

@@ -63,7 +63,7 @@ AppAsset::register($this);
                 $languageArr = [
                     'ky' => Html::a('<span class="ky">Кыргызча</span>', '?language=ky'),
                     'ru' => Html::a('<span class="ru">Русский</span>', '?language=ru'),
-                    'en' => Html::a('<span class="rus">English</span>', '?language=en')
+                    //'en' => Html::a('<span class="rus">English</span>', '?language=en')
                 ] ?>
 
                 <?
@@ -119,7 +119,7 @@ AppAsset::register($this);
             ],
         ]);
         $menuItems = [
-            //['label' => Yii::t('app', 'Главная'), 'url' => ['/site/index']],
+            ['label' => '<span class="home-link"></span>', 'url' => ['/site/index'],],
             [
                 'label' => Yii::t('app', 'Новости'),
                 'items' => [
@@ -186,6 +186,7 @@ AppAsset::register($this);
         ];
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-left'],
+            'encodeLabels' => false,
             'items' => $menuItems,
         ]);
         NavBar::end();

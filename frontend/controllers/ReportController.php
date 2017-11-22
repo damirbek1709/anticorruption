@@ -40,7 +40,7 @@ class ReportController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['create'],
-                        'roles' => ['@','admin']
+                        'roles' => ['?','@','admin']
                     ],
 
                     [

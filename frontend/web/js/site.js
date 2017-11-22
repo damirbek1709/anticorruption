@@ -18,6 +18,14 @@ $(window).load(function(){
     //tooltip, popover
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="popover"]').popover();
+
+    $('.warning-link').click(function (e) {
+        e.preventDefault();
+        $('#update-modal')
+            .modal('show')
+            .find('#updateModalContent')
+            .load($(this).attr('value'));
+    });
 });
 
 

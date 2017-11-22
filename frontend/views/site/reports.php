@@ -28,7 +28,7 @@ use yii\helpers\BaseStringHelper;
                 }
                 echo Html::tag('span', Yii::$app->formatter->asDate($report->date), ['class' => 'news_date right-marginer']);
                 echo Html::tag('span', "Просмотров: <span class='inner'>{$report->views}</span>", ['class' => 'chameleon_reversed news_date right-marginer']);
-                echo Html::tag('span', "Комментарии: <span class='inner'>{$report->commentsCount}</span>", ['class' => 'chameleon_reversed news_date right-marginer']);
+                //echo Html::tag('span', "Комментарии: <span class='inner'>{$report->commentsCount}</span>", ['class' => 'chameleon_reversed news_date right-marginer']);
                 echo Html::tag('div', '', ['clear' => 'both']);
                 echo Html::a($report->title, ['/report/view', 'id' => $report->id], ['class' => 'italic_header', 'style' => 'color:#000;margin:10px 0;display:block;']);
                 echo Html::tag('div', '', ['class' => 'quotes']);

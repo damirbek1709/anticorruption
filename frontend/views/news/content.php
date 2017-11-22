@@ -13,9 +13,11 @@ $form->field($model, $text)->widget(Widget::className(), [
     'settings' => [
         'lang' => 'ru',
         'minHeight' => 200,
+        'imageUpload' => Yii::$app->urlManagerFrontend->createAbsoluteUrl('/site/image-upload'),
         'plugins' => [
             'clips',
-            'fullscreen'
+            'fullscreen',
+            'table',
         ]
     ]
 ]); ?>

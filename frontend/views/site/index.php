@@ -76,7 +76,7 @@ $this->title = Yii::t('app', 'Антикоррупционный портал К
             echo Html::a($new->title, ['/news/view', 'id' => $new->id], ['class' => 'news_title']);
             echo Html::tag('div', $new->description, ['class' => 'news_description']);
             echo Html::a($new->category->value, ['/news/category', 'id' => $new->category->id], ['class' => 'news_category_link']);
-            echo Html::tag('span', "<span class='comment_icon'></span> {$new->commentsCount}", ['class' => 'news_coment_span']);
+            //echo Html::tag('span', "<span class='comment_icon'></span> {$new->commentsCount}", ['class' => 'news_coment_span']);
             echo Html::endTag('div');
             echo Html::endTag('div');
         }

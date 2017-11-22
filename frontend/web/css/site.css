@@ -334,8 +334,15 @@ a.desc:after {
     padding-bottom: 13px;
     padding-top: 13px;
     color: #fff;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 400;
+}
+.home-link{
+    width: 33px;
+    height: 33px;
+    background-image: url(../images/site/icons.png);
+    background-position: -215px -186px;
+    display: inline-block;
 }
 
 .top-menu .container {
@@ -369,6 +376,10 @@ a.desc:after {
 
 .top-menu .navbar-nav > li:nth-child(1) {
     margin-left: 0;
+}
+
+.news_text table tr, .news_text table td{
+    border: 1px solid #ccc;
 }
 
 .top-menu .caret:before {
@@ -1242,5 +1253,10 @@ a.desc:after {
 }
 .news-title-cover{
 
+}
+.warning-link{
+    color: #79add6;
+    margin: 10px 0;
+    display: inline-block;;;
 }
 

@@ -26,8 +26,6 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true,
         'placeholder' => 'Введите заголовок вашего сообщения',
-        'data-toggle' => 'modal',
-        'data-target' => '#warning-modal',
         'class' => 'form-control sharper'])->label(false); ?>
 
     <?= $form->field($model, 'text')->textarea(['rows' => 6, 'placeholder' => 'Расскажите подробнее о факте коррупции с которым вы столкнулись', 'class' => 'form-control comment-input-text'])->label(false); ?>
@@ -57,7 +55,7 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
 
     <?php
     $type = 134;
-    if(isset($_POST['paramType'])){
+    if (isset($_POST['paramType'])) {
         $type = $_POST['paramType'];
     }
     echo $form->field($model, 'type_id')
@@ -80,7 +78,7 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
             //'convertFormat' => true,
             'pluginOptions' => [
                 //'minView' => 0,
-                'minuteStep'=>30,
+                'minuteStep' => 30,
                 //'format' => 'd-M-Y g:i A',
                 'format' => 'yyyy-m-dd HH:ii',
                 //'startDate' => '01-Mar-2017 12:00 AM',
@@ -195,18 +193,37 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
     <div class="form-group map" id="map"></div>
 
 
+    <?= Html::a(Yii::t('app', 'Предупреждение об уголовной ответственности за дачу заведомо ложных 
+сообщений о совершении преступлений'), ['#'], ['class' => 'warning-link', 'id' => 'modalButton', 'data-toggle' => 'modal', 'data-target' => '#warning-modal']); ?>
+
+    <?php
+    $modal = Modal::begin([
+        'header' => Html::tag('h4', Yii::t('app', 'Внимание'), ['class' => 'modal-title']),
+        'id' => 'warning-modal',
+        'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal">' . Yii::t('app', 'Закрыть') . '</button>'
+
+    ]);
+    echo $lkup['lookup_warning_text'];
+    $modal::end();
+    ?>
+
+
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Отправить'), ['class' => 'send-comment btn btn-danger']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
+
+
     <?php
-    $modal = Modal::begin([
+
+
+    /*$modal = Modal::begin([
         'id' => 'warning-modal',
         'header' => Html::tag('h4', $lkup['lookup_warning_title'], ['class' => 'modal-title']),
         'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal">' . Yii::t('app', 'Закрыть') . '</button>'
     ]);
     echo $lkup['lookup_warning_text'];
-    $modal::end();
+    $modal::end();*/
     ?>
 </div>
