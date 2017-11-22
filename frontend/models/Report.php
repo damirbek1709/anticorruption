@@ -53,11 +53,11 @@ class Report extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'authority_id', 'category_id', 'text', 'city_id', 'user_id', 'type_id'], 'required'],
+            [['title', 'authority_id', 'category_id', 'text', 'city_id', 'type_id'], 'required'],
             [['category_id', 'lon', 'author', 'lat', 'city_id', 'text', 'anonymous', 'email', 'contact', 'images'], 'safe'],
-            //[['email'], 'email'],
+            //[['email'], 'email'], //<-- why commented out? (temir)
             [['date', 'status'], 'safe'],
-            [['views', 'authority_id', 'category_id', 'city_id', 'anonymous', 'type_id'], 'integer'],
+            [['views', 'authority_id', 'category_id', 'city_id', 'anonymous', 'type_id','user_id'], 'integer'],
             [['lon', 'lat'], 'number'],
             [['text'], 'string'],
             [['title', 'author', 'email', 'contact'], 'string', 'max' => 255],
@@ -225,6 +225,7 @@ class Report extends \yii\db\ActiveRecord
         //depend table holds timestamp of last table modification. it's for api
         if ($this->isNewRecord && !$this->date) {
             $this->date = date("Y-m-d H:i:s");
+            if(!isset($this->user_id)){$this->user_id=0;}
         }
         $dao = Yii::$app->db;
         $voc = $dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='report'")->queryOne();

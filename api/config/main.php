@@ -98,6 +98,7 @@ return [
                 ['class' => 'yii\rest\UrlRule','controller' => 'documents'],
                 ['class' => 'yii\rest\UrlRule','controller' => 'analytics'],
                 ['class' => 'yii\rest\UrlRule','controller' => 'education'],
+                ['class' => 'yii\rest\UrlRule','controller' => 'politics'],
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
