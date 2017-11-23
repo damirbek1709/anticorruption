@@ -9,6 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'language' => 'ru',
+    'name'=>'Anticorruption.kg',
    /* 'language' => 'ru-RU',
     'sourceLanguage' => 'ru-RU',*/
     'basePath' => dirname(__DIR__),
