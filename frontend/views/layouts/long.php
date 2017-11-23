@@ -101,7 +101,7 @@ AppAsset::register($this);
         $menuItems = [
             ['label' => 'Главная', 'url' => ['/site/index'],
                 'linkOptions' => [
-                    'style' => 'padding-left:5px'
+                    'style' => 'padding-left:12px'
                 ],
             ],
             [
