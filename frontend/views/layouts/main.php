@@ -84,11 +84,11 @@ AppAsset::register($this);
 
     <div class="main_header">
         <div class="centralizer">
-            <?=Html::beginTag('a',['href'=>'/site/index'])?>
+            <?= Html::beginTag('a', ['href' => '/site/index']) ?>
             <div class="logo">
                 <?= Yii::t('app', 'Антикоррупционный портал Кыргызской Республики'); ?>
             </div>
-            <?=Html::endTag('a');?>
+            <?= Html::endTag('a'); ?>
 
             <div class="report_header">
                 <?php
@@ -119,7 +119,16 @@ AppAsset::register($this);
             ],
         ]);
         $menuItems = [
-            ['label' => '<span class="home-link"></span>', 'url' => ['/site/index'],],
+            /*['label' => '<span class="home-link"></span>', 'url' => ['/site/index'],
+                'linkOptions' => [
+                    'style' => 'padding:13px 0'
+                ],
+            ],*/
+            ['label' => 'Главная', 'url' => ['/site/index'],
+                'linkOptions' => [
+                    'style' => 'padding-left:5px'
+                ],
+            ],
             [
                 'label' => Yii::t('app', 'Новости'),
                 'items' => [
@@ -136,28 +145,7 @@ AppAsset::register($this);
                     ['label' => Yii::t('app', 'Международное сотрудничество'), 'url' => ['/politics/category/151']],
                 ],
             ],
-            [
-                'label' => Yii::t('app', 'Антикоррупционное образование'),
-                'url' => ['/education']
-            ],
 
-            [
-                'label' => Yii::t('app', 'Отчеты'),
-                'items' => [
-                    ['label' => Yii::t('app', 'Исследования'), 'url' => ['/document/category', 'id' => 146]],
-                    ['label' => Yii::t('app', 'Отчеты гос.органов'), 'url' => ['/document/category', 'id' => 147]],
-                    ['label' => Yii::t('app', 'Международное сотрудничество'), 'url' => ['/document/category', 'id' => 148]],
-                    ['label' => Yii::t('app', 'Декларация о доходах'), 'url' => ['/document/category', 'id' => 149]],
-                ],
-            ],
-            [
-                'label' => Yii::t('app', 'Борьба с коррупцией'),
-                'items' => [
-                    ['label' => Yii::t('app', 'Профилактика коррупции в госорганах'), 'url' => ['/page/view', 'id' => 1]],
-                    ['label' => Yii::t('app', 'Общественные советы'), 'url' => ['/page/view', 'id' => 2]],
-                    ['label' => Yii::t('app', 'Комплайенс-офицеры'), 'url' => ['/page/view', 'id' => 3]],
-                ],
-            ],
             [
                 'label' => Yii::t('app', 'Карта коррупции'),
                 'url' => ['/site/map'],
@@ -183,6 +171,30 @@ AppAsset::register($this);
                     ['label' => Yii::t('app', 'Обращения на карте'), 'url' => ['site/map']],
                 ],
             ],
+            /*---------------------*/
+
+            [
+                'label' => Yii::t('app', 'Отчеты'),
+                'items' => [
+                    ['label' => Yii::t('app', 'Исследования'), 'url' => ['/document/category', 'id' => 146]],
+                    ['label' => Yii::t('app', 'Отчеты гос.органов'), 'url' => ['/document/category', 'id' => 147]],
+                    ['label' => Yii::t('app', 'Международное сотрудничество'), 'url' => ['/document/category', 'id' => 148]],
+                    ['label' => Yii::t('app', 'Декларация о доходах'), 'url' => ['/document/category', 'id' => 149]],
+                ],
+            ],
+            [
+                'label' => Yii::t('app', 'Борьба с коррупцией'),
+                'items' => [
+                    ['label' => Yii::t('app', 'Профилактика коррупции в госорганах'), 'url' => ['/page/view', 'id' => 1]],
+                    ['label' => Yii::t('app', 'Общественные советы'), 'url' => ['/page/view', 'id' => 2]],
+                    ['label' => Yii::t('app', 'Комплайенс-офицеры'), 'url' => ['/page/view', 'id' => 3]],
+                ],
+            ],
+            [
+                'label' => Yii::t('app', 'Антикоррупционное образование'),
+                'url' => ['/education']
+            ],
+
         ];
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-left'],

@@ -203,7 +203,12 @@ class ReportController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $msg = Yii::$app->db->createCommand("SELECT `value` FROM vocabulary WHERE `key`='lookup_submitted'")->queryOne();
             Yii::$app->getSession()->setFlash('success', $msg['value']);
-            return $this->redirect(['view', 'id' => $model->id]);
+            if(Yii::$app->user->isGuest) {
+                return $this->redirect(['index']);
+            }
+            else {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
