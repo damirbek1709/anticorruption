@@ -356,6 +356,11 @@ a.desc:after {
 .top-menu {
     height: 45px;
 }
+.recaptcha_message_report{
+    color: #a94442;
+    margin: 15px 0;
+    font-size: 16px
+}
 
 .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
     background-color: transparent;

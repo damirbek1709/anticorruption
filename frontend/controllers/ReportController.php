@@ -22,6 +22,7 @@ class ReportController extends Controller
 {
 
     public $enableCsrfValidation;
+
     /**
      * @inheritdoc
      */
@@ -36,19 +37,19 @@ class ReportController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index','get-locations','authority','sector','city','type'],
-                        'roles' => ['?', '@','admin']
+                        'actions' => ['index', 'get-locations', 'authority', 'sector', 'city', 'type'],
+                        'roles' => ['?', '@', 'admin']
                     ],
                     [
                         'allow' => true,
                         'actions' => ['create'],
-                        'roles' => ['?','@','admin']
+                        'roles' => ['?', '@', 'admin']
                     ],
 
                     [
                         'allow' => true,
                         'actions' => ['view'],
-                        'roles' => ['?','@'],
+                        'roles' => ['?', '@'],
                         'matchCallback' => function ($rule, $action) {
                             if ($this->isApproved()) {
                                 return true;
@@ -71,7 +72,7 @@ class ReportController extends Controller
 
                     [
                         'allow' => true,
-                        'actions' => ['update','delete'],
+                        'actions' => ['update', 'delete'],
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
                             if (Yii::$app->user->identity->isAdmin || $this->isUserAuthor()) {
@@ -83,7 +84,7 @@ class ReportController extends Controller
 
                     [
                         'allow' => true,
-                        'actions' => ['update','status'],
+                        'actions' => ['update'],
                         'roles' => ['admin'],
                         'matchCallback' => function ($rule, $action) {
                             if (Yii::$app->user->identity->isAdmin || $this->isUserAuthor() || $this->isApproved()) {
@@ -202,15 +203,23 @@ class ReportController extends Controller
     {
         $model = new Report();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $msg = Yii::$app->db->createCommand("SELECT `value` FROM vocabulary WHERE `key`='lookup_submitted'")->queryOne();
-            Yii::$app->getSession()->setFlash('success', $msg['value']);
-            if(Yii::$app->user->isGuest) {
-                return $this->redirect(['index']);
+        if ($model->load(Yii::$app->request->post())) {
+            if (empty($_POST['g-recaptcha-response']) && Yii::$app->user->isGuest) {
+                Yii::$app->session->setFlash('captcha_not_clicked_report', Yii::t('app', 'Пожалуйста, подтвердите, что вы человек, а не робот'));
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            } else {
+                $msg = Yii::$app->db->createCommand("SELECT `value` FROM vocabulary WHERE `key`='lookup_submitted'")->queryOne();
+                $model->save();
+                Yii::$app->getSession()->setFlash('success', $msg['value']);
+                if (Yii::$app->user->isGuest) {
+                    return $this->redirect(['index']);
+                } else {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
             }
-            else {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -268,51 +277,35 @@ class ReportController extends Controller
 
     public function actionGetLocations()
     {
-        if($authority = Yii::$app->request->get('authority')){
+        if ($authority = Yii::$app->request->get('authority')) {
             $auth_query = " AND authority_id='{$authority}'";
-        }
-        else{
+        } else {
             $auth_query = "";
         }
 
-        if($sector = Yii::$app->request->get('sector')){
+        if ($sector = Yii::$app->request->get('sector')) {
             $sector_query = " AND category_id='{$sector}'";
-        }
-        else{
+        } else {
             $sector_query = "";
         }
 
-        if($city = Yii::$app->request->get('city')){
+        if ($city = Yii::$app->request->get('city')) {
             $city_query = " AND city_id='{$city}'";
-        }
-        else{
+        } else {
             $city_query = "";
         }
 
-        if($type = Yii::$app->request->get('type')){
+        if ($type = Yii::$app->request->get('type')) {
             $type_query = " AND type_id='{$type}'";
-        }
-        else{
+        } else {
             $type_query = "";
         }
 
-        $rows = Yii::$app->db->createCommand("SELECT id, title, lat, lon FROM report WHERE lat<>0 AND lon<>0". $auth_query . $sector_query. $city_query. $type_query)->queryAll();
+        $rows = Yii::$app->db->createCommand("SELECT id, title, lat, lon FROM report WHERE lat<>0 AND lon<>0" . $auth_query . $sector_query . $city_query . $type_query)->queryAll();
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $rows;
     }
 
-    public function actionStatus()
-    {
-        $this->enableCsrfValidation = false;
-        $request = Yii::$app->getRequest();
-        $id = $request->post('id');
-        $status = $request->post('status');
-        $model = $this->findModel($id);
-        $model->status = $status;
-        if ($model->save()) {
-            return $model->status;
-        }
-    }
 
     protected function isUserAuthor()
     {

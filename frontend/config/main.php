@@ -26,7 +26,8 @@ return [
             'enableRegistration' => true,
             'enableUnconfirmedLogin' => true,
             'controllerMap' => [
-                'admin' => 'app\controllers\user\AdminController'
+                'admin' => 'app\controllers\user\AdminController',
+                'registration'=>'frontend\controllers\user\RegistrationController'
             ],
             //'confirmWithin' => 21600,
             //'cost' => 12,

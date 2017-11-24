@@ -100,7 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="clear" style="margin-top: 20px;"></div>
 <?php if($model->lat){
-    echo Html::tag('div','',['class'=>'map','id'=>'map']);
+    echo Html::tag('div','',['class'=>'map','id'=>'map_view']);
 }
 ?>
 

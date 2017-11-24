@@ -102,7 +102,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php
     if ($model->lat) {
-        echo Html::tag('div', '', ['id'=>'map','class' => 'map']);
+        echo Html::tag('div','',['class'=>'map','id'=>'map_view']);
         echo Html::hiddenInput('lat', $model->lat, ['class' => 'report_lat']);
         echo Html::hiddenInput('lon', $model->lon, ['class' => 'report_lon']);
     }
@@ -110,8 +110,13 @@ $this->params['breadcrumbs'][] = $this->title;
     if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin) {
         if ($model->status == 0) {
             echo Html::tag('span', 'Одобрить', ['class' => 'btn-moderate btn btn-success', 'data-status' => 1]);
-        } else {
-            echo Html::tag('span', 'Блокировать', ['class' => 'btn-moderate btn btn-danger', 'data-status' => 0]);
+            echo Html::tag('span', 'Отклонить', ['class' => 'btn-moderate btn btn-danger', 'data-status' => 2]);
+        }
+        else if($model->status == 1) {
+            echo Html::tag('span', 'Отклонить', ['class' => 'btn-moderate btn btn-danger', 'data-status' => 2]);
+        }
+        else{
+            echo Html::tag('span', 'Одобрить', ['class' => 'btn-moderate btn btn-success', 'data-status' => 1]);
         }
     }
     ?>
@@ -121,27 +126,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <script type="text/javascript">
 
-    $('body').on('click', '.btn-moderate', function () {
+    $('body').on('click', '.btn-moderate', function (e) {
+        e.preventDefault();
         var status = $(this).attr('data-status');
         var thisOne = $(this);
         $.ajax({
-            url: "<?=Yii::$app->urlManagerFrontend->createAbsoluteUrl(['report/status']);?>",
+            url: 'status',
             type: 'post',
             data: {id:<?=$model->id?>, status: status, _csrf: yii.getCsrfToken()},
-            success: function (response) {
-                if (response == 1) {
-                    alert("Обращение одобрено и опубликовано  на сайте");
-                    thisOne.removeClass('btn-success').addClass('btn-danger');
-                    thisOne.text("Блокировать");
-                    thisOne.attr('data-status', 0);
-                }
-                else {
-                    alert("Обращение заблокировано");
-                    thisOne.removeClass('btn-danger').addClass('btn-success');
-                    thisOne.text("Одобрить");
-                    thisOne.attr('data-status', 1);
-                }
-            }
         });
 
         return false;

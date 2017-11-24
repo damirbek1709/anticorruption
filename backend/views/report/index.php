@@ -22,16 +22,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'id',
-            'title',
+            [
+                'attribute' => 'title',
+                'value' => function ($model) {
+                    return Html::a($model->title,['/report/view','id'=>$model->id]);
+                },
+                'format'=>'raw'
+            ],
             'date',
             [
                 'attribute' => 'status',
                 'value' => function ($model) {
-                    if($model->status==1){
+                    if ($model->status == 1) {
                         return "Активен";
+                    } else if($model->status == 0) {
+                        return "На рассмотрении";
                     }
                     else{
-                        return "Не активен";
+                        return "Отклонен";
                     }
                 }
             ],

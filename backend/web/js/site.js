@@ -18,6 +18,14 @@ $(window).load(function(){
     //tooltip, popover
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="popover"]').popover();
+
+    $('.warning-link').click(function (e) {
+        e.preventDefault();
+        $('#update-modal')
+            .modal('show')
+            .find('#updateModalContent')
+            .load($(this).attr('value'));
+    });
 });
 
 
@@ -29,7 +37,53 @@ function loadScript() {
     document.body.appendChild(script);
 }
 
+function loadScriptView() {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDDyJXbc-D_sxlQgbxS6fa-ImOsz1dyyQs&callback=initMapView";
+    document.body.appendChild(script);
+}
+
 var map;
+
+function initMapView() {
+    var uluru = {lat: 41.2044, lng: 74.7661};
+
+    var defaultLat = parseFloat($('.report_lat').val());
+    var defaultLon = parseFloat($('.report_lon').val());
+
+
+    map = new google.maps.Map(document.getElementById('map_view'), {
+        zoom: 6,
+        center: uluru
+    });
+    var marker = new google.maps.Marker({
+        map: map,
+        draggable: false,
+        //position:{lat: 41.2044, lng: 74.7661}
+
+    });
+
+    if(defaultLat!=0 && defaultLon!=0) {
+        placeMarker({lat: defaultLat, lng: defaultLon});
+    }
+
+    function placeMarker(location) {
+        if (marker == undefined) {
+            marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                animation: google.maps.Animation.DROP,
+            });
+        }
+        else {
+            marker.setPosition(location);
+        }
+        //map.setCenter(location);
+    }
+}
+
+
 function initMap() {
     var uluru = {lat: 41.2044, lng: 74.7661};
 
@@ -120,13 +174,15 @@ $(window).load(function(){
 
     else if($('#map_long').length){
         var authority = $('#map_long').attr('authority');
-        console.log(authority + "test console");
+        var sector = $('#map_long').attr('sector');
+        var city = $('#map_long').attr('city');
+        var type = $('#map_long').attr('type');
         var cluster = document.createElement('script');
         cluster.src = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
         document.body.appendChild(cluster);
         $.ajax({
             type: 'GET',
-            url: '/report/get-locations?authority='+ authority,
+            url: '/report/get-locations?authority='+ authority+'&sector='+ sector + '&city='+city + '&type='+type,
             //beforeSend: function () {},
             success:function(data){
                 $.each(data, function() {
@@ -142,10 +198,18 @@ $(window).load(function(){
         });
     }
 
+    else if($('#map_view').length){
+        loadScriptView();
+        var imported = document.createElement('script');
+        imported.src = '/js/cities.js';
+        document.body.appendChild(imported);
+    }
+
     $('#report-city_id').change(function () {
         console.log("changed");
         var city_id=$(this).val();
         var coord=getCityCoord(city_id);
+
         console.log(coord);
         newLocation(coord[0],coord[1]);
         newZoom(13);
@@ -159,6 +223,13 @@ function loadScriptIndex() {
     var script = document.createElement("script");
     script.type = "text/javascript";
     script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDDyJXbc-D_sxlQgbxS6fa-ImOsz1dyyQs&callback=initMapIndex";
+    document.body.appendChild(script);
+}
+
+function loadScriptLong() {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDDyJXbc-D_sxlQgbxS6fa-ImOsz1dyyQs&callback=initMapLong";
     document.body.appendChild(script);
 }
 
@@ -198,17 +269,9 @@ function initMapIndex() {
     });*/
 }
 
-function loadScriptLong() {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDDyJXbc-D_sxlQgbxS6fa-ImOsz1dyyQs&callback=initMapLong";
-    document.body.appendChild(script);
-}
-
-
 function initMapLong() {
     var map = new google.maps.Map(document.getElementById('map_long'), {
-        zoom: 8,
+        zoom: 7,
         center: {lat: 41.2044, lng: 74.7661}
     });
 
