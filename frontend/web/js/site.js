@@ -127,14 +127,12 @@ $(window).load(function(){
     }
 
     else if($('#map_long').length){
-        var authority = $('#map_long').attr('authority');
-        console.log(authority + "test console");
         var cluster = document.createElement('script');
         cluster.src = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
         document.body.appendChild(cluster);
         $.ajax({
             type: 'GET',
-            url: '/report/get-locations?authority='+ authority,
+            url: '/report/get-locations',
             //beforeSend: function () {},
             success:function(data){
                 $.each(data, function() {
