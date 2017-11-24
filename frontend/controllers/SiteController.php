@@ -92,8 +92,16 @@ class SiteController extends Controller
 
     public function actionMap()
     {
+        $authority = isset($_GET["authority"]) ? $_GET["authority"] : "";
+        $city = isset($_GET["city"]) ? $_GET["city"] : "";
+        $sector = isset($_GET["sector"]) ? $_GET["sector"] : "";
+
         $this->layout = "long";
-        return $this->render('map');
+        return $this->render('map',[
+            'authority'=>$authority,
+            'city'=>$city,
+            'sector'=>$sector
+        ]);
     }
 
     public function deviceCheck(){
