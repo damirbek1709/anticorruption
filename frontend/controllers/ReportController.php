@@ -12,6 +12,8 @@ use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\AccessRule;
+use yii\db\Query;
+use yii\data\ArrayDataProvider;
 
 /**
  * ReportController implements the CRUD actions for Report model.
@@ -266,7 +268,35 @@ class ReportController extends Controller
 
     public function actionGetLocations()
     {
-        $rows = Yii::$app->db->createCommand("SELECT id, title, lat, lon FROM report WHERE lat<>0 AND lon<>0")->queryAll();
+        if($authority = Yii::$app->request->get('authority')){
+            $auth_query = " AND authority_id='{$authority}'";
+        }
+        else{
+            $auth_query = "";
+        }
+
+        if($sector = Yii::$app->request->get('sector')){
+            $sector_query = " AND category_id='{$sector}'";
+        }
+        else{
+            $sector_query = "";
+        }
+
+        if($city = Yii::$app->request->get('city')){
+            $city_query = " AND city_id='{$city}'";
+        }
+        else{
+            $city_query = "";
+        }
+
+        if($type = Yii::$app->request->get('type')){
+            $type_query = " AND type_id='{$type}'";
+        }
+        else{
+            $type_query = "";
+        }
+
+        $rows = Yii::$app->db->createCommand("SELECT id, title, lat, lon FROM report WHERE lat<>0 AND lon<>0". $auth_query . $sector_query. $city_query. $type_query)->queryAll();
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $rows;
     }
