@@ -95,12 +95,14 @@ class SiteController extends Controller
         $authority = isset($_GET["authority"]) ? $_GET["authority"] : "";
         $city = isset($_GET["city"]) ? $_GET["city"] : "";
         $sector = isset($_GET["sector"]) ? $_GET["sector"] : "";
+        $type = isset($_GET["type"]) ? $_GET["type"] : "";
 
         $this->layout = "long";
         return $this->render('map',[
             'authority'=>$authority,
             'city'=>$city,
-            'sector'=>$sector
+            'sector'=>$sector,
+            'type'=>$type,
         ]);
     }
 
