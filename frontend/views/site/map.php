@@ -36,5 +36,5 @@ use yii\helpers\Html;
 </div>
 
 
-<div id="map_long" authority="<?=$authority?>" sector="<?=$sector?>" class="map" style="height: 550px;"></div>
+<div id="map_long" authority="<?=$authority?>" sector="<?=$sector?>" city="<?=$city?>" type="<?=$type?>" class="map" style="height: 550px;"></div>
 
