@@ -10,7 +10,7 @@ use kartik\select2\Select2;
 /* @var $searchModel app\models\ReportSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Reports');
+$this->title = Yii::t('app', 'Обращения о коррупции');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="report-index">

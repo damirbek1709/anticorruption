@@ -67,9 +67,11 @@ AppAsset::register($this);
 
     <div class="main_header">
         <div class="centralizer">
+            <?= Html::beginTag('a', ['href' => '/site/index']) ?>
             <div class="logo">
                 <?= Yii::t('app', 'Антикоррупционный портал Кыргызской Республики'); ?>
             </div>
+            <?= Html::endTag('a'); ?>
 
             <div class="report_header">
                 <?php

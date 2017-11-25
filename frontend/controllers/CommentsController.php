@@ -68,8 +68,8 @@ class CommentsController extends Controller
         $request = Yii::$app->getRequest();
         if ($request->isPost && $model->load($request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            if (empty($_POST['g-recaptcha-response'])) {
-                return "No";
+            if (empty($_POST['g-recaptcha-response']) && Yii::$app->user->isGuest) {
+                return "no";
             }
             else {
                 $model->save(false);

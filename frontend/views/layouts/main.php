@@ -26,6 +26,8 @@ AppAsset::register($this);
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="<?php echo Url::base(); ?>/images/site/favicon.ico" type="image/x-icon"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="<?=Url::base()?>/images/site/favicon-16x16.png">
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=cyrillic,cyrillic-ext"
           rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif:400,400i,700,700i&amp;subset=cyrillic,cyrillic-ext"

@@ -85,7 +85,8 @@ class Comments extends \yii\db\ActiveRecord
             'date' => Yii::t('app', 'Дата'),
             'email' => Yii::t('app', 'E-mail'),
             'text' => Yii::t('app', 'Текст'),
-            'material'=>'Материал'
+            'material'=>'Материал',
+            'status'=>'Статус',
         ];
     }
 

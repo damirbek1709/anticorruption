@@ -21,7 +21,7 @@ class CommentsController extends \yii\web\Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index','remove','delete','edit'],
+                        'actions' => ['index','remove','delete','edit','approve','deny'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -54,6 +54,29 @@ class CommentsController extends \yii\web\Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['index']);
+    }
+
+    public function actionApprove($id)
+    {
+        $model = $this->findModel($id);
+        $model->status = 1;
+        $model->save();
+        return $this->redirect(['index']);
+    }
+
+    public function actionDeny($id)
+    {
+        $model = $this->findModel($id);
+        $model->status = 2;
+        $model->save();
+        return $this->redirect(['index']);
     }
 
     public function actionUpdate($id)

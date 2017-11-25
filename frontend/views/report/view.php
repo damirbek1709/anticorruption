@@ -210,11 +210,12 @@ $this->params['breadcrumbs'][] = $this->title;
             type: 'post',
             data: form.serialize(),
             success: function (response) {
-                if (response == "No") {
-                    alert(response);
+                if (response == "no") {
+                    alert("Пожалуйста, потвердите что вы не робот!");
                 }
                 else {
                     $.pjax.reload({container: "#pjax-comment"});
+                    alert("Спасибо, Ваш комментарий отправлен и будет добавлен после модерации");
                 }
             }
         });
