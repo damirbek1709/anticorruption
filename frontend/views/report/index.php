@@ -13,7 +13,7 @@ use kartik\select2\Select2;
 $this->title = Yii::t('app', 'Обращения о коррупции');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="report-index">
+<div class="report-index mobile_padder">
     <div class="main_heading"><?= Yii::t('app', 'Обращения о коррупции'); ?></div>
     <div class="sort-wrap">
         <div class="sort-label">Сортировать по:</div>

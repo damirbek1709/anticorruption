@@ -7,10 +7,10 @@ use yii\helpers\Html;
 /* @var $model app\models\Report */
 
 $this->title = Yii::t('app', 'Добавить обращение о коррупции');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Reports'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Reports'), 'url' => ['index']];
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="report-create">
+<div class="report-create mobile_padder">
 
     <div class="main_heading"><?= Html::encode($this->title) ?></div>
     <?php

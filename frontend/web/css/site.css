@@ -352,6 +352,9 @@ a.desc:after {
 
 .top-menu .navbar {
 }
+.transformer{
+    padding-right:0!important;
+}
 
 .top-menu {
     height: 45px;

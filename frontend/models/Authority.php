@@ -44,7 +44,8 @@ class Authority extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'text'], 'required'],
+            [['title'], 'required'],
+            [['text'], 'safe'],
             [['text'], 'string'],
             [['category_id'], 'integer'],
             [['title', 'img'], 'string', 'max' => 255],

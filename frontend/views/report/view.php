@@ -44,10 +44,10 @@ echo newerton\fancybox\FancyBox::widget([
 /* @var $model app\models\Report */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Reports'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+/*$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Reports'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;*/
 ?>
-<div class="report-view">
+<div class="report-view mobile_padder">
     <div class="italic_header" style="color: #3b3b3b"><?= Html::encode($this->title) ?></div>
     <?
     echo Html::tag('span', Yii::$app->formatter->asDate($model->date), ['class' => 'news_date']);

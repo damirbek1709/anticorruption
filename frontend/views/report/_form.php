@@ -91,7 +91,7 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
 
 
     <div class="form-group">
-        <div id="user-contact" class="col-md-6" style="padding-left: 0">
+        <div id="user-contact" class="col-md-6 transformer">
             <?= $form->field($model, 'author', [
                 'template' =>
                     '<div class="form-group rel">{input}<span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="' . $lkup['lookup_name'] . '"></span>{error}</div>'])->textInput(['placeholder' => 'Введите ваше имя', 'class' => 'form-control sharper'])->label(false); ?>
@@ -103,7 +103,7 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
                     '<div class="form-group rel">{input}<span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="' . $lkup['lookup_contact'] . '"></span>{error}</div>'])->textInput(['placeholder' => 'Ваши контакты', 'class' => 'form-control sharper'])->label(false); ?>
         </div>
 
-        <div class="col-md-6" style="padding-right: 0">
+        <div class="col-md-6 transformer">
             <div class="border-maker anonym_height">
                 <div class="radio-row">
 
