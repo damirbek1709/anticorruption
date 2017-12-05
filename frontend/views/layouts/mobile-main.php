@@ -143,8 +143,8 @@ AppAsset::register($this);
             <div class="clear"></div>
             <div class="mobile_social_icons">
                 <?=Html::a('<span class=mobile_fb></span>','http://www.facebook.com');?>
-                <?=Html::a('<span class=mobile_android></span>','http://www.play.google. com');?>
-                <?=Html::a('<span class=mobile_apple></span>','http://www.appstore.com');?>
+                <?=Html::a('<span class=mobile_android></span>','https://play.google.com/store/apps/details?id=kg.prosoft.anticorruption');?>
+                <?=Html::a('<span class=mobile_apple></span>','https://itunes.apple.com/us/app/anticorruption.kg/id1315555330?mt=8');?>
             </div>
         </div>
     </footer>
