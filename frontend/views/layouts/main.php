@@ -233,7 +233,7 @@ AppAsset::register($this);
                 <div class="l_report_block">
                     <?= Html::a(Yii::t('app', 'Исследования'), ['/document/category', 'id' => 146], ['class' => 'report_link']); ?>
                     <?= Html::a(Yii::t('app', 'Отчеты госорганов'), ['/document/category', 'id' => 147], ['class' => 'report_link']); ?>
-                    <?= Html::a(Yii::t('app', 'Международное сотрудничество'), ['/document/category', 'id' => 148], ['class' => 'report_link']); ?>
+                    <?= Html::a(Yii::t('app', 'Международное сотрудничество'), ['/politics/category', 'id' => 151], ['class' => 'report_link']); ?>
                     <?= Html::a(Yii::t('app', 'Декларация о доходах'), ['/document/category', 'id' => 149], ['class' => 'report_link']); ?>
                 </div>
 
@@ -245,7 +245,7 @@ AppAsset::register($this);
                         <div class="l_corruption_links">
                             <?= Html::a(Yii::t('app', 'Профилактика коррупции в госорганах'), ['/page/view', 'id' => 1]); ?>
                             <?= Html::a(Yii::t('app', 'Общественные советы'), ['/page/view', 'id' => 2]); ?>
-                            <?= Html::a(Yii::t('app', 'Комплайенс-офицеры'), ['/page/view', 'id' => 3]); ?>
+                            <?= Html::a(Yii::t('app', 'Уполномоченные по вопросам противодействия коррупции'), ['/page/view', 'id' => 3]); ?>
                         </div>
                         <div class="italic_header top_marginer">
                             <?= Yii::t('app', 'Карта коррупции'); ?>
