@@ -31,6 +31,13 @@ class PoliticsController extends \yii\web\Controller
         ];
     }
 
+    public function actionView($id)
+    {
+        return $this->render('@frontend/views/politics/view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
 
     public function actionCategory($id)
     {
