@@ -341,4 +341,9 @@ a.desc:after {
     border-right: 1px solid #ddd;
     margin-bottom: 20px;
 }
-
+.rating-authority-bg p{
+    display: none;
+}
+.rating-authority-bg .img-rating-wrap{
+    padding: 0 30px;
+}

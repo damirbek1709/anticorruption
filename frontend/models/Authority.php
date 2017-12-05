@@ -213,7 +213,8 @@ class Authority extends \yii\db\ActiveRecord
             ]);
             return Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $images[0]));
         }*/ else {
-            return Html::img(Url::base() . "/images/site/herb.png");
+            $image =  Yii::getAlias("@frontend/web/images/site/herb.png");
+            return Html::img(str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], ['', '/'], $image));
         }
     }
 

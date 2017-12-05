@@ -19,7 +19,7 @@ return [
     ],
     'controllerNamespace' => 'frontend\controllers',
     'modules' => [
-        // Configuration Yii2-User Frontend //
+        // Configurafreqtion Yii2-User Frontend //
         'user' => [
             'class' => 'dektrium\user\Module',
             'enableFlashMessages' => true,

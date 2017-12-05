@@ -112,7 +112,7 @@ $lkup=ArrayHelper::map($lookups,'key','value');
 
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Отправить'), ['class' => 'send-comment btn btn-danger']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'send-comment btn btn-danger']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

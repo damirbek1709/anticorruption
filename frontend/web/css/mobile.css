@@ -92,6 +92,18 @@ body {
     margin-top: 0px;
     padding-top: 5px;
 }
+.sort-select{
+    width: auto!important;
+    margin: 10px 0 10px 0!important;
+    margin-left: 0!important;
+}
+.sort-select optgroup{
+    width: inherit!important;
+}
+
+.sort-wrap {
+    position: relative;
+}
 
 .mobile_top_links li{
     font-size: 18px;
