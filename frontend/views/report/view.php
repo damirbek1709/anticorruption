@@ -116,7 +116,7 @@ $this->params['breadcrumbs'][] = $this->title;*/
     }
     ?>
 
-    <div class="share_buttons">
+    <div class="share_buttons" style="height: 35px;">
         <span class="share_label">Поделиться в соц.сетях: </span>
         <script type="text/javascript">(function () {
                 if (window.pluso) if (typeof window.pluso.start == "function") return;
@@ -138,6 +138,7 @@ $this->params['breadcrumbs'][] = $this->title;*/
              data-title="Антикоррупционный портал Кыргызской Республики">
         </div>
     </div>
+    <div class="clear"></div>
     <?php
     echo Html::hiddenInput('lat', $model->lat, ['class' => 'report_lat']);
     echo Html::hiddenInput('lon', $model->lon, ['class' => 'report_lon']);
@@ -149,14 +150,18 @@ $this->params['breadcrumbs'][] = $this->title;*/
     <div class="comment-box">
         <div class="top_marginer"></div>
         <div class="comments">Комментарии(<?= $model->commentsCount; ?>)</div>
+        <div class="clear"></div>
         <?php $comments = $model->comments;
         foreach ($comments as $item) {
             echo Html::beginTag('div', ['class' => 'comment-block']);
             echo Html::tag('div', '', ['class' => 'comment-avatar']);
-            echo Html::tag('div', $item->name, ['class' => 'comment-author']);
-            echo Html::tag('div', $item->text, ['class' => 'comment-text']);
+            echo Html::beginTag('div',['style'=>'height:22px;']);
+            echo Html::tag('div', $item->name, ['class' => 'comment-author','style'=>'float:left;margin-right:10px;']);
             echo Html::tag('span', date("H:i",strtotime($model->date)), ['class' => 'comment-date']);
             echo Html::tag('span', Yii::$app->formatter->asDate($item->date), ['class' => 'comment-date']);
+            echo Html::endTag('div');
+            echo Html::tag('div', $item->text, ['class' => 'comment-text']);
+
             if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin) {
                 echo Html::tag('div', '', ['class' => 'clear']);
                 echo Html::tag('button', 'Редактировать', ['class' => 'btn btn-primary comment-update', 'style' => 'margin:10px 10px 0 0;', 'data-id' => $item->id]);
