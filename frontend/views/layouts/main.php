@@ -180,7 +180,6 @@ AppAsset::register($this);
                 'items' => [
                     ['label' => Yii::t('app', 'Исследования'), 'url' => ['/document/category', 'id' => 146]],
                     ['label' => Yii::t('app', 'Отчеты гос.органов'), 'url' => ['/document/category', 'id' => 147]],
-                    ['label' => Yii::t('app', 'Международное сотрудничество'), 'url' => ['/document/category', 'id' => 148]],
                     ['label' => Yii::t('app', 'Декларация о доходах'), 'url' => ['/document/category', 'id' => 149]],
                 ],
             ],
