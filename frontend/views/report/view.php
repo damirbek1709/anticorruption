@@ -155,7 +155,7 @@ $this->params['breadcrumbs'][] = $this->title;*/
             echo Html::tag('div', '', ['class' => 'comment-avatar']);
             echo Html::tag('div', $item->name, ['class' => 'comment-author']);
             echo Html::tag('div', $item->text, ['class' => 'comment-text']);
-            echo Html::tag('span', Yii::$app->formatter->asTime($item->date), ['class' => 'comment-date']);
+            echo Html::tag('span', date("H:i",strtotime($model->date)), ['class' => 'comment-date']);
             echo Html::tag('span', Yii::$app->formatter->asDate($item->date), ['class' => 'comment-date']);
             if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin) {
                 echo Html::tag('div', '', ['class' => 'clear']);
