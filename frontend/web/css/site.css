@@ -388,6 +388,7 @@ a.desc:after {
 
 .news_text table tr, .news_text table td{
     border: 1px solid #ccc;
+    padding: 4px;
 }
 
 .top-menu .caret:before {
