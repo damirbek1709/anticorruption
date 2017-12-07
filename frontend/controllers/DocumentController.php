@@ -16,6 +16,7 @@ use yii\data\ActiveDataProvider;
  */
 class DocumentController extends Controller
 {
+    public $layout;
     /**
      * @inheritdoc
      */
@@ -72,6 +73,7 @@ class DocumentController extends Controller
      */
     public function actionView($id)
     {
+        $this->layout = 'main-2-column';
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
