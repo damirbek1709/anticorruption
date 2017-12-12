@@ -209,6 +209,18 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
     $modal::end();
     ?>
 
+    <?php if (Yii::$app->session->hasFlash('captcha_not_clicked_report')): ?>
+        <div class="recaptcha_message_report">
+            <?php echo Yii::$app->session->getFlash('captcha_not_clicked_report'); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if(Yii::$app->user->isGuest):?>
+    <div class="form-group">
+        <div class="g-recaptcha" data-sitekey="6LegmzEUAAAAAGucd6quo8hn50mfC6xt_WF9u43P"></div>
+    </div>
+    <?php endif;?>
+
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Отправить'), ['class' => 'send-comment btn btn-danger']) ?>
