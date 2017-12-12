@@ -16,8 +16,8 @@ $(window).load(function(){
     });
 
     //tooltip, popover
-    /*$('[data-toggle="tooltip"]').tooltip();
-    $('[data-toggle="popover"]').popover();*/
+    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="popover"]').popover();
 
     $('.warning-link').click(function (e) {
         e.preventDefault();
