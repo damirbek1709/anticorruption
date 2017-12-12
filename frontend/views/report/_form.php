@@ -43,17 +43,10 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
     ?>
 
     <?php
-    echo $form->field($model, 'authority_id')->widget(Select2::classname(), [
-        'data' => $model->getAuthorities(),
-        'hideSearch' => true,
-        'options' => [
-            'placeholder' => 'Выберите госорган или структуру',
-            'class' => 'form-control custom-drop'
-        ],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ])->label(false); ?>
+    echo $form->field($model,'city_id')->dropDownList($model->getAuthorities(),[
+        'prompt' => 'Выберите госорган или структуру',
+        'class' => 'form-control custom-drop'
+    ])->label(false);?>
 
     <?php
     $type = 134;
@@ -130,14 +123,18 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
     ?>
 
     <?php
-    echo $form->field($model, 'city_id')->widget(Select2::classname(), [
+    echo $form->field($model,'city_id')->dropDownList($model->getDropdownItems('city'),[
+        'prompt' => 'Выберите регион',
+        'class' => 'form-control custom-drop'
+    ])->label(false);
+  /*  echo $form->field($model, 'city_id')->widget(Select2::classname(), [
         'data' => $model->getDropdownItems('city'),
         'hideSearch' => true,
         'options' => ['placeholder' => 'Выберите город или регион'],
         'pluginOptions' => [
             'allowClear' => true
         ],
-    ])->label(false); ?>
+    ])->label(false); */?>
 
 
     <div class="img-drop" style="font-family: Arial,sans-serif">
@@ -208,18 +205,6 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
     echo $lkup['lookup_warning_text'];
     $modal::end();
     ?>
-
-    <?php if (Yii::$app->session->hasFlash('captcha_not_clicked_report')): ?>
-        <div class="recaptcha_message_report">
-            <?php echo Yii::$app->session->getFlash('captcha_not_clicked_report'); ?>
-        </div>
-    <?php endif; ?>
-
-    <?php if(Yii::$app->user->isGuest):?>
-    <div class="form-group">
-        <div class="g-recaptcha" data-sitekey="6LegmzEUAAAAAGucd6quo8hn50mfC6xt_WF9u43P"></div>
-    </div>
-    <?php endif;?>
 
 
     <div class="form-group">
