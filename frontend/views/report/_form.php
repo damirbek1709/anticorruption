@@ -43,7 +43,7 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
     ?>
 
     <?php
-    echo $form->field($model,'city_id')->dropDownList($model->getAuthorities(),[
+    echo $form->field($model,'authority_id')->dropDownList($model->getAuthorities(),[
         'prompt' => 'Выберите госорган или структуру',
         'class' => 'form-control custom-drop'
     ])->label(false);?>
@@ -160,7 +160,26 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
         }
         echo $form->field($model, 'file[]')->widget(FileInput::classname(), [
             'options' => ['multiple' => true, 'accept' => 'image/*'],
-            
+            'pluginOptions' => [
+                'allowedFileExtensions' => ['jpg', 'gif', 'png'],
+                'initialPreview' => $savedImages,
+                'initialCaption' => '',
+                'uploadAsync' => false,
+                //'deleteUrl'=>'/site/remove-image',
+                //'data-key'=>[$savedImagesCaption,$model->id],
+                'initialPreviewConfig' => $savedImagesCaption,
+                'showCaption' => false,
+                'showRemove' => false,
+                'showUpload' => false,
+                'overwriteInitial' => false,
+
+                'fileActionSettings' => [
+                    'showZoom' => false,
+                    'showRemove' => false,
+                    'indicatorNew' => '&nbsp;',
+                    //'removeIcon' => '<span class="glyphicon glyphicon-trash" title="Удалить"></span> ',
+                ],
+            ]
         ]);
         ?>
     </div>
