@@ -1,17 +1,15 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
-use frontend\models\Vocabulary;
-use kartik\select2\Select2;
-use yii\helpers\Url;
 use kartik\file\FileInput;
-use yii\bootstrap\Modal;
+use yii\helpers\ArrayHelper;
+use frontend\models\Vocabulary;
 use kartik\datetime\DateTimePicker;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Report */
+/* @var $model frontend\models\Qwert */
 /* @var $form yii\widgets\ActiveForm */
 
 $lookups = Yii::$app->db->createCommand("SELECT * FROM vocabulary WHERE `key` LIKE 'lookup_%'")->queryAll();
@@ -23,7 +21,6 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?php echo $form->errorSummary($model) ?>
-
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true,
         'placeholder' => 'Введите заголовок вашего сообщения',
@@ -42,7 +39,7 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
     ?>
 
     <?php
-    echo $form->field($model, 'authority_id')->dropDownList($model->getAuthorities(), [
+    echo $form->field($model, 'authority_id')->dropDownList(\frontend\models\Report::getAuthorities(), [
         'prompt' => 'Выберите госорган или структуру',
         'class' => 'form-control custom-drop'
     ])->label(false); ?>
@@ -80,7 +77,6 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
             ]
         ]); ?>
     </div>
-
 
     <div class="form-group">
         <div id="user-contact" class="col-md-6 transformer">
@@ -122,7 +118,7 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
     ?>
 
     <?php
-    echo $form->field($model, 'city_id')->dropDownList($model->getDropdownItems('city'), [
+    echo $form->field($model, 'city_id')->dropDownList(\frontend\models\Report::getDropdownItems('city'), [
         'prompt' => 'Выберите регион',
         'class' => 'form-control custom-drop'
     ])->label(false);
@@ -183,13 +179,13 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
         ?>
     </div>
 
+
     <?= $form->field($model, 'lat')->hiddenInput(['value' => $model->lat, 'class' => 'report_lat'])->label(false); ?>
     <?= $form->field($model, 'lon')->hiddenInput(['value' => $model->lon, 'class' => 'report_lon'])->label(false); ?>
     <?= $form->field($model, 'user_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false); ?>
 
 
     <div class="form-group map" id="map"></div>
-
 
     <?= Html::a(Yii::t('app', 'Предупреждение об уголовной ответственности за дачу заведомо ложных 
 сообщений о совершении преступлений'), ['#'], ['class' => 'warning-link', 'id' => 'modalButton', 'data-toggle' => 'modal', 'data-target' => '#warning-modal']); ?>
@@ -207,25 +203,12 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
 
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Отправить'), ['class' => 'send-comment btn btn-danger']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
 
-
-    <?php
-
-
-    /*$modal = Modal::begin([
-        'id' => 'warning-modal',
-        'header' => Html::tag('h4', $lkup['lookup_warning_title'], ['class' => 'modal-title']),
-        'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal">' . Yii::t('app', 'Закрыть') . '</button>'
-    ]);
-    echo $lkup['lookup_warning_text'];
-    $modal::end();*/
-    ?>
 </div>
-
 <script>
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
@@ -266,51 +249,7 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
         document.body.appendChild(script);
     }
 
-    function loadScriptView() {
-        var script = document.createElement("script");
-        script.type = "text/javascript";
-        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDDyJXbc-D_sxlQgbxS6fa-ImOsz1dyyQs&callback=initMapView";
-        document.body.appendChild(script);
-    }
-
     var map;
-
-    function initMapView() {
-        var uluru = {lat: 41.2044, lng: 74.7661};
-
-        var defaultLat = parseFloat($('.report_lat').val());
-        var defaultLon = parseFloat($('.report_lon').val());
-
-
-        map = new google.maps.Map(document.getElementById('map_view'), {
-            zoom: 6,
-            center: uluru
-        });
-        var marker = new google.maps.Marker({
-            map: map,
-            draggable: false,
-            //position:{lat: 41.2044, lng: 74.7661}
-
-        });
-
-        if (defaultLat != 0 && defaultLon != 0) {
-            placeMarker({lat: defaultLat, lng: defaultLon});
-        }
-
-        function placeMarker(location) {
-            if (marker == undefined) {
-                marker = new google.maps.Marker({
-                    position: location,
-                    map: map,
-                    animation: google.maps.Animation.DROP,
-                });
-            }
-            else {
-                marker.setPosition(location);
-            }
-            //map.setCenter(location);
-        }
-    }
 
 
     function initMap() {
@@ -387,5 +326,6 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
         newLocation(coord[0], coord[1]);
         newZoom(13);
     });
+
 
 </script>

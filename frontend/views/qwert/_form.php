@@ -20,6 +20,8 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
+    <?php echo $form->errorSummary($model) ?>
+
     <?= $form->field($model, 'title')->textInput(['maxlength' => true,
         'placeholder' => 'Введите заголовок вашего сообщения',
         'class' => 'form-control sharper'])->label(false); ?>
