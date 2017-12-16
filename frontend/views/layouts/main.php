@@ -126,13 +126,16 @@ AppAsset::register($this);
                     'style' => 'padding:13px 0'
                 ],
             ],*/
-            ['label' => 'Главная', 'url' => ['/site/index'],
+            /*['label' => 'Главная', 'url' => ['/site/index'],
                 'linkOptions' => [
                     'style' => 'padding-left:12px'
                 ],
-            ],
+            ],*/
             [
                 'label' => Yii::t('app', 'Новости'),
+                'linkOptions' => [
+                    'style' => 'padding-left:12px'
+                ],
                 'items' => [
                     ['label' => Yii::t('app', 'Новостная лента'), 'url' => ['/news/category/133']],
                     ['label' => Yii::t('app', 'Сводка коррупционных преступлений'), 'url' => ['/news/category/132']],
@@ -176,19 +179,21 @@ AppAsset::register($this);
             /*---------------------*/
 
             [
-                'label' => Yii::t('app', 'Отчеты'),
+                'label' => Yii::t('app', 'Предупреждение коррупции'),
                 'items' => [
+                    ['label' => Yii::t('app', 'Антикоррупционнные планы и отчеты'), 'url' => ['/document/category', 'id' => 147]],
+                    ['label' => Yii::t('app', 'Уполномоченные по вопросам противодействия коррупции'), 'url' => ['/page/view', 'id' => 3]],
+                    ['label' => Yii::t('app', 'Общественные советы'), 'url' => ['/page/view', 'id' => 2]],
                     ['label' => Yii::t('app', 'Исследования'), 'url' => ['/document/category', 'id' => 146]],
-                    ['label' => Yii::t('app', 'Отчеты гос.органов'), 'url' => ['/document/category', 'id' => 147]],
-                    ['label' => Yii::t('app', 'Декларация о доходах'), 'url' => ['/document/category', 'id' => 149]],
+                    ///['label' => Yii::t('app', 'Декларация о доходах'), 'url' => ['/document/category', 'id' => 149]],
                 ],
             ],
             [
-                'label' => Yii::t('app', 'Борьба с коррупцией'),
+                'label' => Yii::t('app', 'Пресечение коррупции'),
                 'items' => [
-                    ['label' => Yii::t('app', 'Профилактика коррупции в госорганах'), 'url' => ['/page/view', 'id' => 1]],
-                    ['label' => Yii::t('app', 'Общественные советы'), 'url' => ['/page/view', 'id' => 2]],
-                    ['label' => Yii::t('app', 'Уполномоченные по вопросам противодействия коррупции'), 'url' => ['/page/view', 'id' => 3]],
+                    ['label' => Yii::t('app', 'Информация правоохранительных органов'), 'url' => ['/resistance/category', 'id' => 152]],
+                    ['label' => Yii::t('app', 'Информация органов прокуратуры'), 'url' => ['/resistance/category', 'id' => 153]],
+
                 ],
             ],
             [

@@ -86,10 +86,16 @@ AppAsset::register($this);
 
                     ],
                 ],
+
                 [
-                    'label' => Yii::t('app', 'Антикоррупционное образование'),
-                    'url' => ['/education/index']
+                    'label' => Yii::t('app', 'Пресечение коррупции'),
+                    'items' => [
+                        ['label' => Yii::t('app', 'Информация правоохранительных органов'), 'url' => ['/resistance/category', 'id' => 152]],
+                        ['label' => Yii::t('app', 'Информация органов прокуратуры'), 'url' => ['/resistance/category', 'id' => 153]],
+
+                    ],
                 ],
+
 
                 [
                     'label' => Yii::t('app', 'Отчеты'),
@@ -99,11 +105,17 @@ AppAsset::register($this);
                 [
                     'label' => Yii::t('app', 'Еще'),
                     'items' => [
+                        [
+                            'label' => Yii::t('app', 'Антикоррупционное образование'),
+                            'url' => ['/education/index']
+                        ],
 
                         [
                             'label' => Yii::t('app', 'Аналитика'),
                             'url' => ['/analytics/index']
                         ],
+
+
                         ['label' => Yii::t('app', 'Пользователи'), 'url' => ['/user/admin']],
                         [
                             'label' => Yii::t('app', 'Страницы'),
