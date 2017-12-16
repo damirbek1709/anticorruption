@@ -214,7 +214,7 @@ class ReportController extends Controller
     public function actionCreate()
     {
         $model = new Report();
-        $this->layout = $this->deviceCheck();
+        //$this->layout = $this->deviceCheck();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $msg = Yii::$app->db->createCommand("SELECT `value` FROM vocabulary WHERE `key`='lookup_submitted'")->queryOne();
