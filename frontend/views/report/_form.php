@@ -43,10 +43,10 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
     ?>
 
     <?php
-    echo $form->field($model,'authority_id')->dropDownList($model->getAuthorities(),[
+    echo $form->field($model, 'authority_id')->dropDownList($model->getAuthorities(), [
         'prompt' => 'Выберите госорган или структуру',
         'class' => 'form-control custom-drop'
-    ])->label(false);?>
+    ])->label(false); ?>
 
     <?php
     $type = 134;
@@ -123,18 +123,18 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
     ?>
 
     <?php
-    echo $form->field($model,'city_id')->dropDownList($model->getDropdownItems('city'),[
+    echo $form->field($model, 'city_id')->dropDownList($model->getDropdownItems('city'), [
         'prompt' => 'Выберите регион',
         'class' => 'form-control custom-drop'
     ])->label(false);
-  /*  echo $form->field($model, 'city_id')->widget(Select2::classname(), [
-        'data' => $model->getDropdownItems('city'),
-        'hideSearch' => true,
-        'options' => ['placeholder' => 'Выберите город или регион'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ])->label(false); */?>
+    /*  echo $form->field($model, 'city_id')->widget(Select2::classname(), [
+          'data' => $model->getDropdownItems('city'),
+          'hideSearch' => true,
+          'options' => ['placeholder' => 'Выберите город или регион'],
+          'pluginOptions' => [
+              'allowClear' => true
+          ],
+      ])->label(false); */ ?>
 
 
     <div class="img-drop" style="font-family: Arial,sans-serif">
@@ -226,3 +226,167 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
     $modal::end();*/
     ?>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="popover"]').popover();
+
+        $('.warning-link').click(function (e) {
+            e.preventDefault();
+            $('#update-modal')
+                .modal('show')
+                .find('#updateModalContent')
+                .load($(this).attr('value'));
+        });
+    });
+    $(window).load(function () {
+        //report create anonymous check
+        $('.input_checker').change(function () {
+            var input = $("#user-contact input");
+            if ($(this).is(":checked")) {
+                input.val('');
+                input.prop('disabled', true);
+                $(this).val(1);
+                $('.field-report-author').removeClass('has-error').find('.help-block').hide();
+            }
+            else {
+                input.prop('disabled', false);
+                $(this).val(0);
+            }
+        });
+        //tooltip, popover
+
+    });
+
+    //google map
+    function loadScript() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDDyJXbc-D_sxlQgbxS6fa-ImOsz1dyyQs&callback=initMap";
+        document.body.appendChild(script);
+    }
+
+    function loadScriptView() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDDyJXbc-D_sxlQgbxS6fa-ImOsz1dyyQs&callback=initMapView";
+        document.body.appendChild(script);
+    }
+
+    var map;
+
+    function initMapView() {
+        var uluru = {lat: 41.2044, lng: 74.7661};
+
+        var defaultLat = parseFloat($('.report_lat').val());
+        var defaultLon = parseFloat($('.report_lon').val());
+
+
+        map = new google.maps.Map(document.getElementById('map_view'), {
+            zoom: 6,
+            center: uluru
+        });
+        var marker = new google.maps.Marker({
+            map: map,
+            draggable: false,
+            //position:{lat: 41.2044, lng: 74.7661}
+
+        });
+
+        if (defaultLat != 0 && defaultLon != 0) {
+            placeMarker({lat: defaultLat, lng: defaultLon});
+        }
+
+        function placeMarker(location) {
+            if (marker == undefined) {
+                marker = new google.maps.Marker({
+                    position: location,
+                    map: map,
+                    animation: google.maps.Animation.DROP,
+                });
+            }
+            else {
+                marker.setPosition(location);
+            }
+            //map.setCenter(location);
+        }
+    }
+
+
+    function initMap() {
+        var uluru = {lat: 41.2044, lng: 74.7661};
+
+        var defaultLat = parseFloat($('.report_lat').val());
+        var defaultLon = parseFloat($('.report_lon').val());
+
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 6,
+            center: uluru
+        });
+        var marker = new google.maps.Marker({
+            map: map,
+            draggable: true,
+            //position:{lat: 41.2044, lng: 74.7661}
+
+        });
+
+        if (defaultLat != 0 && defaultLon != 0) {
+            placeMarker({lat: defaultLat, lng: defaultLon});
+        }
+
+        google.maps.event.addListener(marker, 'dragend', function (a) {
+            $('.report_lat').val(a.latLng.lat().toFixed(4));
+            $('.report_lon').val(a.latLng.lng().toFixed(4));
+        });
+        google.maps.event.addListener(map, 'click', function (event) {
+            placeMarker(event.latLng);
+            $('.report_lat').val(event.latLng.lat().toFixed(4));
+            $('.report_lon').val(event.latLng.lng().toFixed(4));
+        });
+
+        function placeMarker(location) {
+            if (marker == undefined) {
+                marker = new google.maps.Marker({
+                    position: location,
+                    map: map,
+                    animation: google.maps.Animation.DROP,
+                });
+            }
+            else {
+                marker.setPosition(location);
+            }
+            //map.setCenter(location);
+        }
+    }
+
+    function newLocation(newLat, newLng) {
+        map.setCenter({
+            lat: newLat,
+            lng: newLng
+        });
+    }
+
+    function newZoom(level) {
+        map.setZoom(level);
+    }
+
+    $(window).load(function () {
+        loadScript();
+        var imported = document.createElement('script');
+        imported.src = '/js/cities.js';
+        document.body.appendChild(imported);
+    });
+
+    $('#report-city_id').change(function () {
+        console.log("changed");
+        var city_id = $(this).val();
+        var coord = getCityCoord(city_id);
+
+        console.log(coord);
+        newLocation(coord[0], coord[1]);
+        newZoom(13);
+    });
+
+</script>
