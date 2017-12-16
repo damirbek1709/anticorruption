@@ -84,12 +84,11 @@ AppAsset::register($this);
         </div>
     </div>
 
-    <div class="main_header">
+    <div class="main_header report_label_transform">
         <div class="centralizer">
             <?= Html::beginTag('a', ['href' => '/site/index']) ?>
-            <div class="logo">
-                <?= Yii::t('app', 'Антикоррупционный портал Кыргызской Республики'); ?>
-            </div>
+            <div class="logo"></div>
+            <span class="site-name"><?= Yii::t('app', 'Антикоррупционный портал<br> Кыргызской Республики'); ?></span>
             <?= Html::endTag('a'); ?>
 
             <div class="report_header">
@@ -114,7 +113,8 @@ AppAsset::register($this);
     <div class="top-menu">
         <?php
         NavBar::begin([
-            'brandLabel' => '',
+            'brandLabel' => '<div class="back_transform"><div class="logo"></div>
+            <span class="site-name">Антикоррупционный портал<br> Кыргызской Республики</span></div>',
             'brandUrl' => Yii::$app->homeUrl,
             'options' => [
                 'class' => 'navbar-inverse',
@@ -499,7 +499,7 @@ SCRIPT;
 
 <footer class="footer">
     <div class="width_limiter">
-        <div class="pull-left">
+        <div class="pull-left report_label_transform">
             <?= Html::a(Html::tag('div', ''), 'http://un.org.kg', ['class' => 'un_link']); ?>
         </div>
 

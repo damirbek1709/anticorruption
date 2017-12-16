@@ -226,7 +226,7 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
 </div>
 
 <script>
-    $(document).ready(function () {
+  /*  $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
         $('[data-toggle="popover"]').popover();
 
@@ -385,6 +385,6 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
         console.log(coord);
         newLocation(coord[0], coord[1]);
         newZoom(13);
-    });
+    });*/
 
 </script>
