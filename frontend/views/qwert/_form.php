@@ -6,6 +6,7 @@ use kartik\file\FileInput;
 use yii\helpers\ArrayHelper;
 use frontend\models\Vocabulary;
 use kartik\datetime\DateTimePicker;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Qwert */
@@ -17,7 +18,7 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
 
 <div class="report-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true,
         'placeholder' => 'Введите заголовок вашего сообщения',
@@ -176,6 +177,29 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
         ?>
     </div>
 
+
+    <?= $form->field($model, 'lat')->hiddenInput(['value' => $model->lat, 'class' => 'report_lat'])->label(false); ?>
+    <?= $form->field($model, 'lon')->hiddenInput(['value' => $model->lon, 'class' => 'report_lon'])->label(false); ?>
+    <?= $form->field($model, 'user_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false); ?>
+
+
+    <div class="form-group map" id="map"></div>
+
+    <?= Html::a(Yii::t('app', 'Предупреждение об уголовной ответственности за дачу заведомо ложных 
+сообщений о совершении преступлений'), ['#'], ['class' => 'warning-link', 'id' => 'modalButton', 'data-toggle' => 'modal', 'data-target' => '#warning-modal']); ?>
+
+    <?php
+    $modal = Modal::begin([
+        'header' => Html::tag('h4', Yii::t('app', 'Внимание'), ['class' => 'modal-title']),
+        'id' => 'warning-modal',
+        'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal">' . Yii::t('app', 'Закрыть') . '</button>'
+
+    ]);
+    echo $lkup['lookup_warning_text'];
+    $modal::end();
+    ?>
+
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
@@ -196,4 +220,110 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
                 .load($(this).attr('value'));
         });
     });
+    $(window).load(function () {
+        //report create anonymous check
+        $('.input_checker').change(function () {
+            var input = $("#user-contact input");
+            if ($(this).is(":checked")) {
+                input.val('');
+                input.prop('disabled', true);
+                $(this).val(1);
+                $('.field-report-author').removeClass('has-error').find('.help-block').hide();
+            }
+            else {
+                input.prop('disabled', false);
+                $(this).val(0);
+            }
+        });
+        //tooltip, popover
+
+    });
+
+    //google map
+    function loadScript() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDDyJXbc-D_sxlQgbxS6fa-ImOsz1dyyQs&callback=initMap";
+        document.body.appendChild(script);
+    }
+
+    var map;
+
+
+    function initMap() {
+        var uluru = {lat: 41.2044, lng: 74.7661};
+
+        var defaultLat = parseFloat($('.report_lat').val());
+        var defaultLon = parseFloat($('.report_lon').val());
+
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 6,
+            center: uluru
+        });
+        var marker = new google.maps.Marker({
+            map: map,
+            draggable: true,
+            //position:{lat: 41.2044, lng: 74.7661}
+
+        });
+
+        if (defaultLat != 0 && defaultLon != 0) {
+            placeMarker({lat: defaultLat, lng: defaultLon});
+        }
+
+        google.maps.event.addListener(marker, 'dragend', function (a) {
+            $('.report_lat').val(a.latLng.lat().toFixed(4));
+            $('.report_lon').val(a.latLng.lng().toFixed(4));
+        });
+        google.maps.event.addListener(map, 'click', function (event) {
+            placeMarker(event.latLng);
+            $('.report_lat').val(event.latLng.lat().toFixed(4));
+            $('.report_lon').val(event.latLng.lng().toFixed(4));
+        });
+
+        function placeMarker(location) {
+            if (marker == undefined) {
+                marker = new google.maps.Marker({
+                    position: location,
+                    map: map,
+                    animation: google.maps.Animation.DROP,
+                });
+            }
+            else {
+                marker.setPosition(location);
+            }
+            //map.setCenter(location);
+        }
+    }
+
+    function newLocation(newLat, newLng) {
+        map.setCenter({
+            lat: newLat,
+            lng: newLng
+        });
+    }
+
+    function newZoom(level) {
+        map.setZoom(level);
+    }
+
+    $(window).load(function () {
+        loadScript();
+        var imported = document.createElement('script');
+        imported.src = '/js/cities.js';
+        document.body.appendChild(imported);
+    });
+
+    $('#report-city_id').change(function () {
+        console.log("changed");
+        var city_id = $(this).val();
+        var coord = getCityCoord(city_id);
+
+        console.log(coord);
+        newLocation(coord[0], coord[1]);
+        newZoom(13);
+    });
+
+
 </script>
