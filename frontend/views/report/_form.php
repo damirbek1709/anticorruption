@@ -73,6 +73,8 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
                 //'minuteStep' => 60,
                 //'format' => 'd-M-Y g:i A',
                 'format' => 'yyyy-m-dd HH:ii',
+                'autoclose'=>true,
+                'endDate' => date('Y-m-d'),
                 //'startDate' => '01-Mar-2017 12:00 AM',
                 'todayHighlight' => true
             ]
