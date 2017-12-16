@@ -30,6 +30,8 @@ class Qwert extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $file;
+
     public static function tableName()
     {
         return 'report';
