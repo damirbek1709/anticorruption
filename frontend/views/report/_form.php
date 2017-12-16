@@ -55,23 +55,22 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
         ->dropDownList(ArrayHelper::map(Vocabulary::find()->asArray()->where(['key' => 'report_type'])->all(), 'id', 'value'),
             [
                 'value' => $type,
-                'prompt' => 'Выберите тип обращения',
                 'class' => 'form-control custom-drop'
             ]
         )->label(false);
     ?>
 
     <div class="form-group">
-        <? echo '<label>Дата и время</label>';
+        <? echo '<label>Дата и время проишествия</label>';
         echo DateTimePicker::widget([
             'model' => $model,
             'name' => 'date',
             'attribute' => 'date',
-            'options' => ['placeholder' => 'Выберите время дату и время'],
+            'options' => ['placeholder' => 'Выберите дату и время проишествия'],
             //'convertFormat' => true,
             'pluginOptions' => [
-                //'minView' => 0,
-                'minuteStep' => 30,
+                'minView' => 1,
+                //'minuteStep' => 60,
                 //'format' => 'd-M-Y g:i A',
                 'format' => 'yyyy-m-dd HH:ii',
                 //'startDate' => '01-Mar-2017 12:00 AM',

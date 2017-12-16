@@ -53,8 +53,8 @@ class Report extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'authority_id', 'category_id', 'text', 'city_id', 'type_id'], 'required'],
-            [['category_id', 'lon', 'author', 'lat', 'city_id', 'text', 'anonymous', 'email', 'contact', 'images'], 'safe'],
+            [['title', 'text', 'city_id', 'type_id'], 'required'],
+            [['category_id','authority_id', 'category_id',  'lon', 'author', 'lat', 'city_id', 'text', 'anonymous', 'email', 'contact', 'images'], 'safe'],
             //[['email'], 'email'], //<-- why commented out? (temir)
             [['date', 'status'], 'safe'],
             [['views', 'authority_id', 'category_id', 'city_id', 'anonymous', 'type_id','user_id'], 'integer'],
@@ -93,7 +93,7 @@ class Report extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'title' => Yii::t('app', 'Заголовок'),
-            'date' => Yii::t('app', 'Дата и время'),
+            'date' => Yii::t('app', 'Дата и время проишествия'),
             'views' => Yii::t('app', 'Просмотры'),
             'author' => Yii::t('app', 'Автор'),
             'authority_id' => Yii::t('app', 'гос.структура'),
@@ -168,6 +168,7 @@ class Report extends \yii\db\ActiveRecord
     public function getCommentsCount()
     {
         return $this->hasMany(Comments::className(), ['report_id' => 'id'])->where(['status'=>1])->count();
+        //return $this->hasMany(Comments::className(), ['report_id' => 'id'])->count();
     }
 
     function getImages()

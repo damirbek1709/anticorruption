@@ -94,7 +94,8 @@ AppAsset::register($this);
             <div class="report_header">
                 <?php
                 $separator = ' ';
-                $report_count = Report::find()->where(['status' => 1])->count();
+                //$report_count = Report::find()->where(['status' => 1])->count();
+                $report_count = Report::find()->count();
                 $formated_num = preg_replace('/(?<=\d)\x' . bin2hex($separator[0]) . '(?=\d)/',
                     $separator,
                     number_format($report_count, 0, '.', $separator));

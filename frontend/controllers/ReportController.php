@@ -50,24 +50,24 @@ class ReportController extends Controller
                         'allow' => true,
                         'actions' => ['view'],
                         'roles' => ['?', '@'],
-                        'matchCallback' => function ($rule, $action) {
+                       /* 'matchCallback' => function ($rule, $action) {
                             if ($this->isApproved()) {
                                 return true;
                             }
                             return false;
-                        }
+                        }*/
                     ],
 
                     [
                         'allow' => true,
                         'actions' => ['view'],
                         'roles' => ['@'],
-                        'matchCallback' => function ($rule, $action) {
+                        /*'matchCallback' => function ($rule, $action) {
                             if (Yii::$app->user->identity->isAdmin || $this->isUserAuthor()) {
                                 return true;
                             }
                             return false;
-                        }
+                        }*/
                     ],
 
                     [
@@ -107,7 +107,8 @@ class ReportController extends Controller
         $this->layout = $this->deviceCheck();
         $searchModel = new ReportSearch();
         $dataProvider = new ActiveDataProvider([
-            'query' => ReportSearch::find()->where(['status' => 1]),
+            //'query' => ReportSearch::find()->where(['status' => 1]),
+            'query' => ReportSearch::find(),
             'sort' => ['defaultOrder' => ['date' => SORT_DESC]],
         ]);
 
@@ -217,13 +218,14 @@ class ReportController extends Controller
         //$this->layout = $this->deviceCheck();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $msg = Yii::$app->db->createCommand("SELECT `value` FROM vocabulary WHERE `key`='lookup_submitted'")->queryOne();
-            Yii::$app->getSession()->setFlash('success', $msg['value']);
-            if (Yii::$app->user->isGuest) {
+            //$msg = Yii::$app->db->createCommand("SELECT `value` FROM vocabulary WHERE `key`='lookup_submitted'")->queryOne();
+            //Yii::$app->getSession()->setFlash('success', $msg['value']);
+            /*if (Yii::$app->user->isGuest) {
                 return $this->redirect(['index']);
             } else {
                 return $this->redirect(['view', 'id' => $model->id]);
-            }
+            }*/
+            return $this->redirect(['view', 'id' => $model->id]);
 
         }
         return $this->render('create', [
