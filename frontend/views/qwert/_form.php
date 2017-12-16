@@ -10,6 +10,9 @@ use kartik\datetime\DateTimePicker;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Qwert */
 /* @var $form yii\widgets\ActiveForm */
+
+$lookups = Yii::$app->db->createCommand("SELECT * FROM vocabulary WHERE `key` LIKE 'lookup_%'")->queryAll();
+$lkup = ArrayHelper::map($lookups, 'key', 'value');
 ?>
 
 <div class="report-form">
