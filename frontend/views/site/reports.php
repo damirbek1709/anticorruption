@@ -31,7 +31,7 @@ use yii\helpers\BaseStringHelper;
                     $auth = "Другое";
                 }
 
-                if ($model->department) {
+                if ($report->department) {
                     $department = $report->department->value;
                 } else {
                     $department = "Другое";
