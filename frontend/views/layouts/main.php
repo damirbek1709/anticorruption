@@ -498,7 +498,6 @@ AppAsset::register($this);
                             'enableAjaxValidation' => true,
                             //'validationUrl' => '/site/validate-email',
                         ]); ?>
-                        <?php// echo $form->errorSummary($email); ?>
 
                         <?= $form->field($email, 'email')->textInput(['maxlength' => true,
                             'placeholder' => 'E-mail',
