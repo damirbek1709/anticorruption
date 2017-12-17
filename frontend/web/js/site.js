@@ -1,15 +1,14 @@
-$(window).load(function(){
+$(window).load(function () {
     //report create anonymous check
-    $('.input_checker').change(function() {
-        var input=$("#user-contact input");
-        if($(this).is(":checked")) {
+    $('.input_checker').change(function () {
+        var input = $("#user-contact input");
+        if ($(this).is(":checked")) {
             input.val('');
             input.prop('disabled', true);
             $(this).val(1);
             $('.field-report-author').removeClass('has-error').find('.help-block').hide();
         }
-        else
-        {
+        else {
             input.prop('disabled', false);
             $(this).val(0);
         }
@@ -26,6 +25,14 @@ $(window).load(function(){
             .find('#updateModalContent')
             .load($(this).attr('value'));
     });
+
+    $(document).on("submit", "#subscribe-form", function () {
+        // send data to actionSave by ajax request.
+        alert("Спасибо! Вы подписаны но рассылку");
+        return false; // Cancel form submitting.
+    });
+
+
 });
 
 
@@ -64,7 +71,7 @@ function initMapView() {
 
     });
 
-    if(defaultLat!=0 && defaultLon!=0) {
+    if (defaultLat != 0 && defaultLon != 0) {
         placeMarker({lat: defaultLat, lng: defaultLon});
     }
 
@@ -102,7 +109,7 @@ function initMap() {
 
     });
 
-    if(defaultLat!=0 && defaultLon!=0) {
+    if (defaultLat != 0 && defaultLon != 0) {
         placeMarker({lat: defaultLat, lng: defaultLon});
     }
 
@@ -131,26 +138,25 @@ function initMap() {
     }
 }
 
-function newLocation(newLat,newLng)
-{
+function newLocation(newLat, newLng) {
     map.setCenter({
-        lat : newLat,
-        lng : newLng
+        lat: newLat,
+        lng: newLng
     });
 }
-function newZoom(level)
-{
+
+function newZoom(level) {
     map.setZoom(level);
 }
 
-$(window).load(function(){
-    if($('#map').length){
+$(window).load(function () {
+    if ($('#map').length) {
         loadScript();
         var imported = document.createElement('script');
         imported.src = '/js/cities.js';
         document.body.appendChild(imported);
     }
-    else if($('#map_index').length){
+    else if ($('#map_index').length) {
         var cluster = document.createElement('script');
         cluster.src = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
         document.body.appendChild(cluster);
@@ -158,12 +164,12 @@ $(window).load(function(){
             type: 'GET',
             url: '/report/get-locations',
             //beforeSend: function () {},
-            success:function(data){
-                $.each(data, function() {
+            success: function (data) {
+                $.each(data, function () {
                     locations.push({
                         lat: parseFloat(this.lat),
                         lng: parseFloat(this.lon),
-                        info:"<a href='/report/"+this.id+"'>"+this.title+"</a>"
+                        info: "<a href='/report/" + this.id + "'>" + this.title + "</a>"
                     });
                 });
                 //console.log(locations);
@@ -172,7 +178,7 @@ $(window).load(function(){
         });
     }
 
-    else if($('#map_long').length){
+    else if ($('#map_long').length) {
         var authority = $('#map_long').attr('authority');
         var sector = $('#map_long').attr('sector');
         var city = $('#map_long').attr('city');
@@ -182,14 +188,14 @@ $(window).load(function(){
         document.body.appendChild(cluster);
         $.ajax({
             type: 'GET',
-            url: '/report/get-locations?authority='+ authority+'&sector='+ sector + '&city='+city + '&type='+type,
+            url: '/report/get-locations?authority=' + authority + '&sector=' + sector + '&city=' + city + '&type=' + type,
             //beforeSend: function () {},
-            success:function(data){
-                $.each(data, function() {
+            success: function (data) {
+                $.each(data, function () {
                     locations.push({
                         lat: parseFloat(this.lat),
                         lng: parseFloat(this.lon),
-                        info:"<a href='/report/"+this.id+"'>"+this.title+"</a>"
+                        info: "<a href='/report/" + this.id + "'>" + this.title + "</a>"
                     });
                 });
                 //console.log(locations);
@@ -198,7 +204,7 @@ $(window).load(function(){
         });
     }
 
-    else if($('#map_view').length){
+    else if ($('#map_view').length) {
         loadScriptView();
         var imported = document.createElement('script');
         imported.src = '/js/cities.js';
@@ -207,17 +213,17 @@ $(window).load(function(){
 
     $('#report-city_id').change(function () {
         console.log("changed");
-        var city_id=$(this).val();
-        var coord=getCityCoord(city_id);
+        var city_id = $(this).val();
+        var coord = getCityCoord(city_id);
 
         console.log(coord);
-        newLocation(coord[0],coord[1]);
+        newLocation(coord[0], coord[1]);
         newZoom(13);
     });
 });
 
 //site/index map
-var locations=[];
+var locations = [];
 
 function loadScriptIndex() {
     var script = document.createElement("script");
@@ -246,10 +252,10 @@ function initMapIndex() {
     // create an array of markers based on a given "locations" array.
     // The map() method here has nothing to do with the Google Maps API.
     var markers = locations.map(function (location, i) {
-        var marker= new google.maps.Marker({
+        var marker = new google.maps.Marker({
             position: location
         });
-        google.maps.event.addListener(marker, 'click', function(evt) {
+        google.maps.event.addListener(marker, 'click', function (evt) {
             infoWin.setContent(location.info);
             infoWin.open(map, marker);
         });
@@ -282,10 +288,10 @@ function initMapLong() {
     // create an array of markers based on a given "locations" array.
     // The map() method here has nothing to do with the Google Maps API.
     var markers = locations.map(function (location, i) {
-        var marker= new google.maps.Marker({
+        var marker = new google.maps.Marker({
             position: location
         });
-        google.maps.event.addListener(marker, 'click', function(evt) {
+        google.maps.event.addListener(marker, 'click', function (evt) {
             infoWin.setContent(location.info);
             infoWin.open(map, marker);
         });

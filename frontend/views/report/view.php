@@ -77,24 +77,34 @@ $this->params['breadcrumbs'][] = $this->title;*/
     }
     ?>
     <div class="report-cats">
+        <?php if($model->authority):?>
         <div class="cat-row">
+
             <span><?= Yii::t('app', 'Гос.орган: ') ?></span>
             <?= $model->authority->title; ?>
         </div>
+        <?php endif;?>
+
+        <?php if($model->department):?>
         <div class="cat-row">
             <span><?= Yii::t('app', 'Сектор коррупции: ') ?></span>
             <?= $model->department->value; ?>
         </div>
+        <?php endif;?>
 
+        <?php if($model->city):?>
         <div class="cat-row">
             <span><?= Yii::t('app', 'Местоположение: ') ?></span>
             <?= $model->city->value; ?>
         </div>
+        <?php endif;?>
 
+        <?php if($model->type):?>
         <div class="cat-row">
             <span><?= Yii::t('app', 'Тип обращения: ') ?></span>
             <?= $model->type->value; ?>
         </div>
+        <?php endif;?>
     </div>
 
 

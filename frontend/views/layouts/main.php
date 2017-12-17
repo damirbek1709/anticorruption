@@ -18,6 +18,7 @@ use frontend\models\Analytics;
 use yii\bootstrap\Modal;
 use frontend\models\Report;
 use yii\helpers\ArrayHelper;
+use yii\widgets\ActiveForm;
 
 AppAsset::register($this);
 ?>
@@ -80,6 +81,20 @@ AppAsset::register($this);
                 <?= Html::a(Html::tag('span', ''), 'https://itunes.apple.com/us/app/anticorruption.kg/id1315555330?mt=8', ['class' => 'apple_icon']); ?>
                 <?= Html::a(Html::tag('span', ''), 'https://play.google.com/store/apps/details?id=kg.prosoft.anticorruption', ['class' => 'android_icon']); ?>
                 <?= Html::a(Html::tag('span', ''), 'http://facebook.com', ['class' => 'fb_icon']); ?>
+                <?php /*echo Html::beginForm(['report/index'], 'get', ['class' => '']);
+                echo Html::beginTag('div', ['class' => 'col-md-6 pad-remove']);
+
+                echo Html::tag('div', 'От', ['class' => 'col-md-2 label-siding']);
+
+                echo Html::beginTag('div', ['class' => 'col-md-5 pad-remove-left']);
+                echo Html::dropDownList('month_from', $month_from, $month_arr, ['class' => 'form-control']);
+                echo Html::endTag('div');
+ h
+                echo Html::beginTag('div', ['class' => 'col-md-5 pad-remove-left pad-remove-right']);
+                echo Html::dropDownList('year_from', $year_from, $year_arr, ['class' => 'form-control']);
+                echo Html::endTag('div');
+
+                echo Html::endTag('div');*/?>
             </div>
         </div>
     </div>
@@ -467,6 +482,34 @@ AppAsset::register($this);
                         ?>
                         <div class="more"><sup><?= Html::a('...', ['/analytics/index']) ?></sup></div>
                         <div class="add_opinion"><?= Html::a('Добавить мнение', ['/analytics/create']) ?></div>
+                    </div>
+                </div>
+
+                <div class="bn-block-col">
+                    <div class="bn-block type-2 margin2" style="width: 100%;display: inline-block">
+                        <div class="bb-title">
+                            <h3 class="h3"> <?= Yii::t('app', 'Подписаться на рассылку'); ?></h3>
+                        </div>
+                        <?php
+                        $email = new \frontend\models\Subscriber();
+                        $form = ActiveForm::begin([
+                            'id' => 'subscribe-form',
+                            'action' => '/site/subscribe',
+                            'enableAjaxValidation' => true,
+                            //'validationUrl' => '/site/validate-email',
+                        ]); ?>
+                        <?php// echo $form->errorSummary($email); ?>
+
+                        <?= $form->field($email, 'email')->textInput(['maxlength' => true,
+                            'placeholder' => 'E-mail',
+                            'class' => 'form-control sharper'])->label(false);
+                        ?>
+
+                        <div class="form-group">
+                            <?= Html::submitButton(Yii::t('app', 'Отправить'), ['class' => 'subs btn btn-primary']) ?>
+                        </div>
+
+                        <?php ActiveForm::end(); ?>
                     </div>
                 </div>
 
