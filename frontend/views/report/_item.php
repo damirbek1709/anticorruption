@@ -20,7 +20,13 @@ echo Html::a($model->title, ['/report/view', 'id' => $model->id], ['class' => 'i
     </div>
     <div class="new-row clear">
         <?php
-        echo Html::tag('span', "Госорган: <span class='inner_red'>{$model->authorityother->title}</span>", ['class' => 'news_date']);
+        if($model->authority){
+            $auth = $model->authority->title;
+        }
+        else{
+            $auth = "Другое";
+        }
+        echo Html::tag('span', "Госорган: <span class='inner_red'>{$auth}</span>", ['class' => 'news_date']);
         echo Html::tag('div', '', ['class' => 'clear']);
         echo Html::tag('span', "Сектор корупции: <span class='inner_red'>{$model->department->value}</span>", ['class' => 'news_date']);
         echo Html::tag('div', '', ['class' => 'clear']);
