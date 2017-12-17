@@ -19,8 +19,25 @@ use yii\helpers\BaseStringHelper;
             <h3 class="h3"> Сообщения о коррупции</h3>
         </div>
         <div class="mobile_padder" style="padding-bottom: 0">
-            <?php $reports = Report::find()->where(['status' => 1])->orderBy(['date' => SORT_DESC])->limit(3)->all();
+            <?php
+
+
+            $reports = Report::find()->where(['status' => 1])->orderBy(['date' => SORT_DESC])->limit(3)->all();
             foreach ($reports as $report) {
+
+                if ($report->authority) {
+                    $auth = $report->authority->title;
+                } else {
+                    $auth = "Другое";
+                }
+
+                if ($model->department) {
+                    $department = $report->department->value;
+                } else {
+                    $department = "Другое";
+                }
+
+
                 echo Html::beginTag('div', ['class' => 'report_block']);
                 if ($report->author) {
                     echo Html::tag('span', "Имя: <span class='inner'>{$report->author}</span>", ['class' => 'news_date right-marginer']);
@@ -38,9 +55,9 @@ use yii\helpers\BaseStringHelper;
                 echo Html::endTag('div');
 
                 echo Html::beginTag('div', ['class' => 'clear new-row']);
-                echo Html::tag('span', "Госорган: <span class='inner_red'>{$report->authority->title}</span>", ['class' => 'news_date']);
+                echo Html::tag('span', "Госорган: <span class='inner_red'>{$auth}</span>", ['class' => 'news_date']);
                 echo Html::tag('div', '', ['class' => 'clear']);
-                echo Html::tag('span', "Сектор корупции: <span class='inner_red'>{$report->department->value}</span>", ['class' => 'news_date']);
+                echo Html::tag('span', "Сектор корупции: <span class='inner_red'>{$department}</span>", ['class' => 'news_date']);
                 echo Html::tag('div', '', ['class' => 'clear']);
                 if ($report->type) {
                     echo Html::tag('span', "Тип обращения: <span class='inner_red'>{$report->type->value}</span>", ['class' => 'news_date']);
