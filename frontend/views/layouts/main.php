@@ -28,7 +28,7 @@ AppAsset::register($this);
 <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="<?php echo Url::base(); ?>/images/site/favicon.ico" type="image/x-icon"/>
-    <link rel="icon" type="image/png" sizes="16x16" href="<?=Url::base()?>/images/site/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= Url::base() ?>/images/site/favicon-16x16.png">
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=cyrillic,cyrillic-ext"
           rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif:400,400i,700,700i&amp;subset=cyrillic,cyrillic-ext"
@@ -94,7 +94,7 @@ AppAsset::register($this);
                 echo Html::dropDownList('year_from', $year_from, $year_arr, ['class' => 'form-control']);
                 echo Html::endTag('div');
 
-                echo Html::endTag('div');*/?>
+                echo Html::endTag('div');*/ ?>
             </div>
         </div>
     </div>
@@ -253,20 +253,18 @@ AppAsset::register($this);
                 </div>
                 <div class="l_report_block">
                     <?= Html::a(Yii::t('app', 'Исследования'), ['/document/category', 'id' => 146], ['class' => 'report_link']); ?>
-                    <?= Html::a(Yii::t('app', 'Отчеты госорганов'), ['/document/category', 'id' => 147], ['class' => 'report_link']); ?>
+                    <?= Html::a(Yii::t('app', 'Антикоррупционные планы и отчеты'), ['/document/category', 'id' => 147], ['class' => 'report_link']); ?>
                     <?= Html::a(Yii::t('app', 'Международное сотрудничество'), ['/politics/category', 'id' => 151], ['class' => 'report_link']); ?>
-                    <?= Html::a(Yii::t('app', 'Декларация о доходах'), ['/document/category', 'id' => 149], ['class' => 'report_link']); ?>
                 </div>
 
                 <div class="l_corruption_block">
                     <div class="padder">
                         <div class="italic_header">
-                            <?= Yii::t('app', 'Борьба с коррупцией'); ?>
+                            <?= Yii::t('app', 'Пресечение коррупции'); ?>
                         </div>
                         <div class="l_corruption_links">
-                            <?= Html::a(Yii::t('app', 'Профилактика коррупции в госорганах'), ['/page/view', 'id' => 1]); ?>
-                            <?= Html::a(Yii::t('app', 'Общественные советы'), ['/page/view', 'id' => 2]); ?>
-                            <?= Html::a(Yii::t('app', 'Уполномоченные по вопросам противодействия коррупции'), ['/page/view', 'id' => 3]); ?>
+                            <?= Html::a(Yii::t('app', 'Информация правохоохранительных органов'), ['/resistance/category', 'id' => 152]); ?>
+                            <?= Html::a(Yii::t('app', 'Информация органов прокуратуры'), ['/resistance/category', 'id' => 153]); ?>
                         </div>
                         <div class="italic_header top_marginer">
                             <?= Yii::t('app', 'Карта коррупции'); ?>
