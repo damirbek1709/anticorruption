@@ -35,6 +35,7 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
         ->dropDownList(ArrayHelper::map(Vocabulary::find()->asArray()->where(['key' => 'report_category'])->all(), 'id', 'value'),
             [
                 'prompt' => 'Выберите сектор коррупции',
+                55=>'Другое',
                 'class' => 'form-control custom-drop'
             ]
         )->label(false);
