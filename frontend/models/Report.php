@@ -123,6 +123,7 @@ class Report extends \yii\db\ActiveRecord
     {
         $items = ArrayHelper::map(Vocabulary::find()->where(['parent' => 0, 'key' => $data_key])->all(), 'id', 'value');
         $new_arr = [];
+
         foreach ($items as $key => $val) {
             $new_arr[$val] = ArrayHelper::map(Vocabulary::find()->where(['parent' => $key])->all(), 'id', 'value');
         }

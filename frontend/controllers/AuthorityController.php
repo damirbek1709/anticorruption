@@ -50,7 +50,7 @@ class AuthorityController extends Controller
         $this->layout = $this->deviceCheck();
         $searchModel = new AuthoritySearch();
         $dataProvider = new ActiveDataProvider([
-            'query' => AuthoritySearch::find()->where('category_id!=0'),
+            'query' => AuthoritySearch::find()->where('category_id!=0')->andFilterWhere(['id!=55']),
             //'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
             'pagination' => [
                 'pageSize' => 12,
