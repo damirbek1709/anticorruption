@@ -401,7 +401,7 @@ AppAsset::register($this);
                         <div class="item-1">
                             <ul id="authority-slider" class="authority-slider">
                                 <?php
-                                $authorities = Authority::find()->where('category_id!=0')->andWhere('id!=55')->all();
+                                $authorities = Authority::find()->where(['category_id!=0','id!=55'])->all();
                                 foreach ($authorities as $authority) {
                                     echo Html::beginTag("li", ['class' => 'authority_li']);
                                     echo Html::beginTag("div", ['class' => 'sidebar_slider_cover']);
