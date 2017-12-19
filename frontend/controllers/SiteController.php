@@ -226,6 +226,7 @@ class SiteController extends Controller
             'report'=>$report,
             'politics'=>$politics,
             'resistance'=>$resistance,
+            'langInt' => $langInt,
             'queryWord' => $queryWord
         ]);
     }
