@@ -17,6 +17,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\web\Response;
+use yii\db\Query;
 
 
 /**
@@ -39,7 +40,7 @@ class SiteController extends Controller
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'login', 'map', 'city', 'subscribe','validate-email'],
+                        'actions' => ['index', 'login', 'map', 'city', 'subscribe','validate-email','search'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -176,6 +177,57 @@ class SiteController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionSearch()
+    {
+        $news = '';
+        $report = '';
+        $politics = '';
+        $resistance = '';
+        $queryWord = '';
+        $langInt = Yii::$app->language;
+        if ($langInt == 'ru') {
+            $langInt = '';
+        } else if ($langInt == 'en') {
+            $langInt = '_en';
+        } else
+            $langInt = '_ky';
+
+        if (isset($_POST['search']) && strlen($_POST['search']) >= 3) {
+            $title = "title" . $langInt;
+            $text = "text" . $langInt;
+            $queryWord = $_POST['search'];
+            //$results=$pages||$news || $events ? array_merge($pages, $news, $events):null;
+
+            $query = new Query();
+            $news = $query->select(["id", "$title", "$text"])
+                ->from('news')
+                ->where("$title LIKE :search OR $text LIKE :search", [':search' => "%{$_POST['search']}%"])
+                ->all();
+
+            $report= $query->select(["id", "$title", "$text"])
+                ->from('report')
+                ->where("$title LIKE :search OR $text LIKE :search", [':search' => "%{$_POST['search']}%"])
+                ->all();
+
+            $politics= $query->select(["id", "$title", "$text"])
+                ->from('politics')
+                ->where("$title LIKE :search OR $text LIKE :search", [':search' => "%{$_POST['search']}%"])
+                ->all();
+
+            $resistance= $query->select(["id", "$title", "$text"])
+                ->from('resistance')
+                ->where("$title LIKE :search OR $text LIKE :search", [':search' => "%{$_POST['search']}%"])
+                ->all();
+        }
+        return $this->render('searchResult', [
+            'news' => $news,
+            'report'=>$report,
+            'politics'=>$politics,
+            'resistance'=>$resistance,
+            'queryWord' => $queryWord
+        ]);
     }
 
     /**

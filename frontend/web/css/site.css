@@ -204,6 +204,11 @@ a.desc:after {
     background-repeat: no-repeat;
 }
 
+.btn-search{
+    border: none;
+    background: transparent;
+}
+
 .logo {
     background-image: url('../images/site/icons.png');
     background-repeat: no-repeat;

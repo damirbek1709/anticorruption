@@ -51,7 +51,7 @@ AppAsset::register($this);
 <div class="wrap">
     <div class="top_header">
         <div class="width_limiter">
-            <div class="left_top_header">
+            <div class="left_top_header col-md-6 pad-remove">
                 <?= Html::a(Yii::t('app', 'О проекте'), ['/site/about']) ?>
                 <? //= Html::a(Yii::t('app', 'Контакты'), ['/site/contact']) ?>
                 <? //= Html::a(Yii::t('app', 'Обратная связь'), ['/site/feedback']) ?>
@@ -77,24 +77,20 @@ AppAsset::register($this);
             </div>
 
 
-            <div class="right_top_header">
+            <div class="right_top_header col-md-5 pad-remove">
                 <?= Html::a(Html::tag('span', ''), 'https://itunes.apple.com/us/app/anticorruption.kg/id1315555330?mt=8', ['class' => 'apple_icon']); ?>
                 <?= Html::a(Html::tag('span', ''), 'https://play.google.com/store/apps/details?id=kg.prosoft.anticorruption', ['class' => 'android_icon']); ?>
                 <?= Html::a(Html::tag('span', ''), 'http://facebook.com', ['class' => 'fb_icon']); ?>
-                <?php /*echo Html::beginForm(['report/index'], 'get', ['class' => '']);
-                echo Html::beginTag('div', ['class' => 'col-md-6 pad-remove']);
 
-                echo Html::tag('div', 'От', ['class' => 'col-md-2 label-siding']);
-
-                echo Html::beginTag('div', ['class' => 'col-md-5 pad-remove-left']);
-                echo Html::dropDownList('month_from', $month_from, $month_arr, ['class' => 'form-control']);
+                <?php echo Html::beginForm(['site/search'], 'post', ['class' => 'form-inline']);
+                echo Html::beginTag('div', ['class' => 'col-md-8 pad-remove','style'=>'float:right;']);
+                echo Html::beginTag('div',['class'=>'input-group','style'=>'width:100%']);
+                echo Html::input('text', 'search', '',['class' => 'form-control','placeholder' => Yii::t('app', 'Поиска по сайту')]);
+                echo Html::beginTag('div',['class'=>'input-group-addon']);
+                echo Html::tag('button','<i class="glyphicon glyphicon-search"></i>',['type'=>'submit','class'=>'btn-search']);
                 echo Html::endTag('div');
- h
-                echo Html::beginTag('div', ['class' => 'col-md-5 pad-remove-left pad-remove-right']);
-                echo Html::dropDownList('year_from', $year_from, $year_arr, ['class' => 'form-control']);
                 echo Html::endTag('div');
-
-                echo Html::endTag('div');*/ ?>
+                echo Html::endTag('div'); ?>
             </div>
         </div>
     </div>
