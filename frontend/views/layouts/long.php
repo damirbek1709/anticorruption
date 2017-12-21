@@ -83,7 +83,9 @@ AppAsset::register($this);
                 <?= Html::tag('div', $formated_num . ' ' . Yii::t('app', 'обращений о коррупции'), ['class' => 'report_number']); ?>
                 <?
                 echo Html::beginTag('button', ['class' => 'button_transparent']);
-                echo Html::a(Yii::t('app', 'Сообщить о коррупции'), ['/report/create'], ['class' => 'report_label']);
+                echo Html::beginTag('div',['class' => 'report_number']);
+                echo Html::a(Yii::t('app', 'Сообщений о коррупции:') . ' ' . $formated_num,['/report/index'],['style'=>'color:#fff;']);
+                echo Html::endTag('div');
                 echo Html::tag('span', Yii::t('app', ''), ['class' => 'report_arrow']);
                 echo Html::endTag('button');
                 ?>

@@ -99,9 +99,11 @@ AppAsset::register($this);
                 $formated_num = preg_replace('/(?<=\d)\x' . bin2hex($separator[0]) . '(?=\d)/',
                     $separator,
                     number_format($report_count, 0, '.', $separator));
-                ?>
-                <?= Html::tag('div', Yii::t('app', 'Сообщений о коррупции:') . ' ' . $formated_num, ['class' => 'report_number']); ?>
-                <?
+
+                echo Html::beginTag('div',['class' => 'report_number']);
+                echo Html::a(Yii::t('app', 'Сообщений о коррупции:') . ' ' . $formated_num,['/report/index'],['style'=>'color:#fff;']);
+                echo Html::endTag('div');
+
                 echo Html::beginTag('button', ['class' => 'button_transparent']);
                 echo Html::a(Yii::t('app', 'Сообщить о коррупции'), ['/report/create'], ['class' => 'report_label']);
                 echo Html::tag('span', Yii::t('app', ''), ['class' => 'report_arrow']);
@@ -318,7 +320,9 @@ AppAsset::register($this);
                         <?php $education = \frontend\models\Education::find()->orderBy(['date' => SORT_DESC])->limit(3)->all();
                         foreach ($education as $item) {
                             echo Html::beginTag('div', ['class' => 'general-post-cover']);
-                            echo Html::a($item->getMainThumb(), ['/news/view', 'id' => $victim->id], ['class' => 'general-side-block']);
+                            if($item->getMainThumb()) {
+                                echo Html::a($item->getMainThumb(), ['/news/view', 'id' => $victim->id], ['class' => 'general-side-block']);
+                            }
                             echo Html::a($item->title, ['/education/view', 'id' => $item->id], ['class' => 'side-bar-title']);
                             echo Html::endTag('div');
                             echo Html::tag('div', '', ['class' => 'clear']);

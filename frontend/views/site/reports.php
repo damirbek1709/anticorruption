@@ -50,7 +50,7 @@ use yii\helpers\BaseStringHelper;
                 echo Html::a($report->title, ['/report/view', 'id' => $report->id], ['class' => 'italic_header', 'style' => 'color:#000;margin:10px 0;display:block;']);
                 echo Html::tag('div', '', ['class' => 'quotes']);
                 echo Html::beginTag('div', ['class' => 'report-text']);
-                echo Html::tag('span', BaseStringHelper::truncateWords($report->text, 25), ['class' => 'report-padder']);
+                echo Html::tag('span', $report->text, ['class' => 'report-padder']);
                 echo Html::endTag('div');
                 echo Html::endTag('div');
 

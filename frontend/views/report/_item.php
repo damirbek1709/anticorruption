@@ -15,7 +15,7 @@ echo Html::a($model->title, ['/report/view', 'id' => $model->id], ['class' => 'i
     <div class="report-text" style="margin-top: 15px;">
         <div class="quotes"></div>
         <span class="report-padder">
-            <?= BaseStringHelper::truncateWords($model->text, 25); ?>
+            <?=$model->text; ?>
         </span>
     </div>
     <div class="new-row clear">

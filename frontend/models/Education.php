@@ -133,8 +133,6 @@ class Education extends \yii\db\ActiveRecord
                 'except' => ['.gitignore']
             ]);
             return Html::img(str_replace(Yii::getAlias('@webroot'), Yii::getAlias('@web'), $images[0]));
-        } else {
-            return Html::img(Url::base() . "/images/site/blank.png");
         }
     }
 

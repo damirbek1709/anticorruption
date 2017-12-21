@@ -225,7 +225,7 @@ class ReportController extends Controller
             } else {
                 return $this->redirect(['view', 'id' => $model->id]);
             }*/
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
 
         }
         return $this->render('create', [
