@@ -111,7 +111,10 @@ AppAsset::register($this);
                     $separator,
                     number_format($report_count, 0, '.', $separator));
                 ?>
-                <?= Html::tag('div', Yii::t('app', 'Сообщений о коррупции:') . ' ' . $formated_num, ['class' => 'report_number']); ?>
+                <?=Html::beginTag('div',['class' => 'report_number']);
+                echo Html::a(Yii::t('app', 'Сообщений о коррупции:') . ' ' . $formated_num,['/report/index'],['style'=>'color:#fff;']);
+
+                echo Html::endTag('div');?>
                 <?
                 echo Html::beginTag('button', ['class' => 'button_transparent']);
                 echo Html::a(Yii::t('app', 'Сообщить о коррупции'), ['/report/create'], ['class' => 'report_label']);
