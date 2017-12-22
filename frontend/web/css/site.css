@@ -1480,3 +1480,55 @@ and (orientation: portrait) {
     /* STYLES GO HERE */
 }
 
+/*----------------------------------------------------------------------------------------------------------------------*/
+
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : portrait) {
+    .width_limiter{
+        width: 100%;
+    }
+
+    .left_top_header a {
+        font-size: 11px;
+        padding-right: 5px;
+    }
+
+    .top_header a {
+        margin-right: 6px;
+    }
+    .pad-remove{
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .left_top_header{
+        margin-left: 0;
+    }
+    .centralizer{
+        width: 100%;
+    }
+    .top-menu .container{
+        width: 100%;
+    }
+
+    .top-menu .navbar-inverse{
+        height: 100px;
+    }
+
+    .top-menu {
+        height: 100px;
+    }
+    .top-menu .navbar-nav > li {
+        margin: 0 0px;
+    }
+    .top-menu .navbar-nav > li > a{
+        font-size: 13px;
+    }
+    .left_block{
+        display: none;
+    }
+    .right_bar{
+        display: none;
+    }
+}

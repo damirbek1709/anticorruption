@@ -77,20 +77,23 @@ AppAsset::register($this);
             </div>
 
 
-            <div class="right_top_header col-md-5 pad-remove">
-                <?= Html::a(Html::tag('span', ''), 'https://itunes.apple.com/us/app/anticorruption.kg/id1315555330?mt=8', ['class' => 'apple_icon']); ?>
-                <?= Html::a(Html::tag('span', ''), 'https://play.google.com/store/apps/details?id=kg.prosoft.anticorruption', ['class' => 'android_icon']); ?>
-                <?= Html::a(Html::tag('span', ''), 'http://facebook.com', ['class' => 'fb_icon']); ?>
-
-                <?php echo Html::beginForm(['site/search'], 'post', ['class' => 'form-inline']);
-                echo Html::beginTag('div', ['class' => 'col-md-8 pad-remove','style'=>'float:right;']);
-                echo Html::beginTag('div',['class'=>'input-group','style'=>'width:100%']);
-                echo Html::input('text', 'search', '',['class' => 'form-control','placeholder' => Yii::t('app', 'Поиска по сайту')]);
-                echo Html::beginTag('div',['class'=>'input-group-addon']);
-                echo Html::tag('button','<i class="glyphicon glyphicon-search"></i>',['type'=>'submit','class'=>'btn-search']);
-                echo Html::endTag('div');
-                echo Html::endTag('div');
-                echo Html::endTag('div'); ?>
+            <div class="right_top_header col-sm-6 pad-remove">
+                <div class="col-md-6 pad-remove">
+                    <?= Html::a(Html::tag('span', ''), 'https://itunes.apple.com/us/app/anticorruption.kg/id1315555330?mt=8', ['class' => 'apple_icon']); ?>
+                    <?= Html::a(Html::tag('span', ''), 'https://play.google.com/store/apps/details?id=kg.prosoft.anticorruption', ['class' => 'android_icon']); ?>
+                    <?= Html::a(Html::tag('span', ''), 'http://facebook.com', ['class' => 'fb_icon']); ?>
+                </div>
+                <div class="col-md-6 pad-remove">
+                    <?php echo Html::beginForm(['site/search'], 'post', ['class' => 'form-inline']);
+                    echo Html::beginTag('div', ['style' => 'float:left;']);
+                    echo Html::beginTag('div', ['class' => 'input-group', 'style' => 'width:100%']);
+                    echo Html::input('text', 'search', '', ['class' => 'form-control', 'placeholder' => Yii::t('app', 'Поиска по сайту')]);
+                    echo Html::beginTag('div', ['class' => 'input-group-addon']);
+                    echo Html::tag('button', '<i class="glyphicon glyphicon-search"></i>', ['type' => 'submit', 'class' => 'btn-search']);
+                    echo Html::endTag('div');
+                    echo Html::endTag('div');
+                    echo Html::endTag('div'); ?>
+                </div>
             </div>
         </div>
     </div>
@@ -112,9 +115,9 @@ AppAsset::register($this);
                     number_format($report_count, 0, '.', $separator));
                 ?>
                 <?
-                echo Html::beginTag('div',['class' => 'report_number']);
-                echo Html::a(Yii::t('app', 'Сообщений о коррупции:') . ' ' . $formated_num,['/report/index'],['style'=>'color:#fff;']);
-                echo Html::endTag('div');?>
+                echo Html::beginTag('div', ['class' => 'report_number']);
+                echo Html::a(Yii::t('app', 'Сообщений о коррупции:') . ' ' . $formated_num, ['/report/index'], ['style' => 'color:#fff;']);
+                echo Html::endTag('div'); ?>
                 <?
                 echo Html::beginTag('button', ['class' => 'button_transparent']);
                 echo Html::a(Yii::t('app', 'Сообщить о коррупции'), ['/report/create'], ['class' => 'report_label']);
@@ -228,7 +231,7 @@ AppAsset::register($this);
 
 
     <div class="container">
-        <div class="width_limiter">
+        <div class="width_limiter col-md-12">
             <?
             /*echo  Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -336,7 +339,7 @@ AppAsset::register($this);
                         <?php $education = \frontend\models\Education::find()->orderBy(['date' => SORT_DESC])->limit(3)->all();
                         foreach ($education as $item) {
                             echo Html::beginTag('div', ['class' => 'general-post-cover']);
-                            if($item->getMainThumb()) {
+                            if ($item->getMainThumb()) {
                                 echo Html::a($item->getMainThumb(), ['/news/view', 'id' => $victim->id], ['class' => 'general-side-block']);
                             }
                             echo Html::a($item->title, ['/education/view', 'id' => $item->id], ['class' => 'side-bar-title']);
