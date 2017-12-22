@@ -51,7 +51,7 @@ AppAsset::register($this);
 <div class="wrap">
     <div class="top_header">
         <div class="width_limiter">
-            <div class="left_top_header col-md-6 pad-remove">
+            <div class="left_top_header col-md-5 pad-remove">
                 <?= Html::a(Yii::t('app', 'О проекте'), ['/site/about']) ?>
                 <? //= Html::a(Yii::t('app', 'Контакты'), ['/site/contact']) ?>
                 <? //= Html::a(Yii::t('app', 'Обратная связь'), ['/site/feedback']) ?>
@@ -78,7 +78,7 @@ AppAsset::register($this);
 
 
             <div class="right_top_header col-sm-6 pad-remove">
-                <div class="col-md-6 pad-remove">
+                <div class="col-md-4 pad-remove" style="float:right">
                     <?= Html::a(Html::tag('span', ''), 'https://itunes.apple.com/us/app/anticorruption.kg/id1315555330?mt=8', ['class' => 'apple_icon']); ?>
                     <?= Html::a(Html::tag('span', ''), 'https://play.google.com/store/apps/details?id=kg.prosoft.anticorruption', ['class' => 'android_icon']); ?>
                     <?= Html::a(Html::tag('span', ''), 'http://facebook.com', ['class' => 'fb_icon']); ?>
@@ -231,7 +231,7 @@ AppAsset::register($this);
 
 
     <div class="container">
-        <div class="width_limiter col-md-12">
+        <div class="width_limiter col-md-12 pad-remove">
             <?
             /*echo  Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
