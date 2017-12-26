@@ -139,7 +139,7 @@ AppAsset::register($this);
                     ['label' => Yii::t('app', 'Новостная лента'), 'url' => ['/news/category/133']],
                     ['label' => Yii::t('app', 'Сводка коррупционных преступлений'), 'url' => ['/news/category/132']],
                     ['label' => Yii::t('app', 'Достижения'), 'url' => ['/news/category/130']],
-                    ['label' => Yii::t('app', 'Пресс-релизы гос.органов'), 'url' => ['/news/category/131']],
+                    ['label' => Yii::t('app', 'Пресс-релизы госорганов'), 'url' => ['/news/category/131']],
                 ],
             ],
             [

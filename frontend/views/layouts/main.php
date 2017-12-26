@@ -78,21 +78,23 @@ AppAsset::register($this);
 
 
             <div class="right_top_header col-sm-6 pad-remove">
-                <div class="col-md-4 pad-remove" style="float:right">
+                <div class="col-md-3 pad-remove" style="float:right">
                     <?= Html::a(Html::tag('span', ''), 'https://itunes.apple.com/us/app/anticorruption.kg/id1315555330?mt=8', ['class' => 'apple_icon']); ?>
                     <?= Html::a(Html::tag('span', ''), 'https://play.google.com/store/apps/details?id=kg.prosoft.anticorruption', ['class' => 'android_icon']); ?>
                     <?= Html::a(Html::tag('span', ''), 'http://facebook.com', ['class' => 'fb_icon']); ?>
                 </div>
-                <div class="col-md-6 pad-remove">
+                <div class="col-md-9 pad-remove" style="overflow: hidden">
                     <?php echo Html::beginForm(['site/search'], 'post', ['class' => 'form-inline']);
-                    echo Html::beginTag('div', ['style' => 'float:left;']);
+                    echo Html::beginTag('div', ['style' => 'float:left;width:100%;overflow:hidden']);
                     echo Html::beginTag('div', ['class' => 'input-group', 'style' => 'width:100%']);
                     echo Html::input('text', 'search', '', ['class' => 'form-control', 'placeholder' => Yii::t('app', 'Поиска по сайту')]);
                     echo Html::beginTag('div', ['class' => 'input-group-addon']);
                     echo Html::tag('button', '<i class="glyphicon glyphicon-search"></i>', ['type' => 'submit', 'class' => 'btn-search']);
                     echo Html::endTag('div');
                     echo Html::endTag('div');
-                    echo Html::endTag('div'); ?>
+                    echo Html::endTag('div');
+                    echo Html::endForm();
+                    ?>
                 </div>
             </div>
         </div>
@@ -158,7 +160,7 @@ AppAsset::register($this);
                     ['label' => Yii::t('app', 'Новостная лента'), 'url' => ['/news/category/133']],
                     ['label' => Yii::t('app', 'Сводка коррупционных преступлений'), 'url' => ['/news/category/132']],
                     ['label' => Yii::t('app', 'Достижения'), 'url' => ['/news/category/130']],
-                    ['label' => Yii::t('app', 'Пресс-релизы гос.органов'), 'url' => ['/news/category/131']],
+                    ['label' => Yii::t('app', 'Пресс-релизы госорганов'), 'url' => ['/news/category/131']],
                 ],
             ],
             [

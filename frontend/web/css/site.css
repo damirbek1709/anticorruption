@@ -17,6 +17,7 @@ body {
     width: 100%;
     margin-top: 16px;
     padding: 15px 20px;
+    z-index: -1;
 }
 
 .footer {
@@ -389,8 +390,7 @@ a.desc:after {
     line-height: 23px !important;
 }
 
-.top-menu .navbar-nav {
-}
+.top-menu .navbar-nav {z-index: 1000000;}
 
 .top-menu .navbar-nav > li {
     margin: 0 5px;
@@ -1484,19 +1484,159 @@ and (orientation: portrait) {
     /* STYLES GO HERE */
 }
 
+@media only screen
+and (min-device-width: 320px)
+and (max-device-width: 640px)
+and (orientation: landscape) {
+
+    .back_transform {
+        display: inline-flex;
+        width: auto;
+    }
+
+    .left_block{
+        display: none;
+    }
+    .right_bar{
+        display: none;
+    }
+
+    .central_block {
+        width: auto;
+        margin-left: 0px;
+        float: left;
+    }
+
+    .width_limiter {
+        width: auto;
+        overflow: hidden;
+        margin: auto;
+    }
+
+    .report-form{
+        padding: 0px;
+    }
+
+    .transformer {
+        padding: 0;
+    }
+    .logo{
+        width: 42px;
+        height: 41px;
+        background-image: url("../images/site/icons.png");
+        background-repeat: no-repeat;
+        display: block;
+        float: left;
+        background-position: 1px -16px;
+        background-size: 460%;
+        margin-right: 10px;
+        padding: 0;
+    }
+
+
+    .top_header{
+        display: none;
+    }
+
+    .site-name{
+        font-size: 13px;
+        color: #000;
+        margin-top: 0;
+        width: 192px;
+    }
+
+    .main_heading{line-height: normal}
+
+    .main_header{
+        background-color: #fff;
+        background: transparent;
+    }
+    .top-menu .container{
+        width: auto;
+        padding: 10px 25px;
+    }
+
+    .report_label_transform{
+        display: none;
+    }
+
+    .navbar-toggle{
+        float: left;
+        padding: 12px 12px;
+        margin-top: 8px;
+        margin-right: 5px;
+        background-color: #d80403;
+    }
+
+    .top-menu .navbar-inverse{
+        background: transparent;
+    }
+
+    .navbar-brand{
+        width: 71%;
+        padding: 10px 5px;
+    }
+
+    .top-menu .navbar-inverse{
+
+    }
+
+    .top-menu a{
+        line-height: normal!important;
+    }
+    .navbar-nav{
+        background-color: #fff;
+        border-bottom: 2px solid #ccc;
+    }
+
+    .top-menu .navbar-nav > li > a{
+        color:#000;
+    }
+
+    .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a{
+        color:#9d9d9d;
+        background-color: #fff;
+    }
+
+    .pull-center{
+        text-align: center;
+        color: #fff;
+        line-height: 30px;
+        float: none;
+        display: inline-block;
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .pull-right {
+        float: none!important;
+        margin: 0 auto;
+        display: table;
+    }
+
+}
+
+
+
+
+
+
 /*----------------------------------------------------------------------------------------------------------------------*/
 
 @media only screen
 and (min-device-width : 768px)
 and (max-device-width : 1023px)
 and (orientation : portrait) {
-    .width_limiter{
-        width: 100%;
-    }
 
     .left_top_header a {
         font-size: 11px;
         padding-right: 5px;
+    }
+
+    .width_limiter {
+        width: auto;
+        overflow: hidden;
+        margin: auto;
     }
 
     .top_header a {
@@ -1539,3 +1679,47 @@ and (orientation : portrait) {
         margin: 0 0 0 190px;
     }
 }
+
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : landscape) {
+    /* STYLES GO HERE */
+    .centralizer{
+        width: 100%;
+    }
+    .top-menu .container{
+        width: 100%;
+    }
+
+    .top-menu .navbar-inverse{
+        height: 100px;
+    }
+
+    .top-menu {
+        height: 100px;
+    }
+    .width_limiter {
+        width: auto;
+        overflow: hidden;
+        margin: auto;
+    }
+    .left_top_header a{
+        padding-right: 8px;
+    }
+
+    .top_header a {
+        margin-right: 8px;
+    }
+    .left_block{
+        width: 295px;
+    }
+    .right_bar{
+        display: none;
+    }
+
+    .pull-center {
+        margin: 0 0 0 320px;
+    }
+}
+
