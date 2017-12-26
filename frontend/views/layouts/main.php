@@ -252,7 +252,7 @@ AppAsset::register($this);
                         <?= Html::tag("span", "", ["class" => "l-list l-achiev-list"]); ?>
                         <?= Html::tag("div", Html::a(Yii::t('app', 'Достижения'), ['/news/category', 'id' => 130]), ["class" => "left_category_list"]); ?>
                         <?= Html::tag("span", "", ["class" => "l-list l-press-list"]); ?>
-                        <?= Html::tag("div", Html::a(Yii::t('app', 'Пресс-релизы гос.органов'), ['/news/category', 'id' => 131], ['class' => 'rmb']), ["class" => "left_category_list"]); ?>
+                        <?= Html::tag("div", Html::a(Yii::t('app', 'Пресс-релизы госорганов'), ['/news/category', 'id' => 131], ['class' => 'rmb']), ["class" => "left_category_list"]); ?>
                     </div>
                 </div>
                 <div class="l_report_block">
