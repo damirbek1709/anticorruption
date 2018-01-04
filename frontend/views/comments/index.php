@@ -37,11 +37,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'material',
                 'contentOptions' => ['style' => 'width:200px; white-space: normal;'],
                 'value' => function ($model) {
-                    if ($model->report_id) {
-                        return Html::a($model->report->title, Yii::$app->urlManagerFrontend->createAbsoluteUrl(['report/view', 'id' => $model->report_id]),['target' => '_blank']);
-                    } elseif ($model->news_id) {
+                    if ($model->report_id && $model->report) {
+                        return Html::a($model->report->title, Yii::$app->urlManagerFrontend->createAbsoluteUrl(['report/view', 'id' => $model->report_id]), ['target' => '_blank']);
+                    } elseif ($model->news_id && $model->report) {
                         return Html::a($model->news->title, Yii::$app->urlManagerFrontend->createAbsoluteUrl(['news/view', 'id' => $model->news_id]), ['target' => '_blank']);
-                    } else {
+                    } elseif ($model->news_id && $model->news) {
                         return Html::a($model->authority->title, Yii::$app->urlManagerFrontend->createAbsoluteUrl(['authority/view', 'id' => $model->category_id]), ['target' => '_blank']);
                     }
 
@@ -64,11 +64,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'template' => '{delete}{approve}{deny}',
                 'buttons' => [
                     'approve' => function ($url, $model, $key) {
-                        return Html::a("<i class = 'glyphicon glyphicon-ok'></i>", ['approve', 'id' => $model->id],['title'=>'Одобрить']);
+                        return Html::a("<i class = 'glyphicon glyphicon-ok'></i>", ['approve', 'id' => $model->id], ['title' => 'Одобрить']);
                     },
 
                     'deny' => function ($url, $model, $key) {
-                        return Html::a("<i class = 'glyphicon glyphicon-remove'></i>", ['deny', 'id' => $model->id],['title'=>'Отклонить']);
+                        return Html::a("<i class = 'glyphicon glyphicon-remove'></i>", ['deny', 'id' => $model->id], ['title' => 'Отклонить']);
                     },
                 ]
             ],
