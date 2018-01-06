@@ -44,7 +44,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     } elseif ($model->news_id && $model->news) {
                         return Html::a($model->authority->title, Yii::$app->urlManagerFrontend->createAbsoluteUrl(['authority/view', 'id' => $model->category_id]), ['target' => '_blank']);
                     }
-
                 }
             ],
             [

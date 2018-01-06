@@ -126,6 +126,11 @@ AppAsset::register($this);
                             'label' => Yii::t('app', 'Комментарии'),
                             'url' => ['/comments/index']
                         ],
+
+                        [
+                            'label' => Yii::t('app', 'Ответы на сообщения'),
+                            'url' => ['/reply/index']
+                        ],
                     ],
 
                 ],

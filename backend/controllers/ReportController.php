@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use frontend\models\Reply;
 use frontend\models\Vocabulary;
 use Yii;
 use frontend\models\Report;
@@ -34,7 +35,7 @@ class ReportController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['view', 'update', 'category', 'delete', 'index'],
+                        'actions' => ['view', 'update', 'category', 'delete', 'index', 'reply'],
                         'roles' => ['admin'],
                     ],
 
@@ -91,6 +92,17 @@ class ReportController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionReply($id)
+    {
+        $model = new Reply();
+        $report = $this->findModel($id);
+        return $this->render('@frontend/views/reply/create', [
+            'model' => $model,
+            'report' => $report
+        ]);
+
     }
 
     public function actionCity($id)

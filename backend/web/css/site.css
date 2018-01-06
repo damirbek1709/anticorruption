@@ -334,6 +334,15 @@ a.desc:after {
     display: none;
 }
 
+.main_heading {
+    font-family: "PT Sans", sans-serif;
+    font-size: 19px;
+    text-decoration: underline;
+    text-transform: uppercase;
+    line-height: 16px;
+    margin-bottom: 15px;
+}
+
 .authority-form .tab-content, .news-form .tab-content, .analytics-form .tab-content, .page-form .tab-content{
     padding: 20px;
     border-left: 1px solid #ddd;
