@@ -6,9 +6,37 @@ use Yii;
 use frontend\models\Reply;
 use frontend\models\ReplySearch;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
+use dektrium\user\filters\AccessRule;
 
 class ReplyController extends \yii\web\Controller
 {
+
+    public function behaviors()
+    {
+        return [
+
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'create', 'delete', 'update','view'],
+                        'roles' => ['admin'],
+                    ],
+
+                    [
+                        'allow' => true,
+                        'actions' => ['status'],
+                        'roles' => ['admin'],
+                    ],
+                ],
+            ],
+        ];
+    }
 
     public function actionIndex()
     {
@@ -24,13 +52,12 @@ class ReplyController extends \yii\web\Controller
     public function actionCreate()
     {
         $model = new Reply();
-
         if ($model->load(Yii::$app->request->post())) {
-            Yii::$app->mailer->compose('layouts/html', ['subject' => $model->title, 'content' => $model->text])
-                ->setBcc($model->email)
-                ->setFrom(['info@anticorruption.kg' => 'Антикоррупционный портал КР'])
+            $mail = $_POST['Reply']['email'];
+            \Yii::$app->mailer->compose(['html'=>'layouts/html'], ['subject' => $model->title, 'content' => $model->text])
+                ->setTo($mail)
+                ->setFrom(Yii::$app->params['adminEmail'])
                 ->setSubject($model->title)
-                ->setTextBody($model->text)
                 ->send();
             $model->save();
             return $this->redirect(['index']);

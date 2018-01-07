@@ -22,11 +22,11 @@ return [
             'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.gmail.com',
-                'username' => 'elitkacrm@gmail.com',
-                'password' => 'elitkacrm85qw',
-                'port' => '587',
-                'encryption' => 'tls'
+                'host' => 'smtp.yandex.ru',
+                'username' => 'info@anticorruption.kg',
+                'password' => 'anticorr85qw',
+                'port' => '465',
+                'encryption' => 'ssl'
                 /*'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.yandex.ru',
                 'username' => 'lussovillage@yandex.ru',
