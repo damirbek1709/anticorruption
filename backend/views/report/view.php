@@ -77,24 +77,34 @@ $this->params['breadcrumbs'][] = $this->title;
     }
     ?>
     <div class="report-cats">
-        <div class="cat-row">
-            <span><?= Yii::t('app', 'Гос.орган: ') ?></span>
-            <?= $model->authority->title; ?>
-        </div>
-        <div class="cat-row">
-            <span><?= Yii::t('app', 'Сектор коррупции: ') ?></span>
-            <?= $model->department->value; ?>
-        </div>
+        <?if($model->authority):?>
+            <div class="cat-row">
+                <span><?= Yii::t('app', 'Гос.орган: ') ?></span>
+                <?php  echo $model->authority->title; ?>
+            </div>
+        <?php endif;?>
 
-        <div class="cat-row">
-            <span><?= Yii::t('app', 'Местоположение: ') ?></span>
-            <?= $model->city->value; ?>
-        </div>
+        <?if($model->department):?>
+            <div class="cat-row">
+                <span><?= Yii::t('app', 'Сектор коррупции: ') ?></span>
+                <?= $model->department->value; ?>
+            </div>
+        <?php endif;?>
 
-        <div class="cat-row">
-            <span><?= Yii::t('app', 'Тип обращения: ') ?></span>
-            <?= $model->type->value; ?>
-        </div>
+        <?if($model->city):?>
+            <div class="cat-row">
+                <span><?= Yii::t('app', 'Местоположение: ') ?></span>
+                <?= $model->city->value; ?>
+            </div>
+        <?php endif;?>
+
+
+        <?if($model->type):?>
+            <div class="cat-row">
+                <span><?= Yii::t('app', 'Тип обращения: ') ?></span>
+                <?= $model->type->value; ?>
+            </div>
+        <?php endif;?>
     </div>
 
 
