@@ -332,8 +332,16 @@ class Report extends \yii\db\ActiveRecord
     public function fields()
     {
         return [
-            'id', 'title', 'text', 'date', 'lon', 'lat',
+            'id', 'title', 'text', 'date',
             'anonymous', 'author', 'email', 'contact', 'views',
+            'lat' => function ($model) {
+                if(!$model->lat){$lat='41.260283';}else{$lat=$model->lat;}
+                return $lat;
+            },
+            'lon' => function ($model) {
+                if(!$model->lat){$lon='74.989503';}else{$lon=$model->lon;}
+                return $lon;
+            },
             'comments_count' => function ($model) {
                 return $model->commentsCount;
             },
