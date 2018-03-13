@@ -1,11 +1,10 @@
+
 <?php
 
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use frontend\models\Vocabulary;
-use kartik\select2\Select2;
-use yii\helpers\Url;
 use kartik\file\FileInput;
 use yii\bootstrap\Modal;
 use kartik\datetime\DateTimePicker;
@@ -24,10 +23,9 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
 
     <?php echo $form->errorSummary($model) ?>
 
+
     <?= $form->field($model, 'title')->textInput(['maxlength' => true,
         'placeholder' => 'Введите заголовок вашего сообщения',
-        'data-toggle' => 'modal',
-        'data-target' => '#warning-modal',
         'class' => 'form-control sharper'])->label(false); ?>
 
     <?= $form->field($model, 'text')->textarea(['rows' => 6, 'placeholder' => 'Расскажите подробнее о факте коррупции с которым вы столкнулись', 'class' => 'form-control comment-input-text'])->label(false); ?>
@@ -37,52 +35,47 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
         ->dropDownList(ArrayHelper::map(Vocabulary::find()->asArray()->where(['key' => 'report_category'])->all(), 'id', 'value'),
             [
                 'prompt' => 'Выберите сектор коррупции',
+                55=>'Другое',
                 'class' => 'form-control custom-drop'
             ]
         )->label(false);
     ?>
 
     <?php
-    echo $form->field($model, 'authority_id')->widget(Select2::classname(), [
-        'data' => $model->getAuthorities(),
-        'hideSearch' => true,
-        'options' => [
-            'placeholder' => 'Выберите госорган или структуру',
-            'class' => 'form-control custom-drop'
-        ],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
+    echo $form->field($model, 'authority_id')->dropDownList($model->getAuthorities(), [
+        'prompt' => 'Выберите госорган или структуру',
+        'class' => 'form-control custom-drop'
     ])->label(false); ?>
 
     <?php
     $type = 134;
-    if(isset($_POST['paramType'])){
+    if (isset($_POST['paramType'])) {
         $type = $_POST['paramType'];
     }
     echo $form->field($model, 'type_id')
         ->dropDownList(ArrayHelper::map(Vocabulary::find()->asArray()->where(['key' => 'report_type'])->all(), 'id', 'value'),
             [
                 'value' => $type,
-                'prompt' => 'Выберите тип обращения',
                 'class' => 'form-control custom-drop'
             ]
         )->label(false);
     ?>
 
     <div class="form-group">
-        <? echo '<label>Дата и время</label>';
+        <? echo '<label>Дата и время проишествия</label>';
         echo DateTimePicker::widget([
             'model' => $model,
             'name' => 'date',
             'attribute' => 'date',
-            'options' => ['placeholder' => 'Выберите время дату и время'],
+            'options' => ['placeholder' => 'Выберите дату и время проишествия'],
             //'convertFormat' => true,
             'pluginOptions' => [
-                //'minView' => 0,
-                'minuteStep'=>30,
+                'minView' => 1,
+                //'minuteStep' => 60,
                 //'format' => 'd-M-Y g:i A',
                 'format' => 'yyyy-m-dd HH:ii',
+                'autoclose'=>true,
+                'endDate' => date('Y-m-d'),
                 //'startDate' => '01-Mar-2017 12:00 AM',
                 'todayHighlight' => true
             ]
@@ -91,7 +84,7 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
 
 
     <div class="form-group">
-        <div id="user-contact" class="col-md-6" style="padding-left: 0">
+        <div id="user-contact" class="col-md-6 transformer">
             <?= $form->field($model, 'author', [
                 'template' =>
                     '<div class="form-group rel">{input}<span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="' . $lkup['lookup_name'] . '"></span>{error}</div>'])->textInput(['placeholder' => 'Введите ваше имя', 'class' => 'form-control sharper'])->label(false); ?>
@@ -103,7 +96,7 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
                     '<div class="form-group rel">{input}<span class="qhint glyphicon glyphicon-question-sign" data-toggle="popover" data-trigger="hover" data-content="' . $lkup['lookup_contact'] . '"></span>{error}</div>'])->textInput(['placeholder' => 'Ваши контакты', 'class' => 'form-control sharper'])->label(false); ?>
         </div>
 
-        <div class="col-md-6" style="padding-right: 0">
+        <div class="col-md-6 transformer">
             <div class="border-maker anonym_height">
                 <div class="radio-row">
 
@@ -130,14 +123,18 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
     ?>
 
     <?php
-    echo $form->field($model, 'city_id')->widget(Select2::classname(), [
-        'data' => $model->getDropdownItems('city'),
-        'hideSearch' => true,
-        'options' => ['placeholder' => 'Выберите город или регион'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ])->label(false); ?>
+    echo $form->field($model, 'city_id')->dropDownList($model->getDropdownItems('city'), [
+        'prompt' => 'Выберите регион',
+        'class' => 'form-control custom-drop'
+    ])->label(false);
+    /*  echo $form->field($model, 'city_id')->widget(Select2::classname(), [
+          'data' => $model->getDropdownItems('city'),
+          'hideSearch' => true,
+          'options' => ['placeholder' => 'Выберите город или регион'],
+          'pluginOptions' => [
+              'allowClear' => true
+          ],
+      ])->label(false); */ ?>
 
 
     <div class="img-drop" style="font-family: Arial,sans-serif">
@@ -195,18 +192,201 @@ $lkup = ArrayHelper::map($lookups, 'key', 'value');
     <div class="form-group map" id="map"></div>
 
 
+    <?= Html::a(Yii::t('app', 'Предупреждение об уголовной ответственности за дачу заведомо ложных 
+сообщений о совершении преступлений'), ['#'], ['class' => 'warning-link', 'id' => 'modalButton', 'data-toggle' => 'modal', 'data-target' => '#warning-modal']); ?>
+
+    <?php
+    $modal = Modal::begin([
+        'header' => Html::tag('h4', Yii::t('app', 'Внимание'), ['class' => 'modal-title']),
+        'id' => 'warning-modal',
+        'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal">' . Yii::t('app', 'Закрыть') . '</button>'
+
+    ]);
+    echo $lkup['lookup_warning_text'];
+    $modal::end();
+    ?>
+
+
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Отправить'), ['class' => 'send-comment btn btn-danger']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
+
+
     <?php
-    $modal = Modal::begin([
+
+
+    /*$modal = Modal::begin([
         'id' => 'warning-modal',
         'header' => Html::tag('h4', $lkup['lookup_warning_title'], ['class' => 'modal-title']),
         'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal">' . Yii::t('app', 'Закрыть') . '</button>'
     ]);
     echo $lkup['lookup_warning_text'];
-    $modal::end();
+    $modal::end();*/
     ?>
 </div>
+
+<script>
+  /*  $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="popover"]').popover();
+
+        $('.warning-link').click(function (e) {
+            e.preventDefault();
+            $('#update-modal')
+                .modal('show')
+                .find('#updateModalContent')
+                .load($(this).attr('value'));
+        });
+    });
+    $(window).load(function () {
+        //report create anonymous check
+        $('.input_checker').change(function () {
+            var input = $("#user-contact input");
+            if ($(this).is(":checked")) {
+                input.val('');
+                input.prop('disabled', true);
+                $(this).val(1);
+                $('.field-report-author').removeClass('has-error').find('.help-block').hide();
+            }
+            else {
+                input.prop('disabled', false);
+                $(this).val(0);
+            }
+        });
+        //tooltip, popover
+
+    });
+
+    //google map
+    function loadScript() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDDyJXbc-D_sxlQgbxS6fa-ImOsz1dyyQs&callback=initMap";
+        document.body.appendChild(script);
+    }
+
+    function loadScriptView() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDDyJXbc-D_sxlQgbxS6fa-ImOsz1dyyQs&callback=initMapView";
+        document.body.appendChild(script);
+    }
+
+    var map;
+
+    function initMapView() {
+        var uluru = {lat: 41.2044, lng: 74.7661};
+
+        var defaultLat = parseFloat($('.report_lat').val());
+        var defaultLon = parseFloat($('.report_lon').val());
+
+
+        map = new google.maps.Map(document.getElementById('map_view'), {
+            zoom: 6,
+            center: uluru
+        });
+        var marker = new google.maps.Marker({
+            map: map,
+            draggable: false,
+            //position:{lat: 41.2044, lng: 74.7661}
+
+        });
+
+        if (defaultLat != 0 && defaultLon != 0) {
+            placeMarker({lat: defaultLat, lng: defaultLon});
+        }
+
+        function placeMarker(location) {
+            if (marker == undefined) {
+                marker = new google.maps.Marker({
+                    position: location,
+                    map: map,
+                    animation: google.maps.Animation.DROP,
+                });
+            }
+            else {
+                marker.setPosition(location);
+            }
+            //map.setCenter(location);
+        }
+    }
+
+
+    function initMap() {
+        var uluru = {lat: 41.2044, lng: 74.7661};
+
+        var defaultLat = parseFloat($('.report_lat').val());
+        var defaultLon = parseFloat($('.report_lon').val());
+
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 6,
+            center: uluru
+        });
+        var marker = new google.maps.Marker({
+            map: map,
+            draggable: true,
+            //position:{lat: 41.2044, lng: 74.7661}
+
+        });
+
+        if (defaultLat != 0 && defaultLon != 0) {
+            placeMarker({lat: defaultLat, lng: defaultLon});
+        }
+
+        google.maps.event.addListener(marker, 'dragend', function (a) {
+            $('.report_lat').val(a.latLng.lat().toFixed(4));
+            $('.report_lon').val(a.latLng.lng().toFixed(4));
+        });
+        google.maps.event.addListener(map, 'click', function (event) {
+            placeMarker(event.latLng);
+            $('.report_lat').val(event.latLng.lat().toFixed(4));
+            $('.report_lon').val(event.latLng.lng().toFixed(4));
+        });
+
+        function placeMarker(location) {
+            if (marker == undefined) {
+                marker = new google.maps.Marker({
+                    position: location,
+                    map: map,
+                    animation: google.maps.Animation.DROP,
+                });
+            }
+            else {
+                marker.setPosition(location);
+            }
+            //map.setCenter(location);
+        }
+    }
+
+    function newLocation(newLat, newLng) {
+        map.setCenter({
+            lat: newLat,
+            lng: newLng
+        });
+    }
+
+    function newZoom(level) {
+        map.setZoom(level);
+    }
+
+    $(window).load(function () {
+        loadScript();
+        var imported = document.createElement('script');
+        imported.src = '/js/cities.js';
+        document.body.appendChild(imported);
+    });
+
+    $('#report-city_id').change(function () {
+        console.log("changed");
+        var city_id = $(this).val();
+        var coord = getCityCoord(city_id);
+
+        console.log(coord);
+        newLocation(coord[0], coord[1]);
+        newZoom(13);
+    });*/
+
+</script>

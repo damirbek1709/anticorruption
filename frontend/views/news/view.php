@@ -123,9 +123,13 @@ $jsSlider = str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], [
 
             <?= $form->field($comment, 'text')->textarea(['maxlength' => true, 'rows' => 9, 'placeholder' => 'Введите текст комментария', 'class' => 'form-control comment-input-text'])->label(false); ?>
 
+            <?php if(Yii::$app->user->isGuest):?>
             <div class="form-group">
                 <div class="g-recaptcha" data-sitekey="6LegmzEUAAAAAGucd6quo8hn50mfC6xt_WF9u43P"></div>
             </div>
+            <?php endif;?>
+
+
             <div class="form-group">
                 <?= Html::submitButton(Yii::t('app', 'Отправить комментарий'), ['class' => 'send-comment btn btn-danger']) ?>
             </div>
@@ -152,11 +156,12 @@ $jsSlider = str_replace([Yii::getAlias('@frontend/web'), DIRECTORY_SEPARATOR], [
             type: 'post',
             data: form.serialize(),
             success: function (response) {
-                if (response == "No") {
-                    alert(response);
+                if (response == "no") {
+                    alert("Пожалуйста, потвердите что вы не робот!");
                 }
                 else {
                     $.pjax.reload({container: "#pjax-comment"});
+                    alert("Спасибо, Ваш комментарий отправлен и будет добавлен после модерации");
                 }
             }
         });

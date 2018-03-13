@@ -65,7 +65,6 @@ AppAsset::register($this);
                     'items' => [
                         ['label' => Yii::t('app', 'Исследования'), 'url' => ['/document/category', 'id' => 146]],
                         ['label' => Yii::t('app', 'Отчеты гос.органов'), 'url' => ['/document/category', 'id' => 147]],
-                        ['label' => Yii::t('app', 'Международное сотрудничество'), 'url' => ['/document/category', 'id' => 148]],
                         ['label' => Yii::t('app', 'Декларация о доходах'), 'url' => ['/document/category', 'id' => 149]],
                     ],
                 ],
@@ -74,7 +73,7 @@ AppAsset::register($this);
                     'items' => [
                         ['label' => Yii::t('app', 'Профилактика коррупции в госорганах'), 'url' => ['/page/view', 'id' => 1]],
                         ['label' => Yii::t('app', 'Общественные советы'), 'url' => ['/page/view', 'id' => 2]],
-                        ['label' => Yii::t('app', 'Комплайенс-офицеры'), 'url' => ['/page/view', 'id' => 3]],
+                        ['label' => Yii::t('app', 'Уполномоченные по вопросам противодействия коррупции'), 'url' => ['/page/view', 'id' => 3]],
                     ],
                 ],
                 [
@@ -143,8 +142,8 @@ AppAsset::register($this);
             <div class="clear"></div>
             <div class="mobile_social_icons">
                 <?=Html::a('<span class=mobile_fb></span>','http://www.facebook.com');?>
-                <?=Html::a('<span class=mobile_android></span>','http://www.play.google. com');?>
-                <?=Html::a('<span class=mobile_apple></span>','http://www.appstore.com');?>
+                <?=Html::a('<span class=mobile_android></span>','https://play.google.com/store/apps/details?id=kg.prosoft.anticorruption');?>
+                <?=Html::a('<span class=mobile_apple></span>','https://itunes.apple.com/us/app/anticorruption.kg/id1315555330?mt=8');?>
             </div>
         </div>
     </footer>

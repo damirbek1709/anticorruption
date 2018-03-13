@@ -1,3 +1,4 @@
+<script src='https://www.google.com/recaptcha/api.js'></script>
 <?php
 
 /*
@@ -41,6 +42,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php if ($module->enableGeneratingPassword == false): ?>
                     <?= $form->field($model, 'password')->passwordInput() ?>
                 <?php endif ?>
+
+                <?php if (Yii::$app->session->hasFlash('captcha_not_clicked')): ?>
+                    <div class="recaptcha_message">
+                        <?php echo Yii::$app->session->getFlash('captcha_not_clicked'); ?>
+                    </div>
+                <?php endif; ?>
+
+                <div class="form-group">
+                    <div class="g-recaptcha" data-sitekey="6LegmzEUAAAAAGucd6quo8hn50mfC6xt_WF9u43P"></div>
+                </div>
 
                 <?= Html::submitButton(Yii::t('user', 'Sign up'), ['class' => 'btn btn-success btn-block']) ?>
 

@@ -8,6 +8,6 @@ use yii\helpers\BaseStringHelper; ?>
 echo Html::beginTag('div', ['class' => 'right_news_block']);
 echo Html::tag('div', '', ['class' => 'clear']);
 echo Html::a($model->title, ['/document/view', 'id' => $model->id], ['class' => 'news_title']);
-echo Html::tag('div', BaseStringHelper::truncateWords($model->text,20), ['class' => 'news_description']);
+//echo Html::tag('div', BaseStringHelper::truncateWords(strip_tags($model->text),20), ['class' => 'news_description']);
 echo Html::endTag('div');
 ?>

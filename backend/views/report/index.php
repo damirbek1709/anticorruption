@@ -22,22 +22,40 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'id',
-            'title',
+            [
+                'attribute' => 'title',
+                'value' => function ($model) {
+                    return Html::a($model->title, ['/report/view', 'id' => $model->id]);
+                },
+                'format' => 'raw'
+            ],
             'date',
             [
                 'attribute' => 'status',
                 'value' => function ($model) {
-                    if($model->status==1){
+                    if ($model->status == 1) {
                         return "Активен";
-                    }
-                    else{
-                        return "Не активен";
+                    } else if ($model->status == 0) {
+                        return "На рассмотрении";
+                    } else {
+                        return "Отклонен";
                     }
                 }
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                //'template' => '{view}{delete}',
+                'template' => '{delete}{approve}{deny}{reply}',
+                'buttons' => [
+                    'approve' => function ($url, $model, $key) {
+                        return Html::a("<i class = 'glyphicon glyphicon-ok'></i>", ['approve', 'id' => $model->id], ['title' => 'Одобрить']);
+                    },
+                    'deny' => function ($url, $model, $key) {
+                        return Html::a("<i class = 'glyphicon glyphicon-remove'></i>", ['deny', 'id' => $model->id], ['title' => 'Отклонить']);
+                    },
+                    'reply' => function ($url, $model, $key) {
+                        return Html::a("<i class = 'glyphicon glyphicon-share-alt'></i>", ['reply','id' => $model->id], ['title' => 'Ответить']);
+                    }
+                ]
             ],
         ],
     ]); ?>

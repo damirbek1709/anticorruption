@@ -15,14 +15,27 @@ echo Html::a($model->title, ['/report/view', 'id' => $model->id], ['class' => 'i
     <div class="report-text" style="margin-top: 15px;">
         <div class="quotes"></div>
         <span class="report-padder">
-            <?= BaseStringHelper::truncateWords($model->text, 25); ?>
+            <?=$model->text; ?>
         </span>
     </div>
     <div class="new-row clear">
         <?php
-        echo Html::tag('span', "Госорган: <span class='inner_red'>{$model->authority->title}</span>", ['class' => 'news_date']);
+        if($model->authority){
+            $auth = $model->authority->title;
+        }
+        else{
+            $auth = "Другое";
+        }
+
+        if($model->department){
+            $department = $model->department->value;
+        }
+        else{
+            $department = "";
+        }
+        echo Html::tag('span', "Госорган: <span class='inner_red'>{$auth}</span>", ['class' => 'news_date']);
         echo Html::tag('div', '', ['class' => 'clear']);
-        echo Html::tag('span', "Сектор корупции: <span class='inner_red'>{$model->department->value}</span>", ['class' => 'news_date']);
+        echo Html::tag('span', "Сектор корупции: <span class='inner_red'>{$department}</span>", ['class' => 'news_date']);
         echo Html::tag('div', '', ['class' => 'clear']);
         echo Html::tag('span', "Тип обращения: <span class='inner_red'>{$model->type->value}</span>", ['class' => 'news_date']);
         ?>

@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Politics */
 
-$this->title = Yii::t('app', 'Create Politics');
+$this->title = Yii::t('app', 'Добавить запись в раздел Антикоррупционная политика');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Politics'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

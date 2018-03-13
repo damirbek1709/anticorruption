@@ -67,9 +67,11 @@ AppAsset::register($this);
 
     <div class="main_header">
         <div class="centralizer">
+            <?= Html::beginTag('a', ['href' => '/site/index']) ?>
             <div class="logo">
                 <?= Yii::t('app', 'Антикоррупционный портал Кыргызской Республики'); ?>
             </div>
+            <?= Html::endTag('a'); ?>
 
             <div class="report_header">
                 <?php
@@ -81,7 +83,9 @@ AppAsset::register($this);
                 <?= Html::tag('div', $formated_num . ' ' . Yii::t('app', 'обращений о коррупции'), ['class' => 'report_number']); ?>
                 <?
                 echo Html::beginTag('button', ['class' => 'button_transparent']);
-                echo Html::tag('span', Yii::t('app', 'Сообщить о коррупции'), ['class' => 'report_label']);
+                echo Html::beginTag('div',['class' => 'report_number']);
+                echo Html::a(Yii::t('app', 'Сообщений о коррупции:') . ' ' . $formated_num,['/report/index'],['style'=>'color:#fff;']);
+                echo Html::endTag('div');
                 echo Html::tag('span', Yii::t('app', ''), ['class' => 'report_arrow']);
                 echo Html::endTag('button');
                 ?>
@@ -99,64 +103,80 @@ AppAsset::register($this);
             ],
         ]);
         $menuItems = [
-            ['label' => Yii::t('app', 'Главная'), 'url' => ['/site/index']],
+            ['label' => 'Главная', 'url' => ['/site/index'],
+                'linkOptions' => [
+                    'style' => 'padding-left:12px'
+                ],
+            ],
             [
                 'label' => Yii::t('app', 'Новости'),
                 'items' => [
-                    ['label' => Yii::t('app', 'Новостная лента'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Сводка коррупционных преступлений'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Достижения'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Пресс-релизы гос.органов'), 'url' => '#'],
+                    ['label' => Yii::t('app', 'Новостная лента'), 'url' => ['/news/category/133']],
+                    ['label' => Yii::t('app', 'Сводка коррупционных преступлений'), 'url' => ['/news/category/132']],
+                    ['label' => Yii::t('app', 'Достижения'), 'url' => ['/news/category/130']],
+                    ['label' => Yii::t('app', 'Пресс-релизы гос.органов'), 'url' => ['/news/category/131']],
                 ],
             ],
             [
-                'label' => Yii::t('app', 'Антикоррупционное образование'),
+                'label' => Yii::t('app', 'Антикоррупционная политика'),
                 'items' => [
-                    ['label' => Yii::t('app', 'Новостная лента'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Сводка коррупционных преступлений'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Достижения'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Пресс-релизы гос.органов'), 'url' => '#'],
+                    ['label' => Yii::t('app', 'Нормативно-правовые акты'), 'url' => ['/politics/category/150']],
+                    ['label' => Yii::t('app', 'Международное сотрудничество'), 'url' => ['/politics/category/151']],
                 ],
             ],
-            [
-                'label' => Yii::t('app', 'Отчеты'),
-                'items' => [
-                    ['label' => Yii::t('app', 'Новостная лента'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Сводка коррупционных преступлений'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Достижения'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Пресс-релизы гос.органов'), 'url' => '#'],
-                ],
-            ],
-            [
-                'label' => Yii::t('app', 'Борьба с коррупцией'),
-                'items' => [
-                    ['label' => Yii::t('app', 'Новостная лента'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Сводка коррупционных преступлений'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Достижения'), 'url' => '#'],
-                    ['label' => Yii::t('app', 'Пресс-релизы гос.органов'), 'url' => '#'],
-                ],
-            ],
+
             [
                 'label' => Yii::t('app', 'Карта коррупции'),
                 'url' => ['/site/map'],
                 'items' => [
                     ['label' => Yii::t('app', 'Сообщить о коррупции'), 'url' => ['report/create']],
                     ['label' => Yii::t('app', 'Рассказать о коррупционной схеме'),
-                        'url' => ['report/create'],
-                        'data-method' => 'POST',
-                        'data-params' => ['param' => 1],
+                        'url' => ['/report/create'],
+                        'linkOptions' => [
+                            'data-method' => 'post',
+                            'data-params' => ['paramType' => 137]
+                        ],
                     ],
                     ['label' => Yii::t('app', 'Все обращения'), 'url' => ['report/index']],
-                    ['label' => Yii::t('app', 'Мне интересно знать, Откуда?'), 'url' => ['report/create']],
+                    ['label' => Yii::t('app', 'Мне интересно знать, Откуда?'),
+                        'url' => ['/report/create'],
+                        'linkOptions' => [
+                            'data-method' => 'post',
+                            'data-params' => ['paramType' => 138]
+                        ],
+
+                    ],
                     ['label' => Yii::t('app', 'Коррупционный рейтинг'), 'url' => ['authority/index']],
                     ['label' => Yii::t('app', 'Обращения на карте'), 'url' => ['site/map']],
                 ],
             ],
+            /*---------------------*/
+
+            [
+                'label' => Yii::t('app', 'Отчеты'),
+                'items' => [
+                    ['label' => Yii::t('app', 'Исследования'), 'url' => ['/document/category', 'id' => 146]],
+                    ['label' => Yii::t('app', 'Отчеты гос.органов'), 'url' => ['/document/category', 'id' => 147]],
+                   ['label' => Yii::t('app', 'Декларация о доходах'), 'url' => ['/document/category', 'id' => 149]],
+                ],
+            ],
+            [
+                'label' => Yii::t('app', 'Борьба с коррупцией'),
+                'items' => [
+                    ['label' => Yii::t('app', 'Профилактика коррупции в госорганах'), 'url' => ['/page/view', 'id' => 1]],
+                    ['label' => Yii::t('app', 'Общественные советы'), 'url' => ['/page/view', 'id' => 2]],
+                    ['label' => Yii::t('app', 'Уполномоченные по вопросам противодействия коррупции'), 'url' => ['/page/view', 'id' => 3]],
+                ],
+            ],
+            [
+                'label' => Yii::t('app', 'Антикоррупционное образование'),
+                'url' => ['/education']
+            ],
 
         ];
-
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-left'],
+            'encodeLabels' => false,
             'items' => $menuItems,
         ]);
         NavBar::end();

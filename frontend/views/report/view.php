@@ -44,10 +44,10 @@ echo newerton\fancybox\FancyBox::widget([
 /* @var $model app\models\Report */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Reports'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+/*$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Reports'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;*/
 ?>
-<div class="report-view">
+<div class="report-view mobile_padder">
     <div class="italic_header" style="color: #3b3b3b"><?= Html::encode($this->title) ?></div>
     <?
     echo Html::tag('span', Yii::$app->formatter->asDate($model->date), ['class' => 'news_date']);
@@ -77,30 +77,40 @@ $this->params['breadcrumbs'][] = $this->title;
     }
     ?>
     <div class="report-cats">
+        <?php if($model->authority):?>
         <div class="cat-row">
+
             <span><?= Yii::t('app', 'Гос.орган: ') ?></span>
             <?= $model->authority->title; ?>
         </div>
+        <?php endif;?>
+
+        <?php if($model->department):?>
         <div class="cat-row">
             <span><?= Yii::t('app', 'Сектор коррупции: ') ?></span>
             <?= $model->department->value; ?>
         </div>
+        <?php endif;?>
 
+        <?php if($model->city):?>
         <div class="cat-row">
             <span><?= Yii::t('app', 'Местоположение: ') ?></span>
             <?= $model->city->value; ?>
         </div>
+        <?php endif;?>
 
+        <?php if($model->type):?>
         <div class="cat-row">
             <span><?= Yii::t('app', 'Тип обращения: ') ?></span>
             <?= $model->type->value; ?>
         </div>
+        <?php endif;?>
     </div>
 
 
     <div class="clear" style="margin-top: 20px;"></div>
 <?php if($model->lat){
-    echo Html::tag('div','',['class'=>'map','id'=>'map']);
+    echo Html::tag('div','',['class'=>'map','id'=>'map_view']);
 }
 ?>
 
@@ -116,7 +126,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
     ?>
 
-    <div class="share_buttons">
+    <div class="share_buttons" style="height: 35px;">
         <span class="share_label">Поделиться в соц.сетях: </span>
         <script type="text/javascript">(function () {
                 if (window.pluso) if (typeof window.pluso.start == "function") return;
@@ -138,6 +148,7 @@ $this->params['breadcrumbs'][] = $this->title;
              data-title="Антикоррупционный портал Кыргызской Республики">
         </div>
     </div>
+    <div class="clear"></div>
     <?php
     echo Html::hiddenInput('lat', $model->lat, ['class' => 'report_lat']);
     echo Html::hiddenInput('lon', $model->lon, ['class' => 'report_lon']);
@@ -149,14 +160,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="comment-box">
         <div class="top_marginer"></div>
         <div class="comments">Комментарии(<?= $model->commentsCount; ?>)</div>
+        <div class="clear"></div>
         <?php $comments = $model->comments;
         foreach ($comments as $item) {
             echo Html::beginTag('div', ['class' => 'comment-block']);
             echo Html::tag('div', '', ['class' => 'comment-avatar']);
-            echo Html::tag('div', $item->name, ['class' => 'comment-author']);
-            echo Html::tag('div', $item->text, ['class' => 'comment-text']);
-            echo Html::tag('span', Yii::$app->formatter->asTime($item->date), ['class' => 'comment-date']);
+            echo Html::beginTag('div',['style'=>'height:22px;']);
+            echo Html::tag('div', $item->name, ['class' => 'comment-author','style'=>'float:left;margin-right:10px;']);
+            echo Html::tag('span', date("H:i",strtotime($model->date)), ['class' => 'comment-date']);
             echo Html::tag('span', Yii::$app->formatter->asDate($item->date), ['class' => 'comment-date']);
+            echo Html::endTag('div');
+            echo Html::tag('div', $item->text, ['class' => 'comment-text']);
+
             if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin) {
                 echo Html::tag('div', '', ['class' => 'clear']);
                 echo Html::tag('button', 'Редактировать', ['class' => 'btn btn-primary comment-update', 'style' => 'margin:10px 10px 0 0;', 'data-id' => $item->id]);
@@ -210,11 +225,12 @@ $this->params['breadcrumbs'][] = $this->title;
             type: 'post',
             data: form.serialize(),
             success: function (response) {
-                if (response == "No") {
-                    alert(response);
+                if (response == "no") {
+                    alert("Пожалуйста, потвердите что вы не робот!");
                 }
                 else {
                     $.pjax.reload({container: "#pjax-comment"});
+                    alert("Спасибо, Ваш комментарий отправлен и будет добавлен после модерации");
                 }
             }
         });

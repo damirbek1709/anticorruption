@@ -8,8 +8,9 @@ $params = array_merge(
 
 return [
     'id' => 'app-backend',
+    'name'=>'Anticorruption.kg',
     'basePath' => dirname(__DIR__),
-    'defaultRoute' => 'authority/index',
+    'defaultRoute' => 'report/index',
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'language'=>'ru-RU',

@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use frontend\models\Reply;
 use frontend\models\Vocabulary;
 use Yii;
 use frontend\models\Report;
@@ -34,12 +35,31 @@ class ReportController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['view','update','category','delete','index'],
+                        'actions' => ['view', 'update', 'category', 'delete', 'index', 'reply'],
+                        'roles' => ['admin'],
+                    ],
+
+                    [
+                        'allow' => true,
+                        'actions' => ['status'],
                         'roles' => ['admin'],
                     ],
                 ],
             ],
         ];
+    }
+
+    public function actionStatus()
+    {
+        $this->enableCsrfValidation = false;
+        $request = Yii::$app->getRequest();
+        $id = $request->post('id');
+        $status = $request->post('status');
+        $model = $this->findModel($id);
+        $model->status = $status;
+        if ($model->save()) {
+            return $this->redirect('index');
+        }
     }
 
     /**
@@ -51,10 +71,11 @@ class ReportController extends Controller
         $searchModel = new ReportSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'title'=>'Все обращения'
+            'title' => 'Все обращения'
         ]);
     }
 
@@ -71,6 +92,17 @@ class ReportController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionReply($id)
+    {
+        $model = new Reply();
+        $report = $this->findModel($id);
+        return $this->render('@frontend/views/reply/create', [
+            'model' => $model,
+            'report' => $report
+        ]);
+
     }
 
     public function actionCity($id)
@@ -132,7 +164,7 @@ class ReportController extends Controller
         $newcomment = new Comments();
         return $this->render('view', [
             'model' => $model,
-            'comment'=>$newcomment,
+            'comment' => $newcomment,
         ]);
     }
 
@@ -181,12 +213,12 @@ class ReportController extends Controller
             'sort' => ['defaultOrder' => ['date' => SORT_DESC]],
         ]);
 
-        $title = Vocabulary::find()->select(['value'])->where(['id'=>$id])->scalar();
+        $title = Vocabulary::find()->select(['value'])->where(['id' => $id])->scalar();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'title'=>$title
+            'title' => $title
         ]);
     }
 
@@ -200,16 +232,15 @@ class ReportController extends Controller
     {
         $this->findModel($id)->delete();
         //depend table holds timestamp of last table modification. it's for api
-        $dao=Yii::$app->db;
-        $voc=$dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='report'")->queryOne();
-        if(!$voc){
+        $dao = Yii::$app->db;
+        $voc = $dao->createCommand("SELECT * FROM `depend` WHERE `table_name`='report'")->queryOne();
+        if (!$voc) {
             $dao->createCommand()->insert('depend', [
-                'table_name'=>'report',
-                'last_update' =>time(),
+                'table_name' => 'report',
+                'last_update' => time(),
             ])->execute();
-        }
-        else{
-            $dao->createCommand()->update('depend', ['last_update' =>time()], 'table_name="report"')->execute();
+        } else {
+            $dao->createCommand()->update('depend', ['last_update' => time()], 'table_name="report"')->execute();
         }
 
         return $this->redirect(['index']);

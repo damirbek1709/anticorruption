@@ -9,6 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'language' => 'ru',
+    'name'=>'Anticorruption.kg',
    /* 'language' => 'ru-RU',
     'sourceLanguage' => 'ru-RU',*/
     'basePath' => dirname(__DIR__),
@@ -18,14 +19,15 @@ return [
     ],
     'controllerNamespace' => 'frontend\controllers',
     'modules' => [
-        // Configuration Yii2-User Frontend //
+        // Configurafreqtion Yii2-User Frontend //
         'user' => [
             'class' => 'dektrium\user\Module',
             'enableFlashMessages' => true,
             'enableRegistration' => true,
             'enableUnconfirmedLogin' => true,
             'controllerMap' => [
-                'admin' => 'app\controllers\user\AdminController'
+                'admin' => 'app\controllers\user\AdminController',
+                'registration'=>'frontend\controllers\user\RegistrationController'
             ],
             //'confirmWithin' => 21600,
             //'cost' => 12,

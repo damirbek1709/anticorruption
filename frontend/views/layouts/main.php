@@ -18,6 +18,7 @@ use frontend\models\Analytics;
 use yii\bootstrap\Modal;
 use frontend\models\Report;
 use yii\helpers\ArrayHelper;
+use yii\widgets\ActiveForm;
 
 AppAsset::register($this);
 ?>
@@ -26,6 +27,8 @@ AppAsset::register($this);
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="<?php echo Url::base(); ?>/images/site/favicon.ico" type="image/x-icon"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= Url::base() ?>/images/site/favicon-16x16.png">
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=cyrillic,cyrillic-ext"
           rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif:400,400i,700,700i&amp;subset=cyrillic,cyrillic-ext"
@@ -48,7 +51,7 @@ AppAsset::register($this);
 <div class="wrap">
     <div class="top_header">
         <div class="width_limiter">
-            <div class="left_top_header">
+            <div class="left_top_header col-md-5 pad-remove">
                 <?= Html::a(Yii::t('app', 'О проекте'), ['/site/about']) ?>
                 <? //= Html::a(Yii::t('app', 'Контакты'), ['/site/contact']) ?>
                 <? //= Html::a(Yii::t('app', 'Обратная связь'), ['/site/feedback']) ?>
@@ -63,7 +66,7 @@ AppAsset::register($this);
                 $languageArr = [
                     'ky' => Html::a('<span class="ky">Кыргызча</span>', '?language=ky'),
                     'ru' => Html::a('<span class="ru">Русский</span>', '?language=ru'),
-                    'en' => Html::a('<span class="rus">English</span>', '?language=en')
+                    //'en' => Html::a('<span class="rus">English</span>', '?language=en')
                 ] ?>
 
                 <?
@@ -74,29 +77,49 @@ AppAsset::register($this);
             </div>
 
 
-            <div class="right_top_header">
-                <?= Html::a(Html::tag('span', ''), 'http://store.apple.com', ['class' => 'apple_icon']); ?>
-                <?= Html::a(Html::tag('span', ''), 'http://play.google.com', ['class' => 'android_icon']); ?>
-                <?= Html::a(Html::tag('span', ''), 'http://facebook.com', ['class' => 'fb_icon']); ?>
+            <div class="right_top_header col-sm-6 pad-remove">
+                <div class="col-md-3 pad-remove" style="float:right">
+                    <?= Html::a(Html::tag('span', ''), 'https://itunes.apple.com/us/app/anticorruption.kg/id1315555330?mt=8', ['class' => 'apple_icon']); ?>
+                    <?= Html::a(Html::tag('span', ''), 'https://play.google.com/store/apps/details?id=kg.prosoft.anticorruption', ['class' => 'android_icon']); ?>
+                    <?= Html::a(Html::tag('span', ''), 'http://facebook.com', ['class' => 'fb_icon']); ?>
+                </div>
+                <div class="col-md-9 pad-remove" style="overflow: hidden">
+                    <?php echo Html::beginForm(['site/search'], 'post', ['class' => 'form-inline']);
+                    echo Html::beginTag('div', ['style' => 'float:left;width:100%;overflow:hidden']);
+                    echo Html::beginTag('div', ['class' => 'input-group', 'style' => 'width:100%']);
+                    echo Html::input('text', 'search', '', ['class' => 'form-control', 'placeholder' => Yii::t('app', 'Поиска по сайту')]);
+                    echo Html::beginTag('div', ['class' => 'input-group-addon']);
+                    echo Html::tag('button', '<i class="glyphicon glyphicon-search"></i>', ['type' => 'submit', 'class' => 'btn-search']);
+                    echo Html::endTag('div');
+                    echo Html::endTag('div');
+                    echo Html::endTag('div');
+                    echo Html::endForm();
+                    ?>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="main_header">
+    <div class="main_header report_label_transform">
         <div class="centralizer">
-            <div class="logo">
-                <?= Yii::t('app', 'Антикоррупционный портал Кыргызской Республики'); ?>
-            </div>
+            <?= Html::beginTag('a', ['href' => '/site/index']) ?>
+            <div class="logo"></div>
+            <span class="site-name"><?= Yii::t('app', 'Антикоррупционный портал<br> Кыргызской Республики'); ?></span>
+            <?= Html::endTag('a'); ?>
 
             <div class="report_header">
                 <?php
                 $separator = ' ';
-                $report_count = Report::find()->where(['status' => 1])->count();
+                //$report_count = Report::find()->where(['status' => 1])->count();
+                $report_count = Report::find()->count();
                 $formated_num = preg_replace('/(?<=\d)\x' . bin2hex($separator[0]) . '(?=\d)/',
                     $separator,
                     number_format($report_count, 0, '.', $separator));
                 ?>
-                <?= Html::tag('div', Yii::t('app', 'Сообщений о коррупции:') . ' ' . $formated_num, ['class' => 'report_number']); ?>
+                <?
+                echo Html::beginTag('div', ['class' => 'report_number']);
+                echo Html::a(Yii::t('app', 'Сообщений о коррупции:') . ' ' . $formated_num, ['/report/index'], ['style' => 'color:#fff;']);
+                echo Html::endTag('div'); ?>
                 <?
                 echo Html::beginTag('button', ['class' => 'button_transparent']);
                 echo Html::a(Yii::t('app', 'Сообщить о коррупции'), ['/report/create'], ['class' => 'report_label']);
@@ -110,21 +133,34 @@ AppAsset::register($this);
     <div class="top-menu">
         <?php
         NavBar::begin([
-            'brandLabel' => '',
+            'brandLabel' => '<div class="back_transform"><div class="logo"></div>
+            <span class="site-name">Антикоррупционный портал<br> Кыргызской Республики</span></div>',
             'brandUrl' => Yii::$app->homeUrl,
             'options' => [
                 'class' => 'navbar-inverse',
             ],
         ]);
         $menuItems = [
-            //['label' => Yii::t('app', 'Главная'), 'url' => ['/site/index']],
+            /*['label' => '<span class="home-link"></span>', 'url' => ['/site/index'],
+                'linkOptions' => [
+                    'style' => 'padding:13px 0'
+                ],
+            ],*/
+            /*['label' => 'Главная', 'url' => ['/site/index'],
+                'linkOptions' => [
+                    'style' => 'padding-left:12px'
+                ],
+            ],*/
             [
                 'label' => Yii::t('app', 'Новости'),
+                'linkOptions' => [
+                    'style' => 'padding-left:12px'
+                ],
                 'items' => [
                     ['label' => Yii::t('app', 'Новостная лента'), 'url' => ['/news/category/133']],
                     ['label' => Yii::t('app', 'Сводка коррупционных преступлений'), 'url' => ['/news/category/132']],
                     ['label' => Yii::t('app', 'Достижения'), 'url' => ['/news/category/130']],
-                    ['label' => Yii::t('app', 'Пресс-релизы гос.органов'), 'url' => ['/news/category/131']],
+                    ['label' => Yii::t('app', 'Пресс-релизы госорганов'), 'url' => ['/news/category/131']],
                 ],
             ],
             [
@@ -134,28 +170,7 @@ AppAsset::register($this);
                     ['label' => Yii::t('app', 'Международное сотрудничество'), 'url' => ['/politics/category/151']],
                 ],
             ],
-            [
-                'label' => Yii::t('app', 'Антикоррупционное образование'),
-                'url' => ['/education']
-            ],
 
-            [
-                'label' => Yii::t('app', 'Отчеты'),
-                'items' => [
-                    ['label' => Yii::t('app', 'Исследования'), 'url' => ['/document/category', 'id' => 146]],
-                    ['label' => Yii::t('app', 'Отчеты гос.органов'), 'url' => ['/document/category', 'id' => 147]],
-                    ['label' => Yii::t('app', 'Международное сотрудничество'), 'url' => ['/document/category', 'id' => 148]],
-                    ['label' => Yii::t('app', 'Декларация о доходах'), 'url' => ['/document/category', 'id' => 149]],
-                ],
-            ],
-            [
-                'label' => Yii::t('app', 'Борьба с коррупцией'),
-                'items' => [
-                    ['label' => Yii::t('app', 'Профилактика коррупции в госорганах'), 'url' => ['/page/view', 'id' => 1]],
-                    ['label' => Yii::t('app', 'Общественные советы'), 'url' => ['/page/view', 'id' => 2]],
-                    ['label' => Yii::t('app', 'Комплайенс-офицеры'), 'url' => ['/page/view', 'id' => 3]],
-                ],
-            ],
             [
                 'label' => Yii::t('app', 'Карта коррупции'),
                 'url' => ['/site/map'],
@@ -181,9 +196,35 @@ AppAsset::register($this);
                     ['label' => Yii::t('app', 'Обращения на карте'), 'url' => ['site/map']],
                 ],
             ],
+            /*---------------------*/
+
+            [
+                'label' => Yii::t('app', 'Предупреждение коррупции'),
+                'items' => [
+                    ['label' => Yii::t('app', 'Антикоррупционнные планы и отчеты'), 'url' => ['/document/category', 'id' => 147]],
+                    ['label' => Yii::t('app', 'Уполномоченные по вопросам противодействия коррупции'), 'url' => ['/page/view', 'id' => 3]],
+                    ['label' => Yii::t('app', 'Общественные советы'), 'url' => ['/page/view', 'id' => 2]],
+                    ['label' => Yii::t('app', 'Исследования'), 'url' => ['/document/category', 'id' => 146]],
+                    ///['label' => Yii::t('app', 'Декларация о доходах'), 'url' => ['/document/category', 'id' => 149]],
+                ],
+            ],
+            [
+                'label' => Yii::t('app', 'Пресечение коррупции'),
+                'items' => [
+                    ['label' => Yii::t('app', 'Информация правоохранительных органов'), 'url' => ['/resistance/category', 'id' => 152]],
+                    ['label' => Yii::t('app', 'Информация органов прокуратуры'), 'url' => ['/resistance/category', 'id' => 153]],
+
+                ],
+            ],
+            [
+                'label' => Yii::t('app', 'Антикоррупционное образование'),
+                'url' => ['/education']
+            ],
+
         ];
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-left'],
+            'encodeLabels' => false,
             'items' => $menuItems,
         ]);
         NavBar::end();
@@ -192,7 +233,7 @@ AppAsset::register($this);
 
 
     <div class="container">
-        <div class="width_limiter">
+        <div class="width_limiter col-md-12 pad-remove">
             <?
             /*echo  Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -211,25 +252,23 @@ AppAsset::register($this);
                         <?= Html::tag("span", "", ["class" => "l-list l-achiev-list"]); ?>
                         <?= Html::tag("div", Html::a(Yii::t('app', 'Достижения'), ['/news/category', 'id' => 130]), ["class" => "left_category_list"]); ?>
                         <?= Html::tag("span", "", ["class" => "l-list l-press-list"]); ?>
-                        <?= Html::tag("div", Html::a(Yii::t('app', 'Пресс-релизы гос.органов'), ['/news/category', 'id' => 131], ['class' => 'rmb']), ["class" => "left_category_list"]); ?>
+                        <?= Html::tag("div", Html::a(Yii::t('app', 'Пресс-релизы госорганов'), ['/news/category', 'id' => 131], ['class' => 'rmb']), ["class" => "left_category_list"]); ?>
                     </div>
                 </div>
                 <div class="l_report_block">
                     <?= Html::a(Yii::t('app', 'Исследования'), ['/document/category', 'id' => 146], ['class' => 'report_link']); ?>
-                    <?= Html::a(Yii::t('app', 'Отчеты госорганов'), ['/document/category', 'id' => 147], ['class' => 'report_link']); ?>
-                    <?= Html::a(Yii::t('app', 'Международное сотрудничество'), ['/document/category', 'id' => 148], ['class' => 'report_link']); ?>
-                    <?= Html::a(Yii::t('app', 'Декларация о доходах'), ['/document/category', 'id' => 149], ['class' => 'report_link']); ?>
+                    <?= Html::a(Yii::t('app', 'Антикоррупционные планы и отчеты'), ['/document/category', 'id' => 147], ['class' => 'report_link']); ?>
+                    <?= Html::a(Yii::t('app', 'Международное сотрудничество'), ['/politics/category', 'id' => 151], ['class' => 'report_link']); ?>
                 </div>
 
                 <div class="l_corruption_block">
                     <div class="padder">
                         <div class="italic_header">
-                            <?= Yii::t('app', 'Борьба с коррупцией'); ?>
+                            <?= Yii::t('app', 'Пресечение коррупции'); ?>
                         </div>
                         <div class="l_corruption_links">
-                            <?= Html::a(Yii::t('app', 'Профилактика коррупции в госорганах'), ['/page/view', 'id' => 1]); ?>
-                            <?= Html::a(Yii::t('app', 'Общественные советы'), ['/page/view', 'id' => 2]); ?>
-                            <?= Html::a(Yii::t('app', 'Комплайенс-офицеры'), ['/page/view', 'id' => 3]); ?>
+                            <?= Html::a(Yii::t('app', 'Информация правохоохранительных органов'), ['/resistance/category', 'id' => 152]); ?>
+                            <?= Html::a(Yii::t('app', 'Информация органов прокуратуры'), ['/resistance/category', 'id' => 153]); ?>
                         </div>
                         <div class="italic_header top_marginer">
                             <?= Yii::t('app', 'Карта коррупции'); ?>
@@ -302,7 +341,9 @@ AppAsset::register($this);
                         <?php $education = \frontend\models\Education::find()->orderBy(['date' => SORT_DESC])->limit(3)->all();
                         foreach ($education as $item) {
                             echo Html::beginTag('div', ['class' => 'general-post-cover']);
-                            echo Html::a($item->getMainThumb(), ['/news/view', 'id' => $victim->id], ['class' => 'general-side-block']);
+                            if ($item->getMainThumb()) {
+                                echo Html::a($item->getMainThumb(), ['/news/view', 'id' => $victim->id], ['class' => 'general-side-block']);
+                            }
                             echo Html::a($item->title, ['/education/view', 'id' => $item->id], ['class' => 'side-bar-title']);
                             echo Html::endTag('div');
                             echo Html::tag('div', '', ['class' => 'clear']);
@@ -448,6 +489,33 @@ AppAsset::register($this);
                     </div>
                 </div>
 
+                <div class="bn-block-col">
+                    <div class="bn-block type-2 margin2" style="width: 100%;display: inline-block">
+                        <div class="bb-title">
+                            <h3 class="h3"> <?= Yii::t('app', 'Подписаться на рассылку'); ?></h3>
+                        </div>
+                        <?php
+                        $email = new \frontend\models\Subscriber();
+                        $form = ActiveForm::begin([
+                            'id' => 'subscribe-form',
+                            'action' => '/site/subscribe',
+                            'enableAjaxValidation' => true,
+                            //'validationUrl' => '/site/validate-email',
+                        ]); ?>
+
+                        <?= $form->field($email, 'email')->textInput(['maxlength' => true,
+                            'placeholder' => 'E-mail',
+                            'class' => 'form-control sharper'])->label(false);
+                        ?>
+
+                        <div class="form-group">
+                            <?= Html::submitButton(Yii::t('app', 'Отправить'), ['class' => 'subs btn btn-primary']) ?>
+                        </div>
+
+                        <?php ActiveForm::end(); ?>
+                    </div>
+                </div>
+
                 <?php
                 $script = <<<SCRIPT
             $(document).ready(function() {
@@ -483,15 +551,15 @@ SCRIPT;
 
 <footer class="footer">
     <div class="width_limiter">
-        <div class="pull-left">
+        <div class="pull-left report_label_transform">
             <?= Html::a(Html::tag('div', ''), 'http://un.org.kg', ['class' => 'un_link']); ?>
         </div>
 
         <div class="pull-center">© <?= date('Y'); ?> Антикоррупционный Портал <br> Кыргызской Республики</div>
 
         <div class="pull-right">
-            <?= Html::a(Html::tag('div', ''), 'http://play.google.com', ['class' => 'android_footer_icon']); ?>
-            <?= Html::a(Html::tag('div', ''), 'http://store.apple.com', ['class' => 'apple_footer_icon']); ?>
+            <?= Html::a(Html::tag('div', ''), 'https://play.google.com/store/apps/details?id=kg.prosoft.anticorruption', ['class' => 'android_footer_icon']); ?>
+            <?= Html::a(Html::tag('div', ''), 'https://itunes.apple.com/us/app/anticorruption.kg/id1315555330?mt=8', ['class' => 'apple_footer_icon']); ?>
         </div>
     </div>
 </footer>

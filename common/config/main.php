@@ -14,6 +14,28 @@ return [
         ],
     ],
     'components' => [
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            // send all mails to a file by default. You have to set
+            // 'useFileTransport' to false and configure a transport
+            // for the mailer to send real emails.
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.yandex.ru',
+                'username' => 'info@anticorruption.kg',
+                'password' => 'anticorr85qw',
+                'port' => '465',
+                'encryption' => 'ssl'
+                /*'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.yandex.ru',
+                'username' => 'lussovillage@yandex.ru',
+                'password' => 'lussovillage2017qw',
+                'port' => '465',
+                'encryption' => 'SSL',*/
+            ],
+
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],

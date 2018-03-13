@@ -17,37 +17,40 @@ $this->title = $model->title;
     <div class="minor_heading"><?= Html::encode($this->title) ?></div>
     <div class="authority-logo">
         <div class="rating-authority-bg">
-            <?php
+            <div class="img-rating-wrap">
+                <?php
                 echo $model->getMainImg();
-            ?>
-            <?php
-            echo StarRating::widget([
-                'name' => 'rating_2',
-                'value' => $model->getRating($model->id),
-                'pluginOptions' => [
-                    'showClear' => false,
-                    'showCaption' => false,
-                    'size' => 'xs',
-                    'stars' => 10,
-                    'min' => 0,
-                    'max' => 10,
-                    'step' => 1,
-                    'starCaptions' => [
-                        1 => 'Very Poor',
-                        2 => 'Poor',
-                        3 => 'Ok',
-                        4 => 'Good',
-                        5 => 'Very Good',
-                        6 => 'Very Good',
-                        7 => 'Very Good',
-                        8 => 'Very Good',
-                        9 => 'Very Good',
-                        10 => 'Very Good',
+                ?>
+            </div>
+            <p>
+                <?php
+                echo StarRating::widget([
+                    'name' => 'rating_2',
+                    'value' => $model->getRating($model->id),
+                    'pluginOptions' => [
+                        'showClear' => false,
+                        'showCaption' => false,
+                        'size' => 'xs',
+                        'stars' => 10,
+                        'min' => 0,
+                        'max' => 10,
+                        'step' => 1,
+                        'starCaptions' => [
+                            1 => 'Very Poor',
+                            2 => 'Poor',
+                            3 => 'Ok',
+                            4 => 'Good',
+                            5 => 'Very Good',
+                            6 => 'Very Good',
+                            7 => 'Very Good',
+                            8 => 'Very Good',
+                            9 => 'Very Good',
+                            10 => 'Very Good',
+                        ],
                     ],
-                ],
 
-                'pluginEvents' => [
-                    "rating.change" => "function(event, value, caption) {
+                    'pluginEvents' => [
+                        "rating.change" => "function(event, value, caption) {
                                              $.ajax({
                                             url: \"/site/rating\",
                                             type: \"post\",
@@ -60,8 +63,9 @@ $this->title = $model->title;
                                             }           
                                             });             
                                              }"],
-            ]);
-            ?>
+                ]);
+                ?>
+            </p>
         </div>
     </div>
 
