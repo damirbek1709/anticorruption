@@ -339,19 +339,28 @@ class Report extends \yii\db\ActiveRecord
             },
             'authority_id',
             'authority_title' => function ($model) {
-                return $model->authority->title;
+                if(isset($model->authority->title)){$auth_title=$model->authority->title;}
+                else{$auth_title="";}
+                return $auth_title;
             },
             'category_id',
             'category_title' => function ($model) {
-                return $model->department->value;
+                if(isset($model->department->value)){$title=$model->department->value;}
+                else{$title="";}
+                return $title;
             },
             'city_id',
             'city_title' => function ($model) {
-                return $model->city->value;
+                if(isset($model->city->value)){$title=$model->city->value;}
+                else{$title="";}
+                return $title;
             },
             'type_id',
             'type_title' => function ($model) {
-                return $model->type->value;
+                if(isset($model->type->value)){$title=$model->type->value;}
+                else{$title="";}
+                return $title;
+
             },
             'status'
         ];
